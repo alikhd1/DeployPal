@@ -1,11 +1,11 @@
-# managed-by: smise-navi — do not edit; changes are overwritten on redeploy
+# managed-by: deploypal — do not edit; changes are overwritten on redeploy
 [Unit]
-Description=smise app: {{ alias }}
+Description=deploypal app: {{ alias }}
 After=network.target
 
 [Service]
 Type=simple
-User=smise
+User=deploypal
 WorkingDirectory={{ root }}
 {% if env_file %}EnvironmentFile={{ env_file }}
 {% endif -%}

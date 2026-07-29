@@ -18,7 +18,7 @@ import (
 const unitDir = "/etc/systemd/system"
 
 var (
-	managedUnit = regexp.MustCompile(`^smise-app-[a-z0-9-]{2,40}\.service$`)
+	managedUnit = regexp.MustCompile(`^deploypal-app-[a-z0-9-]{2,40}\.service$`)
 	// Infra services the dashboard may start/stop/restart (not install/remove).
 	actionAllowList = map[string]bool{
 		"postgresql.service": true, "mysql.service": true, "mariadb.service": true,

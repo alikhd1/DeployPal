@@ -4,7 +4,7 @@ export const en = {
   "nav.projects": "Projects",
   "nav.deploy": "New deployment",
   "nav.dependencies": "Dependencies",
-  "shell.tagline": "smise-navi · self-hosted control plane",
+  "shell.tagline": "deploypal · self-hosted control plane",
   "shell.agentOffline": "agent offline — discovery and provisioning unavailable",
   "events.live": "events live",
   "events.offline": "events offline",

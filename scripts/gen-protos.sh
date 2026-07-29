@@ -5,7 +5,7 @@
 #           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
-proto="$root/proto/smise/agent/v1/agent.proto"
+proto="$root/proto/deploypal/agent/v1/agent.proto"
 
 mkdir -p "$root/orchestrator/gen"
 python -m grpc_tools.protoc -I "$root/proto" \
@@ -18,8 +18,8 @@ python -m grpc_tools.protoc -I "$root/proto" \
 # protoc install needed. module= strips the module prefix so output lands
 # at agent/gen/agentv1/.
 python -m grpc_tools.protoc -I "$root/proto" \
-    --go_out="$root/agent"      --go_opt=module=github.com/smise/agent \
-    --go-grpc_out="$root/agent" --go-grpc_opt=module=github.com/smise/agent \
+    --go_out="$root/agent"      --go_opt=module=github.com/deploypal/agent \
+    --go-grpc_out="$root/agent" --go-grpc_opt=module=github.com/deploypal/agent \
     "$proto"
 
 echo "stubs regenerated: orchestrator/gen/ and agent/gen/agentv1/"

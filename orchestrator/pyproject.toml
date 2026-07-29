@@ -1,5 +1,5 @@
 [project]
-name = "smise-navi"
+name = "deploypal"
 version = "0.1.0"
 description = "DeployPal orchestrator: registry, provisioning pipeline, and JSON/WS API"
 requires-python = ">=3.12"

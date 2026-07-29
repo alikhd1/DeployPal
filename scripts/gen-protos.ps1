@@ -4,7 +4,7 @@
 #           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 $ErrorActionPreference = "Stop"
 $root  = Split-Path $PSScriptRoot -Parent
-$proto = Join-Path $root "proto\smise\agent\v1\agent.proto"
+$proto = Join-Path $root "proto\deploypal\agent\v1\agent.proto"
 
 # Go plugins live in %USERPROFILE%\go\bin unless GOBIN overrides; make sure
 # protoc (inside grpc_tools) can find them.
@@ -22,8 +22,8 @@ if ($LASTEXITCODE -ne 0) { throw "python stub generation failed" }
 # grpc_tools bundles protoc, so it drives the Go plugins too. module= strips
 # the module prefix so output lands at agent\gen\agentv1\.
 python -m grpc_tools.protoc -I "$root\proto" `
-    --go_out="$root\agent"      --go_opt=module=github.com/smise/agent `
-    --go-grpc_out="$root\agent" --go-grpc_opt=module=github.com/smise/agent `
+    --go_out="$root\agent"      --go_opt=module=github.com/deploypal/agent `
+    --go-grpc_out="$root\agent" --go-grpc_opt=module=github.com/deploypal/agent `
     $proto
 if ($LASTEXITCODE -ne 0) { throw "go stub generation failed" }
 

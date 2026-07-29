@@ -6,7 +6,7 @@ export const fa: Record<keyof typeof en, string> = {
   "nav.projects": "پروژه‌ها",
   "nav.deploy": "استقرار جدید",
   "nav.dependencies": "وابستگی‌ها",
-  "shell.tagline": "smise-navi · سکوی کنترل خودمیزبان",
+  "shell.tagline": "deploypal · سکوی کنترل خودمیزبان",
   "shell.agentOffline": "عامل (agent) آفلاین است — شناسایی و استقرار در دسترس نیست",
   "events.live": "رویدادها: متصل",
   "events.offline": "رویدادها: قطع",

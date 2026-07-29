@@ -1,4 +1,4 @@
-// server: the gRPC glue mapping smise.agent.v1.Agent RPCs onto the internal
+// server: the gRPC glue mapping deploypal.agent.v1.Agent RPCs onto the internal
 // packages. Policy lives here in three forms only: path allow-lists for reads,
 // name/format validation (delegated to nginxfs/systemdctl), and error shaping
 // (expected operational failures → OpResult{ok:false}; programming/transport
@@ -21,11 +21,11 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	agentv1 "github.com/smise/agent/gen/agentv1"
-	"github.com/smise/agent/internal/journal"
-	"github.com/smise/agent/internal/nginxfs"
-	"github.com/smise/agent/internal/sysinfo"
-	"github.com/smise/agent/internal/systemdctl"
+	agentv1 "github.com/deploypal/agent/gen/agentv1"
+	"github.com/deploypal/agent/internal/journal"
+	"github.com/deploypal/agent/internal/nginxfs"
+	"github.com/deploypal/agent/internal/sysinfo"
+	"github.com/deploypal/agent/internal/systemdctl"
 )
 
 // Read access is confined to the trees discovery legitimately needs, plus the

@@ -1,4 +1,4 @@
-# DeployPal (`smise-navi`)
+# DeployPal (`deploypal`)
 
 A self-hosted, single-node infrastructure controller: it **discovers** what is already
 running on a Linux server (Nginx vhosts, ports, processes, databases), **provisions**
@@ -10,18 +10,18 @@ dashboard.
 
 | Component | Tech | Privilege | Role |
 |---|---|---|---|
-| `smise-navi` orchestrator | Python 3.12 / FastAPI | unprivileged user `smise` | Business logic, registry (SQLite), provisioning pipeline, JSON/WS API |
-| `smise-agent` | **Go** | root (hardened systemd unit) | Narrow, typed system API: /proc, ports, journald, Nginx files, systemd, certbot |
+| `deploypal` orchestrator | Python 3.12 / FastAPI | unprivileged user `deploypal` | Business logic, registry (SQLite), provisioning pipeline, JSON/WS API |
+| `deploypal-agent` | **Go** | root (hardened systemd unit) | Narrow, typed system API: /proc, ports, journald, Nginx files, systemd, certbot |
 | Frontend | React 18 + TypeScript + Vite | — | Dashboard SPA, served as static files by the orchestrator (or Nginx) |
-| State | SQLite (WAL) | owned by `smise` | `/var/lib/smise-navi/state.db` |
-| IPC | gRPC over Unix Domain Socket | `0660 root:smise` | `/run/smise-navi/agent.sock` |
+| State | SQLite (WAL) | owned by `deploypal` | `/var/lib/deploypal/state.db` |
+| IPC | gRPC over Unix Domain Socket | `0660 root:deploypal` | `/run/deploypal/agent.sock` |
 
 ## Repository layout
 
 ```
 docs/ARCHITECTURE.md        ← full architecture & data flows (start here)
 db/schema.sql               ← SQLite schema
-proto/smise/agent/v1/       ← gRPC contract between orchestrator and agent
+proto/deploypal/agent/v1/       ← gRPC contract between orchestrator and agent
 agent/                      ← Go agent (cmd/ + internal/ + gen/ stubs; builds with
                               GOOS=linux CGO_ENABLED=0 → single static binary)
 orchestrator/               ← FastAPI orchestrator (app/ + templates/ + gen/ stubs)

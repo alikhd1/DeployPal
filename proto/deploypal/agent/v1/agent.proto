@@ -1,5 +1,5 @@
-// Contract between the Python orchestrator (client) and smise-agent (server).
-// Transport: gRPC over unix:///run/smise-navi/agent.sock
+// Contract between the Python orchestrator (client) and deploypal-agent (server).
+// Transport: gRPC over unix:///run/deploypal/agent.sock
 //
 // Design rule: every RPC is a *narrow, typed* operation. There is no generic
 // command execution. Mutating RPCs validate inputs against allow-lists
@@ -7,9 +7,9 @@
 
 syntax = "proto3";
 
-package smise.agent.v1;
+package deploypal.agent.v1;
 
-option go_package = "github.com/smise/agent/gen/agentv1;agentv1";
+option go_package = "github.com/deploypal/agent/gen/agentv1;agentv1";
 
 service Agent {
   // ---- discovery (read-only) ----
@@ -89,7 +89,7 @@ message PortList { repeated PortInfo ports = 1; }
 message NginxSite {
   string path     = 1;   // sites-available path
   bool   enabled  = 2;   // symlinked in sites-enabled
-  bool   managed  = 3;   // carries the "# managed-by: smise-navi" header
+  bool   managed  = 3;   // carries the "# managed-by: deploypal" header
   string content  = 4;   // raw config — orchestrator parses
   int64  mtime    = 5;
 }
@@ -125,7 +125,7 @@ message FindFreePortResponse { uint32 port = 1; }
 
 // ---------- provisioning ----------
 
-message UnitRef { string name = 1; }               // must match smise-app-[a-z0-9-]+.service
+message UnitRef { string name = 1; }               // must match deploypal-app-[a-z0-9-]+.service
 
 message InstallUnitRequest {
   string name         = 1;

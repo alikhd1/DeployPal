@@ -1,8 +1,8 @@
-"""smise-navi orchestrator — FastAPI application wiring.
+"""deploypal orchestrator — FastAPI application wiring.
 
 Run:  uvicorn app.main:app --host 127.0.0.1 --port 8443
-Config via env vars (see app/config.py): SMISE_DB_PATH, SMISE_AGENT_TARGET,
-SMISE_FRONTEND_DIST, SMISE_CONTACT_EMAIL, SMISE_DISCOVERY_INTERVAL.
+Config via env vars (see app/config.py): DEPLOYPAL_DB_PATH, DEPLOYPAL_AGENT_TARGET,
+DEPLOYPAL_FRONTEND_DIST, DEPLOYPAL_CONTACT_EMAIL, DEPLOYPAL_DISCOVERY_INTERVAL.
 
 Layout:
     app/
@@ -67,7 +67,7 @@ async def lifespan(app: FastAPI):
     await app.state.db.close()
 
 
-app = FastAPI(title="smise-navi", lifespan=lifespan)
+app = FastAPI(title="deploypal", lifespan=lifespan)
 app.include_router(projects.router, prefix="/api/projects", tags=["projects"])
 app.include_router(discovery.router, prefix="/api/topology", tags=["topology"])
 app.include_router(logs.router, prefix="/api", tags=["streams"])

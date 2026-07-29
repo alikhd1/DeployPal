@@ -29,16 +29,16 @@ flowchart LR
         UI[React SPA<br/>Registry · Wizard · Logs · Topology]
     end
 
-    subgraph "smise user (unprivileged)"
+    subgraph "deploypal user (unprivileged)"
         API[FastAPI Orchestrator<br/>uvicorn :8443]
-        DB[(SQLite WAL<br/>/var/lib/smise-navi/state.db)]
+        DB[(SQLite WAL<br/>/var/lib/deploypal/state.db)]
         WORK[Build workspace<br/>/srv/apps/&lt;alias&gt;]
         API --- DB
         API --- WORK
     end
 
     subgraph "root (hardened systemd unit)"
-        AGENT[smise-agent · Go<br/>gRPC server]
+        AGENT[deploypal-agent · Go<br/>gRPC server]
     end
 
     subgraph "System surface"
@@ -50,15 +50,15 @@ flowchart LR
     end
 
     UI -- "HTTPS JSON + WebSocket" --> API
-    API -- "gRPC over UDS<br/>/run/smise-navi/agent.sock (0660 root:smise)" --> AGENT
+    API -- "gRPC over UDS<br/>/run/deploypal/agent.sock (0660 root:deploypal)" --> AGENT
     AGENT --> NGX & SYSD & JRNL & PROC & CERT
 ```
 
 **Privilege model.** The agent is the only root process. Its gRPC surface is a fixed
 menu of typed operations — there is deliberately **no `RunCommand` RPC**. Every
 mutating RPC validates its inputs against allow-lists (unit names must match
-`smise-app-[a-z0-9-]+`, nginx writes only under `sites-available/`, certbot only with
-fixed argument templates). The UDS is `0660 root:smise` and the server additionally
+`deploypal-app-[a-z0-9-]+`, nginx writes only under `sites-available/`, certbot only with
+fixed argument templates). The UDS is `0660 root:deploypal` and the server additionally
 verifies the peer UID via `SO_PEERCRED` on every connection, so a compromised
 orchestrator can misuse the menu but cannot escape it, and no other user can talk to
 the agent at all.
@@ -77,7 +77,7 @@ event-driven via the agent's file watcher on `/etc/nginx/sites-enabled/`).
 ```mermaid
 sequenceDiagram
     participant S as Discovery Scheduler (Python)
-    participant A as smise-agent (Go)
+    participant A as deploypal-agent (Go)
     participant P as Parsers (Python)
     participant D as SQLite
 
@@ -129,7 +129,7 @@ sequenceDiagram
     participant UI as React Wizard
     participant API as FastAPI
     participant PIPE as Provisioning Pipeline (bg task)
-    participant A as smise-agent (root)
+    participant A as deploypal-agent (root)
     participant D as SQLite
 
     UI->>API: POST /api/projects {alias, git_url, branch, domain, stack?}
@@ -141,11 +141,11 @@ sequenceDiagram
 
     rect rgb(240,240,240)
     Note over PIPE: each step: update deployment_history.steps, emit ws event
-    PIPE->>PIPE: 1 clone → /srv/apps/<alias>  (as smise, https or ssh deploy key)
+    PIPE->>PIPE: 1 clone → /srv/apps/<alias>  (as deploypal, https or ssh deploy key)
     PIPE->>PIPE: 2 detect stack (if auto) → node/python/go/static
     PIPE->>PIPE: 3 build: venv+pip / npm ci+build / go build
     PIPE->>PIPE: 4 render systemd unit + nginx conf from Jinja2 templates
-    PIPE->>A: 5 InstallUnit("smise-app-<alias>.service", content) → daemon-reload, enable, start
+    PIPE->>A: 5 InstallUnit("deploypal-app-<alias>.service", content) → daemon-reload, enable, start
     PIPE->>A: 6 WriteNginxSite(<alias>.conf) + EnableNginxSite + TestNginxConfig
     A-->>PIPE: nginx -t OK
     PIPE->>A: 7 ObtainCertificate(domains) → certbot --nginx (typed args only)
@@ -204,10 +204,10 @@ journald ──sdjournal follow──▶ agent StreamLogs (gRPC server-stream, c
 
 Two systemd units, installed by a bootstrap script:
 
-* `smise-agent.service` — root, but hardened: `ProtectHome=yes`,
-  `PrivateTmp=yes`, `NoNewPrivileges=yes`, `ReadWritePaths=/etc/nginx /etc/systemd/system /run/smise-navi /etc/letsencrypt`,
-  `RuntimeDirectory=smise-navi` (creates the socket dir).
-* `smise-navi.service` — `User=smise`, `StateDirectory=smise-navi` (owns the DB),
+* `deploypal-agent.service` — root, but hardened: `ProtectHome=yes`,
+  `PrivateTmp=yes`, `NoNewPrivileges=yes`, `ReadWritePaths=/etc/nginx /etc/systemd/system /run/deploypal /etc/letsencrypt`,
+  `RuntimeDirectory=deploypal` (creates the socket dir).
+* `deploypal.service` — `User=deploypal`, `StateDirectory=deploypal` (owns the DB),
   runs uvicorn; serves the built React bundle and the JSON/WS API. Session auth with
   argon2-hashed local users; the API listens on localhost by default and is exposed
   via its own Nginx vhost like any other app it manages.

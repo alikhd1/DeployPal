@@ -1,5 +1,5 @@
-// smise-agent: the only privileged component of DeployPal.
-// Serves the smise.agent.v1.Agent gRPC service on a Unix domain socket.
+// deploypal-agent: the only privileged component of DeployPal.
+// Serves the deploypal.agent.v1.Agent gRPC service on a Unix domain socket.
 package main
 
 import (
@@ -10,14 +10,14 @@ import (
 
 	"google.golang.org/grpc"
 
-	agentv1 "github.com/smise/agent/gen/agentv1"
-	"github.com/smise/agent/internal/server"
+	agentv1 "github.com/deploypal/agent/gen/agentv1"
+	"github.com/deploypal/agent/internal/server"
 )
 
 const (
-	socketPath = "/run/smise-navi/agent.sock"
-	// UID allowed to connect (the `smise` orchestrator user); resolved at startup.
-	orchestratorUser = "smise"
+	socketPath = "/run/deploypal/agent.sock"
+	// UID allowed to connect (the `deploypal` orchestrator user); resolved at startup.
+	orchestratorUser = "deploypal"
 )
 
 func main() {
@@ -49,7 +49,7 @@ func main() {
 	)
 	agentv1.RegisterAgentServer(grpcServer, server.New())
 
-	log.Printf("smise-agent listening on %s (allowed uid %d)", socketPath, allowedUID)
+	log.Printf("deploypal-agent listening on %s (allowed uid %d)", socketPath, allowedUID)
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("serve: %v", err)
 	}

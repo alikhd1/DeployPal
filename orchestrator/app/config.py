@@ -22,13 +22,13 @@ class Settings:
 
 def load() -> Settings:
     return Settings(
-        db_path=os.environ.get("SMISE_DB_PATH", "/var/lib/smise-navi/state.db"),
-        schema_path=os.environ.get("SMISE_SCHEMA_PATH",
+        db_path=os.environ.get("DEPLOYPAL_DB_PATH", "/var/lib/deploypal/state.db"),
+        schema_path=os.environ.get("DEPLOYPAL_SCHEMA_PATH",
                                    str(REPO_ROOT / "db" / "schema.sql")),
-        agent_target=os.environ.get("SMISE_AGENT_TARGET",
-                                    "unix:///run/smise-navi/agent.sock"),
-        frontend_dist=os.environ.get("SMISE_FRONTEND_DIST",
+        agent_target=os.environ.get("DEPLOYPAL_AGENT_TARGET",
+                                    "unix:///run/deploypal/agent.sock"),
+        frontend_dist=os.environ.get("DEPLOYPAL_FRONTEND_DIST",
                                      str(REPO_ROOT / "frontend" / "dist")),
-        contact_email=os.environ.get("SMISE_CONTACT_EMAIL", "admin@localhost"),
-        discovery_interval=int(os.environ.get("SMISE_DISCOVERY_INTERVAL", "60")),
+        contact_email=os.environ.get("DEPLOYPAL_CONTACT_EMAIL", "admin@localhost"),
+        discovery_interval=int(os.environ.get("DEPLOYPAL_DISCOVERY_INTERVAL", "60")),
     )

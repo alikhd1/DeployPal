@@ -17,7 +17,7 @@ const (
 	sitesEnabled   = "/etc/nginx/sites-enabled"
 	// Every file we write starts with this header; we refuse to overwrite or
 	// disable any site that lacks it (i.e. anything a human wrote by hand).
-	managedHeader = "# managed-by: smise-navi"
+	managedHeader = "# managed-by: deploypal"
 )
 
 var safeFilename = regexp.MustCompile(`^[a-z0-9][a-z0-9.-]{0,80}\.conf$`)
@@ -85,7 +85,7 @@ func WriteSite(filename, content string) error {
 	target := filepath.Join(sitesAvailable, filename)
 	if existing, err := os.ReadFile(target); err == nil {
 		if !strings.HasPrefix(string(existing), managedHeader) {
-			return fmt.Errorf("%s exists and is not managed by smise-navi; refusing to overwrite", filename)
+			return fmt.Errorf("%s exists and is not managed by deploypal; refusing to overwrite", filename)
 		}
 	}
 	tmp := target + fmt.Sprintf(".tmp.%d", time.Now().UnixNano())
@@ -113,7 +113,7 @@ func DisableSite(filename string) error {
 	// Only remove the symlink for managed sites.
 	b, err := os.ReadFile(filepath.Join(sitesAvailable, filename))
 	if err == nil && !strings.HasPrefix(string(b), managedHeader) {
-		return fmt.Errorf("%s is not managed by smise-navi; refusing to disable", filename)
+		return fmt.Errorf("%s is not managed by deploypal; refusing to disable", filename)
 	}
 	err = os.Remove(filepath.Join(sitesEnabled, filename))
 	if os.IsNotExist(err) {

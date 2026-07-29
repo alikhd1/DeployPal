@@ -1,5 +1,5 @@
-// Contract between the Python orchestrator (client) and smise-agent (server).
-// Transport: gRPC over unix:///run/smise-navi/agent.sock
+// Contract between the Python orchestrator (client) and deploypal-agent (server).
+// Transport: gRPC over unix:///run/deploypal/agent.sock
 //
 // Design rule: every RPC is a *narrow, typed* operation. There is no generic
 // command execution. Mutating RPCs validate inputs against allow-lists
@@ -9,7 +9,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v7.35.1
-// source: smise/agent/v1/agent.proto
+// source: deploypal/agent/v1/agent.proto
 
 package agentv1
 
@@ -26,26 +26,26 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Agent_GetSystemInfo_FullMethodName      = "/smise.agent.v1.Agent/GetSystemInfo"
-	Agent_ListProcesses_FullMethodName      = "/smise.agent.v1.Agent/ListProcesses"
-	Agent_ListListeningPorts_FullMethodName = "/smise.agent.v1.Agent/ListListeningPorts"
-	Agent_ListNginxSites_FullMethodName     = "/smise.agent.v1.Agent/ListNginxSites"
-	Agent_ListUnits_FullMethodName          = "/smise.agent.v1.Agent/ListUnits"
-	Agent_ReadFile_FullMethodName           = "/smise.agent.v1.Agent/ReadFile"
-	Agent_ListDir_FullMethodName            = "/smise.agent.v1.Agent/ListDir"
-	Agent_FindFreePort_FullMethodName       = "/smise.agent.v1.Agent/FindFreePort"
-	Agent_InstallUnit_FullMethodName        = "/smise.agent.v1.Agent/InstallUnit"
-	Agent_RemoveUnit_FullMethodName         = "/smise.agent.v1.Agent/RemoveUnit"
-	Agent_UnitAction_FullMethodName         = "/smise.agent.v1.Agent/UnitAction"
-	Agent_WriteNginxSite_FullMethodName     = "/smise.agent.v1.Agent/WriteNginxSite"
-	Agent_EnableNginxSite_FullMethodName    = "/smise.agent.v1.Agent/EnableNginxSite"
-	Agent_DisableNginxSite_FullMethodName   = "/smise.agent.v1.Agent/DisableNginxSite"
-	Agent_TestNginxConfig_FullMethodName    = "/smise.agent.v1.Agent/TestNginxConfig"
-	Agent_ReloadNginx_FullMethodName        = "/smise.agent.v1.Agent/ReloadNginx"
-	Agent_ObtainCertificate_FullMethodName  = "/smise.agent.v1.Agent/ObtainCertificate"
-	Agent_StreamLogs_FullMethodName         = "/smise.agent.v1.Agent/StreamLogs"
-	Agent_StreamResources_FullMethodName    = "/smise.agent.v1.Agent/StreamResources"
-	Agent_WatchPaths_FullMethodName         = "/smise.agent.v1.Agent/WatchPaths"
+	Agent_GetSystemInfo_FullMethodName      = "/deploypal.agent.v1.Agent/GetSystemInfo"
+	Agent_ListProcesses_FullMethodName      = "/deploypal.agent.v1.Agent/ListProcesses"
+	Agent_ListListeningPorts_FullMethodName = "/deploypal.agent.v1.Agent/ListListeningPorts"
+	Agent_ListNginxSites_FullMethodName     = "/deploypal.agent.v1.Agent/ListNginxSites"
+	Agent_ListUnits_FullMethodName          = "/deploypal.agent.v1.Agent/ListUnits"
+	Agent_ReadFile_FullMethodName           = "/deploypal.agent.v1.Agent/ReadFile"
+	Agent_ListDir_FullMethodName            = "/deploypal.agent.v1.Agent/ListDir"
+	Agent_FindFreePort_FullMethodName       = "/deploypal.agent.v1.Agent/FindFreePort"
+	Agent_InstallUnit_FullMethodName        = "/deploypal.agent.v1.Agent/InstallUnit"
+	Agent_RemoveUnit_FullMethodName         = "/deploypal.agent.v1.Agent/RemoveUnit"
+	Agent_UnitAction_FullMethodName         = "/deploypal.agent.v1.Agent/UnitAction"
+	Agent_WriteNginxSite_FullMethodName     = "/deploypal.agent.v1.Agent/WriteNginxSite"
+	Agent_EnableNginxSite_FullMethodName    = "/deploypal.agent.v1.Agent/EnableNginxSite"
+	Agent_DisableNginxSite_FullMethodName   = "/deploypal.agent.v1.Agent/DisableNginxSite"
+	Agent_TestNginxConfig_FullMethodName    = "/deploypal.agent.v1.Agent/TestNginxConfig"
+	Agent_ReloadNginx_FullMethodName        = "/deploypal.agent.v1.Agent/ReloadNginx"
+	Agent_ObtainCertificate_FullMethodName  = "/deploypal.agent.v1.Agent/ObtainCertificate"
+	Agent_StreamLogs_FullMethodName         = "/deploypal.agent.v1.Agent/StreamLogs"
+	Agent_StreamResources_FullMethodName    = "/deploypal.agent.v1.Agent/StreamResources"
+	Agent_WatchPaths_FullMethodName         = "/deploypal.agent.v1.Agent/WatchPaths"
 )
 
 // AgentClient is the client API for Agent service.
@@ -775,7 +775,7 @@ type Agent_WatchPathsServer = grpc.ServerStreamingServer[FsEvent]
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Agent_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "smise.agent.v1.Agent",
+	ServiceName: "deploypal.agent.v1.Agent",
 	HandlerType: (*AgentServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -864,5 +864,5 @@ var Agent_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "smise/agent/v1/agent.proto",
+	Metadata: "deploypal/agent/v1/agent.proto",
 }

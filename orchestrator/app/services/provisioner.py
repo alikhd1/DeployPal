@@ -5,7 +5,7 @@ deployment_history.steps (JSON) and emits a WebSocket event, so the wizard
 shows live progress. On failure, completed steps' `undo` callbacks run in
 reverse order; the cloned tree is kept for debugging.
 
-Builds run in-process as the unprivileged `smise` user (git/npm/pip/go are
+Builds run in-process as the unprivileged `deploypal` user (git/npm/pip/go are
 ordinary subprocesses). Only steps 'systemd' onward touch the agent.
 """
 import asyncio
@@ -50,7 +50,7 @@ class Ctx:
 
     @property
     def unit_name(self) -> str:
-        return f"smise-app-{self.alias}.service"
+        return f"deploypal-app-{self.alias}.service"
 
     @property
     def site_filename(self) -> str:

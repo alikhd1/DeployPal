@@ -1,5 +1,5 @@
--- DeployPal (smise-navi) — SQLite schema
--- Location: /var/lib/smise-navi/state.db
+-- DeployPal (deploypal) — SQLite schema
+-- Location: /var/lib/deploypal/state.db
 -- Opened with: PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;
 -- The orchestrator is the single writer; the agent never touches the DB.
 
@@ -21,7 +21,7 @@ CREATE TABLE projects (
     -- runtime
     port             INTEGER UNIQUE CHECK (port BETWEEN 1 AND 65535),  -- reserved local port
     start_command    TEXT,                                      -- ExecStart payload
-    systemd_unit     TEXT    UNIQUE,                            -- smise-app-<alias>.service
+    systemd_unit     TEXT    UNIQUE,                            -- deploypal-app-<alias>.service
     env_file         TEXT,                                      -- path to managed env file
     -- edge
     domain           TEXT,                                      -- primary public domain

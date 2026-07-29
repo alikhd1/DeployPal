@@ -1,4 +1,4 @@
-module github.com/smise/agent
+module github.com/deploypal/agent
 
 go 1.25.0
 

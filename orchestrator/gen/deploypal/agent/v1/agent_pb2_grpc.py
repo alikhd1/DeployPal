@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from smise.agent.v1 import agent_pb2 as smise_dot_agent_dot_v1_dot_agent__pb2
+from deploypal.agent.v1 import agent_pb2 as deploypal_dot_agent_dot_v1_dot_agent__pb2
 
 GRPC_GENERATED_VERSION = '1.83.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + ' but the generated code in smise/agent/v1/agent_pb2_grpc.py depends on'
+        + ' but the generated code in deploypal/agent/v1/agent_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -35,104 +35,104 @@ class AgentStub:
             channel: A grpc.Channel.
         """
         self.GetSystemInfo = channel.unary_unary(
-                '/smise.agent.v1.Agent/GetSystemInfo',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.SystemInfo.FromString,
+                '/deploypal.agent.v1.Agent/GetSystemInfo',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.SystemInfo.FromString,
                 _registered_method=True)
         self.ListProcesses = channel.unary_unary(
-                '/smise.agent.v1.Agent/ListProcesses',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.ProcessList.FromString,
+                '/deploypal.agent.v1.Agent/ListProcesses',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ProcessList.FromString,
                 _registered_method=True)
         self.ListListeningPorts = channel.unary_unary(
-                '/smise.agent.v1.Agent/ListListeningPorts',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.PortList.FromString,
+                '/deploypal.agent.v1.Agent/ListListeningPorts',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.PortList.FromString,
                 _registered_method=True)
         self.ListNginxSites = channel.unary_unary(
-                '/smise.agent.v1.Agent/ListNginxSites',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.NginxSiteList.FromString,
+                '/deploypal.agent.v1.Agent/ListNginxSites',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.NginxSiteList.FromString,
                 _registered_method=True)
         self.ListUnits = channel.unary_unary(
-                '/smise.agent.v1.Agent/ListUnits',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.ListUnitsRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.UnitList.FromString,
+                '/deploypal.agent.v1.Agent/ListUnits',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ListUnitsRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.UnitList.FromString,
                 _registered_method=True)
         self.ReadFile = channel.unary_unary(
-                '/smise.agent.v1.Agent/ReadFile',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.ReadFileRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.FileContent.FromString,
+                '/deploypal.agent.v1.Agent/ReadFile',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ReadFileRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.FileContent.FromString,
                 _registered_method=True)
         self.ListDir = channel.unary_unary(
-                '/smise.agent.v1.Agent/ListDir',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.ListDirRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.DirListing.FromString,
+                '/deploypal.agent.v1.Agent/ListDir',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ListDirRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.DirListing.FromString,
                 _registered_method=True)
         self.FindFreePort = channel.unary_unary(
-                '/smise.agent.v1.Agent/FindFreePort',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.FindFreePortRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.FindFreePortResponse.FromString,
+                '/deploypal.agent.v1.Agent/FindFreePort',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.FindFreePortRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.FindFreePortResponse.FromString,
                 _registered_method=True)
         self.InstallUnit = channel.unary_unary(
-                '/smise.agent.v1.Agent/InstallUnit',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.InstallUnitRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+                '/deploypal.agent.v1.Agent/InstallUnit',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallUnitRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
         self.RemoveUnit = channel.unary_unary(
-                '/smise.agent.v1.Agent/RemoveUnit',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.UnitRef.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+                '/deploypal.agent.v1.Agent/RemoveUnit',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.UnitRef.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
         self.UnitAction = channel.unary_unary(
-                '/smise.agent.v1.Agent/UnitAction',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.UnitActionRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+                '/deploypal.agent.v1.Agent/UnitAction',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.UnitActionRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
         self.WriteNginxSite = channel.unary_unary(
-                '/smise.agent.v1.Agent/WriteNginxSite',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.WriteNginxSiteRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+                '/deploypal.agent.v1.Agent/WriteNginxSite',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.WriteNginxSiteRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
         self.EnableNginxSite = channel.unary_unary(
-                '/smise.agent.v1.Agent/EnableNginxSite',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+                '/deploypal.agent.v1.Agent/EnableNginxSite',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
         self.DisableNginxSite = channel.unary_unary(
-                '/smise.agent.v1.Agent/DisableNginxSite',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+                '/deploypal.agent.v1.Agent/DisableNginxSite',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
         self.TestNginxConfig = channel.unary_unary(
-                '/smise.agent.v1.Agent/TestNginxConfig',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+                '/deploypal.agent.v1.Agent/TestNginxConfig',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
         self.ReloadNginx = channel.unary_unary(
-                '/smise.agent.v1.Agent/ReloadNginx',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+                '/deploypal.agent.v1.Agent/ReloadNginx',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
         self.ObtainCertificate = channel.unary_unary(
-                '/smise.agent.v1.Agent/ObtainCertificate',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.CertRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+                '/deploypal.agent.v1.Agent/ObtainCertificate',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.CertRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
         self.StreamLogs = channel.unary_stream(
-                '/smise.agent.v1.Agent/StreamLogs',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.LogStreamRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.LogLine.FromString,
+                '/deploypal.agent.v1.Agent/StreamLogs',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.LogStreamRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.LogLine.FromString,
                 _registered_method=True)
         self.StreamResources = channel.unary_stream(
-                '/smise.agent.v1.Agent/StreamResources',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.ResourceStreamRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.ResourceSample.FromString,
+                '/deploypal.agent.v1.Agent/StreamResources',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ResourceStreamRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ResourceSample.FromString,
                 _registered_method=True)
         self.WatchPaths = channel.unary_stream(
-                '/smise.agent.v1.Agent/WatchPaths',
-                request_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.WatchPathsRequest.SerializeToString,
-                response_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.FsEvent.FromString,
+                '/deploypal.agent.v1.Agent/WatchPaths',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.WatchPathsRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.FsEvent.FromString,
                 _registered_method=True)
 
 
@@ -276,109 +276,109 @@ def add_AgentServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetSystemInfo': grpc.unary_unary_rpc_method_handler(
                     servicer.GetSystemInfo,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.SystemInfo.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.SystemInfo.SerializeToString,
             ),
             'ListProcesses': grpc.unary_unary_rpc_method_handler(
                     servicer.ListProcesses,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.ProcessList.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ProcessList.SerializeToString,
             ),
             'ListListeningPorts': grpc.unary_unary_rpc_method_handler(
                     servicer.ListListeningPorts,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.PortList.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.PortList.SerializeToString,
             ),
             'ListNginxSites': grpc.unary_unary_rpc_method_handler(
                     servicer.ListNginxSites,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.NginxSiteList.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.NginxSiteList.SerializeToString,
             ),
             'ListUnits': grpc.unary_unary_rpc_method_handler(
                     servicer.ListUnits,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.ListUnitsRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.UnitList.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ListUnitsRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.UnitList.SerializeToString,
             ),
             'ReadFile': grpc.unary_unary_rpc_method_handler(
                     servicer.ReadFile,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.ReadFileRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.FileContent.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ReadFileRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.FileContent.SerializeToString,
             ),
             'ListDir': grpc.unary_unary_rpc_method_handler(
                     servicer.ListDir,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.ListDirRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.DirListing.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ListDirRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.DirListing.SerializeToString,
             ),
             'FindFreePort': grpc.unary_unary_rpc_method_handler(
                     servicer.FindFreePort,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.FindFreePortRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.FindFreePortResponse.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.FindFreePortRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.FindFreePortResponse.SerializeToString,
             ),
             'InstallUnit': grpc.unary_unary_rpc_method_handler(
                     servicer.InstallUnit,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.InstallUnitRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallUnitRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
             ),
             'RemoveUnit': grpc.unary_unary_rpc_method_handler(
                     servicer.RemoveUnit,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.UnitRef.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.UnitRef.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
             ),
             'UnitAction': grpc.unary_unary_rpc_method_handler(
                     servicer.UnitAction,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.UnitActionRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.UnitActionRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
             ),
             'WriteNginxSite': grpc.unary_unary_rpc_method_handler(
                     servicer.WriteNginxSite,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.WriteNginxSiteRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.WriteNginxSiteRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
             ),
             'EnableNginxSite': grpc.unary_unary_rpc_method_handler(
                     servicer.EnableNginxSite,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
             ),
             'DisableNginxSite': grpc.unary_unary_rpc_method_handler(
                     servicer.DisableNginxSite,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
             ),
             'TestNginxConfig': grpc.unary_unary_rpc_method_handler(
                     servicer.TestNginxConfig,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
             ),
             'ReloadNginx': grpc.unary_unary_rpc_method_handler(
                     servicer.ReloadNginx,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
             ),
             'ObtainCertificate': grpc.unary_unary_rpc_method_handler(
                     servicer.ObtainCertificate,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.CertRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.CertRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
             ),
             'StreamLogs': grpc.unary_stream_rpc_method_handler(
                     servicer.StreamLogs,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.LogStreamRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.LogLine.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.LogStreamRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.LogLine.SerializeToString,
             ),
             'StreamResources': grpc.unary_stream_rpc_method_handler(
                     servicer.StreamResources,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.ResourceStreamRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.ResourceSample.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ResourceStreamRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.ResourceSample.SerializeToString,
             ),
             'WatchPaths': grpc.unary_stream_rpc_method_handler(
                     servicer.WatchPaths,
-                    request_deserializer=smise_dot_agent_dot_v1_dot_agent__pb2.WatchPathsRequest.FromString,
-                    response_serializer=smise_dot_agent_dot_v1_dot_agent__pb2.FsEvent.SerializeToString,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.WatchPathsRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.FsEvent.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'smise.agent.v1.Agent', rpc_method_handlers)
+            'deploypal.agent.v1.Agent', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('smise.agent.v1.Agent', rpc_method_handlers)
+    server.add_registered_method_handlers('deploypal.agent.v1.Agent', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -399,9 +399,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/GetSystemInfo',
-            smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.SystemInfo.FromString,
+            '/deploypal.agent.v1.Agent/GetSystemInfo',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.SystemInfo.FromString,
             options,
             channel_credentials,
             insecure,
@@ -426,9 +426,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/ListProcesses',
-            smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.ProcessList.FromString,
+            '/deploypal.agent.v1.Agent/ListProcesses',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.ProcessList.FromString,
             options,
             channel_credentials,
             insecure,
@@ -453,9 +453,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/ListListeningPorts',
-            smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.PortList.FromString,
+            '/deploypal.agent.v1.Agent/ListListeningPorts',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.PortList.FromString,
             options,
             channel_credentials,
             insecure,
@@ -480,9 +480,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/ListNginxSites',
-            smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.NginxSiteList.FromString,
+            '/deploypal.agent.v1.Agent/ListNginxSites',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.NginxSiteList.FromString,
             options,
             channel_credentials,
             insecure,
@@ -507,9 +507,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/ListUnits',
-            smise_dot_agent_dot_v1_dot_agent__pb2.ListUnitsRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.UnitList.FromString,
+            '/deploypal.agent.v1.Agent/ListUnits',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.ListUnitsRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.UnitList.FromString,
             options,
             channel_credentials,
             insecure,
@@ -534,9 +534,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/ReadFile',
-            smise_dot_agent_dot_v1_dot_agent__pb2.ReadFileRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.FileContent.FromString,
+            '/deploypal.agent.v1.Agent/ReadFile',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.ReadFileRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.FileContent.FromString,
             options,
             channel_credentials,
             insecure,
@@ -561,9 +561,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/ListDir',
-            smise_dot_agent_dot_v1_dot_agent__pb2.ListDirRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.DirListing.FromString,
+            '/deploypal.agent.v1.Agent/ListDir',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.ListDirRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.DirListing.FromString,
             options,
             channel_credentials,
             insecure,
@@ -588,9 +588,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/FindFreePort',
-            smise_dot_agent_dot_v1_dot_agent__pb2.FindFreePortRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.FindFreePortResponse.FromString,
+            '/deploypal.agent.v1.Agent/FindFreePort',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.FindFreePortRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.FindFreePortResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -615,9 +615,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/InstallUnit',
-            smise_dot_agent_dot_v1_dot_agent__pb2.InstallUnitRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            '/deploypal.agent.v1.Agent/InstallUnit',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallUnitRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
             options,
             channel_credentials,
             insecure,
@@ -642,9 +642,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/RemoveUnit',
-            smise_dot_agent_dot_v1_dot_agent__pb2.UnitRef.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            '/deploypal.agent.v1.Agent/RemoveUnit',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.UnitRef.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
             options,
             channel_credentials,
             insecure,
@@ -669,9 +669,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/UnitAction',
-            smise_dot_agent_dot_v1_dot_agent__pb2.UnitActionRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            '/deploypal.agent.v1.Agent/UnitAction',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.UnitActionRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
             options,
             channel_credentials,
             insecure,
@@ -696,9 +696,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/WriteNginxSite',
-            smise_dot_agent_dot_v1_dot_agent__pb2.WriteNginxSiteRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            '/deploypal.agent.v1.Agent/WriteNginxSite',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.WriteNginxSiteRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
             options,
             channel_credentials,
             insecure,
@@ -723,9 +723,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/EnableNginxSite',
-            smise_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            '/deploypal.agent.v1.Agent/EnableNginxSite',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
             options,
             channel_credentials,
             insecure,
@@ -750,9 +750,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/DisableNginxSite',
-            smise_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            '/deploypal.agent.v1.Agent/DisableNginxSite',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.NginxSiteRef.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
             options,
             channel_credentials,
             insecure,
@@ -777,9 +777,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/TestNginxConfig',
-            smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            '/deploypal.agent.v1.Agent/TestNginxConfig',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
             options,
             channel_credentials,
             insecure,
@@ -804,9 +804,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/ReloadNginx',
-            smise_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            '/deploypal.agent.v1.Agent/ReloadNginx',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
             options,
             channel_credentials,
             insecure,
@@ -831,9 +831,9 @@ class Agent:
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/smise.agent.v1.Agent/ObtainCertificate',
-            smise_dot_agent_dot_v1_dot_agent__pb2.CertRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            '/deploypal.agent.v1.Agent/ObtainCertificate',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.CertRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
             options,
             channel_credentials,
             insecure,
@@ -858,9 +858,9 @@ class Agent:
         return grpc.experimental.unary_stream(
             request,
             target,
-            '/smise.agent.v1.Agent/StreamLogs',
-            smise_dot_agent_dot_v1_dot_agent__pb2.LogStreamRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.LogLine.FromString,
+            '/deploypal.agent.v1.Agent/StreamLogs',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.LogStreamRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.LogLine.FromString,
             options,
             channel_credentials,
             insecure,
@@ -885,9 +885,9 @@ class Agent:
         return grpc.experimental.unary_stream(
             request,
             target,
-            '/smise.agent.v1.Agent/StreamResources',
-            smise_dot_agent_dot_v1_dot_agent__pb2.ResourceStreamRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.ResourceSample.FromString,
+            '/deploypal.agent.v1.Agent/StreamResources',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.ResourceStreamRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.ResourceSample.FromString,
             options,
             channel_credentials,
             insecure,
@@ -912,9 +912,9 @@ class Agent:
         return grpc.experimental.unary_stream(
             request,
             target,
-            '/smise.agent.v1.Agent/WatchPaths',
-            smise_dot_agent_dot_v1_dot_agent__pb2.WatchPathsRequest.SerializeToString,
-            smise_dot_agent_dot_v1_dot_agent__pb2.FsEvent.FromString,
+            '/deploypal.agent.v1.Agent/WatchPaths',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.WatchPathsRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.FsEvent.FromString,
             options,
             channel_credentials,
             insecure,

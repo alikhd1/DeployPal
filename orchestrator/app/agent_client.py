@@ -1,11 +1,11 @@
-"""Async gRPC client for smise-agent over the Unix domain socket.
+"""Async gRPC client for deploypal-agent over the Unix domain socket.
 
 Generated stubs come from scripts/gen-protos.ps1 (or .sh):
     python -m grpc_tools.protoc -I proto \
         --python_out=orchestrator/gen --grpc_python_out=orchestrator/gen \
-        --pyi_out=orchestrator/gen proto/smise/agent/v1/agent.proto
+        --pyi_out=orchestrator/gen proto/deploypal/agent/v1/agent.proto
 
-grpc_tools emits absolute imports (`from smise.agent.v1 import ...`), so the
+grpc_tools emits absolute imports (`from deploypal.agent.v1 import ...`), so the
 gen/ directory itself must be importable — added to sys.path here, once.
 """
 import sys
@@ -18,8 +18,8 @@ if _GEN_DIR not in sys.path:
 
 import grpc
 
-from smise.agent.v1 import agent_pb2 as pb
-from smise.agent.v1 import agent_pb2_grpc as rpc
+from deploypal.agent.v1 import agent_pb2 as pb
+from deploypal.agent.v1 import agent_pb2_grpc as rpc
 
 
 class AgentError(RuntimeError):
@@ -31,7 +31,7 @@ class AgentError(RuntimeError):
 
 
 class AgentClient:
-    def __init__(self, target: str = "unix:///run/smise-navi/agent.sock"):
+    def __init__(self, target: str = "unix:///run/deploypal/agent.sock"):
         self._channel = grpc.aio.insecure_channel(target)
         self._stub = rpc.AgentStub(self._channel)
 

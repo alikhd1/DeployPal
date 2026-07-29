@@ -1,5 +1,5 @@
-// Contract between the Python orchestrator (client) and smise-agent (server).
-// Transport: gRPC over unix:///run/smise-navi/agent.sock
+// Contract between the Python orchestrator (client) and deploypal-agent (server).
+// Transport: gRPC over unix:///run/deploypal/agent.sock
 //
 // Design rule: every RPC is a *narrow, typed* operation. There is no generic
 // command execution. Mutating RPCs validate inputs against allow-lists
@@ -9,7 +9,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v7.35.1
-// source: smise/agent/v1/agent.proto
+// source: deploypal/agent/v1/agent.proto
 
 package agentv1
 
@@ -36,7 +36,7 @@ type Empty struct {
 
 func (x *Empty) Reset() {
 	*x = Empty{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[0]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -48,7 +48,7 @@ func (x *Empty) String() string {
 func (*Empty) ProtoMessage() {}
 
 func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[0]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +61,7 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Empty.ProtoReflect.Descriptor instead.
 func (*Empty) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{0}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{0}
 }
 
 type OpResult struct {
@@ -74,7 +74,7 @@ type OpResult struct {
 
 func (x *OpResult) Reset() {
 	*x = OpResult{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[1]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -86,7 +86,7 @@ func (x *OpResult) String() string {
 func (*OpResult) ProtoMessage() {}
 
 func (x *OpResult) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[1]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -99,7 +99,7 @@ func (x *OpResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OpResult.ProtoReflect.Descriptor instead.
 func (*OpResult) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{1}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *OpResult) GetOk() bool {
@@ -133,7 +133,7 @@ type SystemInfo struct {
 
 func (x *SystemInfo) Reset() {
 	*x = SystemInfo{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[2]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -145,7 +145,7 @@ func (x *SystemInfo) String() string {
 func (*SystemInfo) ProtoMessage() {}
 
 func (x *SystemInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[2]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -158,7 +158,7 @@ func (x *SystemInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SystemInfo.ProtoReflect.Descriptor instead.
 func (*SystemInfo) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{2}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *SystemInfo) GetHostname() string {
@@ -242,7 +242,7 @@ type ProcessInfo struct {
 
 func (x *ProcessInfo) Reset() {
 	*x = ProcessInfo{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[3]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -254,7 +254,7 @@ func (x *ProcessInfo) String() string {
 func (*ProcessInfo) ProtoMessage() {}
 
 func (x *ProcessInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[3]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -267,7 +267,7 @@ func (x *ProcessInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProcessInfo.ProtoReflect.Descriptor instead.
 func (*ProcessInfo) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{3}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ProcessInfo) GetPid() int32 {
@@ -349,7 +349,7 @@ type ProcessList struct {
 
 func (x *ProcessList) Reset() {
 	*x = ProcessList{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[4]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -361,7 +361,7 @@ func (x *ProcessList) String() string {
 func (*ProcessList) ProtoMessage() {}
 
 func (x *ProcessList) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[4]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -374,7 +374,7 @@ func (x *ProcessList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProcessList.ProtoReflect.Descriptor instead.
 func (*ProcessList) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{4}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ProcessList) GetProcesses() []*ProcessInfo {
@@ -398,7 +398,7 @@ type PortInfo struct {
 
 func (x *PortInfo) Reset() {
 	*x = PortInfo{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[5]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -410,7 +410,7 @@ func (x *PortInfo) String() string {
 func (*PortInfo) ProtoMessage() {}
 
 func (x *PortInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[5]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -423,7 +423,7 @@ func (x *PortInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PortInfo.ProtoReflect.Descriptor instead.
 func (*PortInfo) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{5}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *PortInfo) GetPort() uint32 {
@@ -477,7 +477,7 @@ type PortList struct {
 
 func (x *PortList) Reset() {
 	*x = PortList{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[6]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -489,7 +489,7 @@ func (x *PortList) String() string {
 func (*PortList) ProtoMessage() {}
 
 func (x *PortList) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[6]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -502,7 +502,7 @@ func (x *PortList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PortList.ProtoReflect.Descriptor instead.
 func (*PortList) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{6}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *PortList) GetPorts() []*PortInfo {
@@ -516,7 +516,7 @@ type NginxSite struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`        // sites-available path
 	Enabled       bool                   `protobuf:"varint,2,opt,name=enabled,proto3" json:"enabled,omitempty"` // symlinked in sites-enabled
-	Managed       bool                   `protobuf:"varint,3,opt,name=managed,proto3" json:"managed,omitempty"` // carries the "# managed-by: smise-navi" header
+	Managed       bool                   `protobuf:"varint,3,opt,name=managed,proto3" json:"managed,omitempty"` // carries the "# managed-by: deploypal" header
 	Content       string                 `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`  // raw config — orchestrator parses
 	Mtime         int64                  `protobuf:"varint,5,opt,name=mtime,proto3" json:"mtime,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -525,7 +525,7 @@ type NginxSite struct {
 
 func (x *NginxSite) Reset() {
 	*x = NginxSite{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[7]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -537,7 +537,7 @@ func (x *NginxSite) String() string {
 func (*NginxSite) ProtoMessage() {}
 
 func (x *NginxSite) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[7]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -550,7 +550,7 @@ func (x *NginxSite) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NginxSite.ProtoReflect.Descriptor instead.
 func (*NginxSite) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{7}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *NginxSite) GetPath() string {
@@ -597,7 +597,7 @@ type NginxSiteList struct {
 
 func (x *NginxSiteList) Reset() {
 	*x = NginxSiteList{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[8]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -609,7 +609,7 @@ func (x *NginxSiteList) String() string {
 func (*NginxSiteList) ProtoMessage() {}
 
 func (x *NginxSiteList) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[8]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -622,7 +622,7 @@ func (x *NginxSiteList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NginxSiteList.ProtoReflect.Descriptor instead.
 func (*NginxSiteList) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{8}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *NginxSiteList) GetSites() []*NginxSite {
@@ -641,7 +641,7 @@ type ListUnitsRequest struct {
 
 func (x *ListUnitsRequest) Reset() {
 	*x = ListUnitsRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[9]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -653,7 +653,7 @@ func (x *ListUnitsRequest) String() string {
 func (*ListUnitsRequest) ProtoMessage() {}
 
 func (x *ListUnitsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[9]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -666,7 +666,7 @@ func (x *ListUnitsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUnitsRequest.ProtoReflect.Descriptor instead.
 func (*ListUnitsRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{9}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListUnitsRequest) GetPattern() string {
@@ -692,7 +692,7 @@ type UnitInfo struct {
 
 func (x *UnitInfo) Reset() {
 	*x = UnitInfo{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[10]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -704,7 +704,7 @@ func (x *UnitInfo) String() string {
 func (*UnitInfo) ProtoMessage() {}
 
 func (x *UnitInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[10]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -717,7 +717,7 @@ func (x *UnitInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnitInfo.ProtoReflect.Descriptor instead.
 func (*UnitInfo) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{10}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UnitInfo) GetName() string {
@@ -785,7 +785,7 @@ type UnitList struct {
 
 func (x *UnitList) Reset() {
 	*x = UnitList{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[11]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -797,7 +797,7 @@ func (x *UnitList) String() string {
 func (*UnitList) ProtoMessage() {}
 
 func (x *UnitList) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[11]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -810,7 +810,7 @@ func (x *UnitList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnitList.ProtoReflect.Descriptor instead.
 func (*UnitList) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{11}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UnitList) GetUnits() []*UnitInfo {
@@ -830,7 +830,7 @@ type ReadFileRequest struct {
 
 func (x *ReadFileRequest) Reset() {
 	*x = ReadFileRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[12]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -842,7 +842,7 @@ func (x *ReadFileRequest) String() string {
 func (*ReadFileRequest) ProtoMessage() {}
 
 func (x *ReadFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[12]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -855,7 +855,7 @@ func (x *ReadFileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReadFileRequest.ProtoReflect.Descriptor instead.
 func (*ReadFileRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{12}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ReadFileRequest) GetPath() string {
@@ -882,7 +882,7 @@ type FileContent struct {
 
 func (x *FileContent) Reset() {
 	*x = FileContent{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[13]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -894,7 +894,7 @@ func (x *FileContent) String() string {
 func (*FileContent) ProtoMessage() {}
 
 func (x *FileContent) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[13]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -907,7 +907,7 @@ func (x *FileContent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileContent.ProtoReflect.Descriptor instead.
 func (*FileContent) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{13}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *FileContent) GetContent() []byte {
@@ -933,7 +933,7 @@ type ListDirRequest struct {
 
 func (x *ListDirRequest) Reset() {
 	*x = ListDirRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[14]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -945,7 +945,7 @@ func (x *ListDirRequest) String() string {
 func (*ListDirRequest) ProtoMessage() {}
 
 func (x *ListDirRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[14]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -958,7 +958,7 @@ func (x *ListDirRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDirRequest.ProtoReflect.Descriptor instead.
 func (*ListDirRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{14}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ListDirRequest) GetPath() string {
@@ -979,7 +979,7 @@ type DirEntry struct {
 
 func (x *DirEntry) Reset() {
 	*x = DirEntry{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[15]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -991,7 +991,7 @@ func (x *DirEntry) String() string {
 func (*DirEntry) ProtoMessage() {}
 
 func (x *DirEntry) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[15]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1004,7 +1004,7 @@ func (x *DirEntry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DirEntry.ProtoReflect.Descriptor instead.
 func (*DirEntry) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{15}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *DirEntry) GetName() string {
@@ -1037,7 +1037,7 @@ type DirListing struct {
 
 func (x *DirListing) Reset() {
 	*x = DirListing{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[16]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1049,7 +1049,7 @@ func (x *DirListing) String() string {
 func (*DirListing) ProtoMessage() {}
 
 func (x *DirListing) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[16]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1062,7 +1062,7 @@ func (x *DirListing) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DirListing.ProtoReflect.Descriptor instead.
 func (*DirListing) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{16}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *DirListing) GetEntries() []*DirEntry {
@@ -1083,7 +1083,7 @@ type FindFreePortRequest struct {
 
 func (x *FindFreePortRequest) Reset() {
 	*x = FindFreePortRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[17]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1095,7 +1095,7 @@ func (x *FindFreePortRequest) String() string {
 func (*FindFreePortRequest) ProtoMessage() {}
 
 func (x *FindFreePortRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[17]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1108,7 +1108,7 @@ func (x *FindFreePortRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindFreePortRequest.ProtoReflect.Descriptor instead.
 func (*FindFreePortRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{17}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *FindFreePortRequest) GetRangeStart() uint32 {
@@ -1141,7 +1141,7 @@ type FindFreePortResponse struct {
 
 func (x *FindFreePortResponse) Reset() {
 	*x = FindFreePortResponse{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[18]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1153,7 +1153,7 @@ func (x *FindFreePortResponse) String() string {
 func (*FindFreePortResponse) ProtoMessage() {}
 
 func (x *FindFreePortResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[18]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1166,7 +1166,7 @@ func (x *FindFreePortResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindFreePortResponse.ProtoReflect.Descriptor instead.
 func (*FindFreePortResponse) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{18}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *FindFreePortResponse) GetPort() uint32 {
@@ -1185,7 +1185,7 @@ type UnitRef struct {
 
 func (x *UnitRef) Reset() {
 	*x = UnitRef{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[19]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1197,7 +1197,7 @@ func (x *UnitRef) String() string {
 func (*UnitRef) ProtoMessage() {}
 
 func (x *UnitRef) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[19]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1210,7 +1210,7 @@ func (x *UnitRef) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnitRef.ProtoReflect.Descriptor instead.
 func (*UnitRef) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{19}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *UnitRef) GetName() string {
@@ -1232,7 +1232,7 @@ type InstallUnitRequest struct {
 
 func (x *InstallUnitRequest) Reset() {
 	*x = InstallUnitRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[20]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1244,7 +1244,7 @@ func (x *InstallUnitRequest) String() string {
 func (*InstallUnitRequest) ProtoMessage() {}
 
 func (x *InstallUnitRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[20]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1257,7 +1257,7 @@ func (x *InstallUnitRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InstallUnitRequest.ProtoReflect.Descriptor instead.
 func (*InstallUnitRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{20}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *InstallUnitRequest) GetName() string {
@@ -1298,7 +1298,7 @@ type UnitActionRequest struct {
 
 func (x *UnitActionRequest) Reset() {
 	*x = UnitActionRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[21]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1310,7 +1310,7 @@ func (x *UnitActionRequest) String() string {
 func (*UnitActionRequest) ProtoMessage() {}
 
 func (x *UnitActionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[21]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1323,7 +1323,7 @@ func (x *UnitActionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnitActionRequest.ProtoReflect.Descriptor instead.
 func (*UnitActionRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{21}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *UnitActionRequest) GetName() string {
@@ -1349,7 +1349,7 @@ type NginxSiteRef struct {
 
 func (x *NginxSiteRef) Reset() {
 	*x = NginxSiteRef{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[22]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1361,7 +1361,7 @@ func (x *NginxSiteRef) String() string {
 func (*NginxSiteRef) ProtoMessage() {}
 
 func (x *NginxSiteRef) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[22]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1374,7 +1374,7 @@ func (x *NginxSiteRef) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NginxSiteRef.ProtoReflect.Descriptor instead.
 func (*NginxSiteRef) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{22}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *NginxSiteRef) GetFilename() string {
@@ -1394,7 +1394,7 @@ type WriteNginxSiteRequest struct {
 
 func (x *WriteNginxSiteRequest) Reset() {
 	*x = WriteNginxSiteRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[23]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1406,7 +1406,7 @@ func (x *WriteNginxSiteRequest) String() string {
 func (*WriteNginxSiteRequest) ProtoMessage() {}
 
 func (x *WriteNginxSiteRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[23]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1419,7 +1419,7 @@ func (x *WriteNginxSiteRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WriteNginxSiteRequest.ProtoReflect.Descriptor instead.
 func (*WriteNginxSiteRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{23}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *WriteNginxSiteRequest) GetFilename() string {
@@ -1446,7 +1446,7 @@ type CertRequest struct {
 
 func (x *CertRequest) Reset() {
 	*x = CertRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[24]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1458,7 +1458,7 @@ func (x *CertRequest) String() string {
 func (*CertRequest) ProtoMessage() {}
 
 func (x *CertRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[24]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1471,7 +1471,7 @@ func (x *CertRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CertRequest.ProtoReflect.Descriptor instead.
 func (*CertRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{24}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *CertRequest) GetDomains() []string {
@@ -1500,7 +1500,7 @@ type LogStreamRequest struct {
 
 func (x *LogStreamRequest) Reset() {
 	*x = LogStreamRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[25]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1512,7 +1512,7 @@ func (x *LogStreamRequest) String() string {
 func (*LogStreamRequest) ProtoMessage() {}
 
 func (x *LogStreamRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[25]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1525,7 +1525,7 @@ func (x *LogStreamRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogStreamRequest.ProtoReflect.Descriptor instead.
 func (*LogStreamRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{25}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *LogStreamRequest) GetUnit() string {
@@ -1568,7 +1568,7 @@ type LogLine struct {
 
 func (x *LogLine) Reset() {
 	*x = LogLine{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[26]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1580,7 +1580,7 @@ func (x *LogLine) String() string {
 func (*LogLine) ProtoMessage() {}
 
 func (x *LogLine) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[26]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1593,7 +1593,7 @@ func (x *LogLine) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogLine.ProtoReflect.Descriptor instead.
 func (*LogLine) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{26}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *LogLine) GetTsMicros() int64 {
@@ -1634,7 +1634,7 @@ type ResourceStreamRequest struct {
 
 func (x *ResourceStreamRequest) Reset() {
 	*x = ResourceStreamRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[27]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1646,7 +1646,7 @@ func (x *ResourceStreamRequest) String() string {
 func (*ResourceStreamRequest) ProtoMessage() {}
 
 func (x *ResourceStreamRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[27]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1659,7 +1659,7 @@ func (x *ResourceStreamRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResourceStreamRequest.ProtoReflect.Descriptor instead.
 func (*ResourceStreamRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{27}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *ResourceStreamRequest) GetUnits() []string {
@@ -1689,7 +1689,7 @@ type ResourceSample struct {
 
 func (x *ResourceSample) Reset() {
 	*x = ResourceSample{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[28]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1701,7 +1701,7 @@ func (x *ResourceSample) String() string {
 func (*ResourceSample) ProtoMessage() {}
 
 func (x *ResourceSample) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[28]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1714,7 +1714,7 @@ func (x *ResourceSample) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResourceSample.ProtoReflect.Descriptor instead.
 func (*ResourceSample) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{28}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ResourceSample) GetUnit() string {
@@ -1761,7 +1761,7 @@ type WatchPathsRequest struct {
 
 func (x *WatchPathsRequest) Reset() {
 	*x = WatchPathsRequest{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[29]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1773,7 +1773,7 @@ func (x *WatchPathsRequest) String() string {
 func (*WatchPathsRequest) ProtoMessage() {}
 
 func (x *WatchPathsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[29]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1786,7 +1786,7 @@ func (x *WatchPathsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchPathsRequest.ProtoReflect.Descriptor instead.
 func (*WatchPathsRequest) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{29}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *WatchPathsRequest) GetPaths() []string {
@@ -1807,7 +1807,7 @@ type FsEvent struct {
 
 func (x *FsEvent) Reset() {
 	*x = FsEvent{}
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[30]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1819,7 +1819,7 @@ func (x *FsEvent) String() string {
 func (*FsEvent) ProtoMessage() {}
 
 func (x *FsEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_smise_agent_v1_agent_proto_msgTypes[30]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1832,7 +1832,7 @@ func (x *FsEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FsEvent.ProtoReflect.Descriptor instead.
 func (*FsEvent) Descriptor() ([]byte, []int) {
-	return file_smise_agent_v1_agent_proto_rawDescGZIP(), []int{30}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *FsEvent) GetPath() string {
@@ -1856,11 +1856,11 @@ func (x *FsEvent) GetTs() int64 {
 	return 0
 }
 
-var File_smise_agent_v1_agent_proto protoreflect.FileDescriptor
+var File_deploypal_agent_v1_agent_proto protoreflect.FileDescriptor
 
-const file_smise_agent_v1_agent_proto_rawDesc = "" +
+const file_deploypal_agent_v1_agent_proto_rawDesc = "" +
 	"\n" +
-	"\x1asmise/agent/v1/agent.proto\x12\x0esmise.agent.v1\"\a\n" +
+	"\x1edeploypal/agent/v1/agent.proto\x12\x12deploypal.agent.v1\"\a\n" +
 	"\x05Empty\"4\n" +
 	"\bOpResult\x12\x0e\n" +
 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x18\n" +
@@ -1888,26 +1888,26 @@ const file_smise_agent_v1_agent_proto_rawDesc = "" +
 	"\x04unit\x18\b \x01(\tR\x04unit\x12\x10\n" +
 	"\x03rss\x18\t \x01(\x04R\x03rss\x12\x17\n" +
 	"\acpu_pct\x18\n" +
-	" \x01(\x01R\x06cpuPct\"H\n" +
-	"\vProcessList\x129\n" +
-	"\tprocesses\x18\x01 \x03(\v2\x1b.smise.agent.v1.ProcessInfoR\tprocesses\"\x8e\x01\n" +
+	" \x01(\x01R\x06cpuPct\"L\n" +
+	"\vProcessList\x12=\n" +
+	"\tprocesses\x18\x01 \x03(\v2\x1f.deploypal.agent.v1.ProcessInfoR\tprocesses\"\x8e\x01\n" +
 	"\bPortInfo\x12\x12\n" +
 	"\x04port\x18\x01 \x01(\rR\x04port\x12\x14\n" +
 	"\x05proto\x18\x02 \x01(\tR\x05proto\x12\x18\n" +
 	"\aaddress\x18\x03 \x01(\tR\aaddress\x12\x10\n" +
 	"\x03pid\x18\x04 \x01(\x05R\x03pid\x12\x18\n" +
 	"\aprocess\x18\x05 \x01(\tR\aprocess\x12\x12\n" +
-	"\x04unit\x18\x06 \x01(\tR\x04unit\":\n" +
-	"\bPortList\x12.\n" +
-	"\x05ports\x18\x01 \x03(\v2\x18.smise.agent.v1.PortInfoR\x05ports\"\x83\x01\n" +
+	"\x04unit\x18\x06 \x01(\tR\x04unit\">\n" +
+	"\bPortList\x122\n" +
+	"\x05ports\x18\x01 \x03(\v2\x1c.deploypal.agent.v1.PortInfoR\x05ports\"\x83\x01\n" +
 	"\tNginxSite\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x18\n" +
 	"\aenabled\x18\x02 \x01(\bR\aenabled\x12\x18\n" +
 	"\amanaged\x18\x03 \x01(\bR\amanaged\x12\x18\n" +
 	"\acontent\x18\x04 \x01(\tR\acontent\x12\x14\n" +
-	"\x05mtime\x18\x05 \x01(\x03R\x05mtime\"@\n" +
-	"\rNginxSiteList\x12/\n" +
-	"\x05sites\x18\x01 \x03(\v2\x19.smise.agent.v1.NginxSiteR\x05sites\",\n" +
+	"\x05mtime\x18\x05 \x01(\x03R\x05mtime\"D\n" +
+	"\rNginxSiteList\x123\n" +
+	"\x05sites\x18\x01 \x03(\v2\x1d.deploypal.agent.v1.NginxSiteR\x05sites\",\n" +
 	"\x10ListUnitsRequest\x12\x18\n" +
 	"\apattern\x18\x01 \x01(\tR\apattern\"\xf9\x01\n" +
 	"\bUnitInfo\x12\x12\n" +
@@ -1919,9 +1919,9 @@ const file_smise_agent_v1_agent_proto_rawDesc = "" +
 	"\tsub_state\x18\x05 \x01(\tR\bsubState\x12\x19\n" +
 	"\bmain_pid\x18\x06 \x01(\x05R\amainPid\x12#\n" +
 	"\rfragment_path\x18\a \x01(\tR\ffragmentPath\x12\x18\n" +
-	"\aenabled\x18\b \x01(\bR\aenabled\":\n" +
-	"\bUnitList\x12.\n" +
-	"\x05units\x18\x01 \x03(\v2\x18.smise.agent.v1.UnitInfoR\x05units\"B\n" +
+	"\aenabled\x18\b \x01(\bR\aenabled\">\n" +
+	"\bUnitList\x122\n" +
+	"\x05units\x18\x01 \x03(\v2\x1c.deploypal.agent.v1.UnitInfoR\x05units\"B\n" +
 	"\x0fReadFileRequest\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x1b\n" +
 	"\tmax_bytes\x18\x02 \x01(\rR\bmaxBytes\"E\n" +
@@ -1933,10 +1933,10 @@ const file_smise_agent_v1_agent_proto_rawDesc = "" +
 	"\bDirEntry\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x15\n" +
 	"\x06is_dir\x18\x02 \x01(\bR\x05isDir\x12\x12\n" +
-	"\x04size\x18\x03 \x01(\x03R\x04size\"@\n" +
+	"\x04size\x18\x03 \x01(\x03R\x04size\"D\n" +
 	"\n" +
-	"DirListing\x122\n" +
-	"\aentries\x18\x01 \x03(\v2\x18.smise.agent.v1.DirEntryR\aentries\"m\n" +
+	"DirListing\x126\n" +
+	"\aentries\x18\x01 \x03(\v2\x1c.deploypal.agent.v1.DirEntryR\aentries\"m\n" +
 	"\x13FindFreePortRequest\x12\x1f\n" +
 	"\vrange_start\x18\x01 \x01(\rR\n" +
 	"rangeStart\x12\x1b\n" +
@@ -1988,125 +1988,125 @@ const file_smise_agent_v1_agent_proto_rawDesc = "" +
 	"\aFsEvent\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x0e\n" +
 	"\x02op\x18\x02 \x01(\tR\x02op\x12\x0e\n" +
-	"\x02ts\x18\x03 \x01(\x03R\x02ts2\xda\v\n" +
-	"\x05Agent\x12B\n" +
-	"\rGetSystemInfo\x12\x15.smise.agent.v1.Empty\x1a\x1a.smise.agent.v1.SystemInfo\x12C\n" +
-	"\rListProcesses\x12\x15.smise.agent.v1.Empty\x1a\x1b.smise.agent.v1.ProcessList\x12E\n" +
-	"\x12ListListeningPorts\x12\x15.smise.agent.v1.Empty\x1a\x18.smise.agent.v1.PortList\x12F\n" +
-	"\x0eListNginxSites\x12\x15.smise.agent.v1.Empty\x1a\x1d.smise.agent.v1.NginxSiteList\x12G\n" +
-	"\tListUnits\x12 .smise.agent.v1.ListUnitsRequest\x1a\x18.smise.agent.v1.UnitList\x12H\n" +
-	"\bReadFile\x12\x1f.smise.agent.v1.ReadFileRequest\x1a\x1b.smise.agent.v1.FileContent\x12E\n" +
-	"\aListDir\x12\x1e.smise.agent.v1.ListDirRequest\x1a\x1a.smise.agent.v1.DirListing\x12Y\n" +
-	"\fFindFreePort\x12#.smise.agent.v1.FindFreePortRequest\x1a$.smise.agent.v1.FindFreePortResponse\x12K\n" +
-	"\vInstallUnit\x12\".smise.agent.v1.InstallUnitRequest\x1a\x18.smise.agent.v1.OpResult\x12?\n" +
+	"\x02ts\x18\x03 \x01(\x03R\x02ts2\xfa\f\n" +
+	"\x05Agent\x12J\n" +
+	"\rGetSystemInfo\x12\x19.deploypal.agent.v1.Empty\x1a\x1e.deploypal.agent.v1.SystemInfo\x12K\n" +
+	"\rListProcesses\x12\x19.deploypal.agent.v1.Empty\x1a\x1f.deploypal.agent.v1.ProcessList\x12M\n" +
+	"\x12ListListeningPorts\x12\x19.deploypal.agent.v1.Empty\x1a\x1c.deploypal.agent.v1.PortList\x12N\n" +
+	"\x0eListNginxSites\x12\x19.deploypal.agent.v1.Empty\x1a!.deploypal.agent.v1.NginxSiteList\x12O\n" +
+	"\tListUnits\x12$.deploypal.agent.v1.ListUnitsRequest\x1a\x1c.deploypal.agent.v1.UnitList\x12P\n" +
+	"\bReadFile\x12#.deploypal.agent.v1.ReadFileRequest\x1a\x1f.deploypal.agent.v1.FileContent\x12M\n" +
+	"\aListDir\x12\".deploypal.agent.v1.ListDirRequest\x1a\x1e.deploypal.agent.v1.DirListing\x12a\n" +
+	"\fFindFreePort\x12'.deploypal.agent.v1.FindFreePortRequest\x1a(.deploypal.agent.v1.FindFreePortResponse\x12S\n" +
+	"\vInstallUnit\x12&.deploypal.agent.v1.InstallUnitRequest\x1a\x1c.deploypal.agent.v1.OpResult\x12G\n" +
 	"\n" +
-	"RemoveUnit\x12\x17.smise.agent.v1.UnitRef\x1a\x18.smise.agent.v1.OpResult\x12I\n" +
+	"RemoveUnit\x12\x1b.deploypal.agent.v1.UnitRef\x1a\x1c.deploypal.agent.v1.OpResult\x12Q\n" +
 	"\n" +
-	"UnitAction\x12!.smise.agent.v1.UnitActionRequest\x1a\x18.smise.agent.v1.OpResult\x12Q\n" +
-	"\x0eWriteNginxSite\x12%.smise.agent.v1.WriteNginxSiteRequest\x1a\x18.smise.agent.v1.OpResult\x12I\n" +
-	"\x0fEnableNginxSite\x12\x1c.smise.agent.v1.NginxSiteRef\x1a\x18.smise.agent.v1.OpResult\x12J\n" +
-	"\x10DisableNginxSite\x12\x1c.smise.agent.v1.NginxSiteRef\x1a\x18.smise.agent.v1.OpResult\x12B\n" +
-	"\x0fTestNginxConfig\x12\x15.smise.agent.v1.Empty\x1a\x18.smise.agent.v1.OpResult\x12>\n" +
-	"\vReloadNginx\x12\x15.smise.agent.v1.Empty\x1a\x18.smise.agent.v1.OpResult\x12J\n" +
-	"\x11ObtainCertificate\x12\x1b.smise.agent.v1.CertRequest\x1a\x18.smise.agent.v1.OpResult\x12I\n" +
+	"UnitAction\x12%.deploypal.agent.v1.UnitActionRequest\x1a\x1c.deploypal.agent.v1.OpResult\x12Y\n" +
+	"\x0eWriteNginxSite\x12).deploypal.agent.v1.WriteNginxSiteRequest\x1a\x1c.deploypal.agent.v1.OpResult\x12Q\n" +
+	"\x0fEnableNginxSite\x12 .deploypal.agent.v1.NginxSiteRef\x1a\x1c.deploypal.agent.v1.OpResult\x12R\n" +
+	"\x10DisableNginxSite\x12 .deploypal.agent.v1.NginxSiteRef\x1a\x1c.deploypal.agent.v1.OpResult\x12J\n" +
+	"\x0fTestNginxConfig\x12\x19.deploypal.agent.v1.Empty\x1a\x1c.deploypal.agent.v1.OpResult\x12F\n" +
+	"\vReloadNginx\x12\x19.deploypal.agent.v1.Empty\x1a\x1c.deploypal.agent.v1.OpResult\x12R\n" +
+	"\x11ObtainCertificate\x12\x1f.deploypal.agent.v1.CertRequest\x1a\x1c.deploypal.agent.v1.OpResult\x12Q\n" +
 	"\n" +
-	"StreamLogs\x12 .smise.agent.v1.LogStreamRequest\x1a\x17.smise.agent.v1.LogLine0\x01\x12Z\n" +
-	"\x0fStreamResources\x12%.smise.agent.v1.ResourceStreamRequest\x1a\x1e.smise.agent.v1.ResourceSample0\x01\x12J\n" +
+	"StreamLogs\x12$.deploypal.agent.v1.LogStreamRequest\x1a\x1b.deploypal.agent.v1.LogLine0\x01\x12b\n" +
+	"\x0fStreamResources\x12).deploypal.agent.v1.ResourceStreamRequest\x1a\".deploypal.agent.v1.ResourceSample0\x01\x12R\n" +
 	"\n" +
-	"WatchPaths\x12!.smise.agent.v1.WatchPathsRequest\x1a\x17.smise.agent.v1.FsEvent0\x01B,Z*github.com/smise/agent/gen/agentv1;agentv1b\x06proto3"
+	"WatchPaths\x12%.deploypal.agent.v1.WatchPathsRequest\x1a\x1b.deploypal.agent.v1.FsEvent0\x01B0Z.github.com/deploypal/agent/gen/agentv1;agentv1b\x06proto3"
 
 var (
-	file_smise_agent_v1_agent_proto_rawDescOnce sync.Once
-	file_smise_agent_v1_agent_proto_rawDescData []byte
+	file_deploypal_agent_v1_agent_proto_rawDescOnce sync.Once
+	file_deploypal_agent_v1_agent_proto_rawDescData []byte
 )
 
-func file_smise_agent_v1_agent_proto_rawDescGZIP() []byte {
-	file_smise_agent_v1_agent_proto_rawDescOnce.Do(func() {
-		file_smise_agent_v1_agent_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_smise_agent_v1_agent_proto_rawDesc), len(file_smise_agent_v1_agent_proto_rawDesc)))
+func file_deploypal_agent_v1_agent_proto_rawDescGZIP() []byte {
+	file_deploypal_agent_v1_agent_proto_rawDescOnce.Do(func() {
+		file_deploypal_agent_v1_agent_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_deploypal_agent_v1_agent_proto_rawDesc), len(file_deploypal_agent_v1_agent_proto_rawDesc)))
 	})
-	return file_smise_agent_v1_agent_proto_rawDescData
+	return file_deploypal_agent_v1_agent_proto_rawDescData
 }
 
-var file_smise_agent_v1_agent_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
-var file_smise_agent_v1_agent_proto_goTypes = []any{
-	(*Empty)(nil),                 // 0: smise.agent.v1.Empty
-	(*OpResult)(nil),              // 1: smise.agent.v1.OpResult
-	(*SystemInfo)(nil),            // 2: smise.agent.v1.SystemInfo
-	(*ProcessInfo)(nil),           // 3: smise.agent.v1.ProcessInfo
-	(*ProcessList)(nil),           // 4: smise.agent.v1.ProcessList
-	(*PortInfo)(nil),              // 5: smise.agent.v1.PortInfo
-	(*PortList)(nil),              // 6: smise.agent.v1.PortList
-	(*NginxSite)(nil),             // 7: smise.agent.v1.NginxSite
-	(*NginxSiteList)(nil),         // 8: smise.agent.v1.NginxSiteList
-	(*ListUnitsRequest)(nil),      // 9: smise.agent.v1.ListUnitsRequest
-	(*UnitInfo)(nil),              // 10: smise.agent.v1.UnitInfo
-	(*UnitList)(nil),              // 11: smise.agent.v1.UnitList
-	(*ReadFileRequest)(nil),       // 12: smise.agent.v1.ReadFileRequest
-	(*FileContent)(nil),           // 13: smise.agent.v1.FileContent
-	(*ListDirRequest)(nil),        // 14: smise.agent.v1.ListDirRequest
-	(*DirEntry)(nil),              // 15: smise.agent.v1.DirEntry
-	(*DirListing)(nil),            // 16: smise.agent.v1.DirListing
-	(*FindFreePortRequest)(nil),   // 17: smise.agent.v1.FindFreePortRequest
-	(*FindFreePortResponse)(nil),  // 18: smise.agent.v1.FindFreePortResponse
-	(*UnitRef)(nil),               // 19: smise.agent.v1.UnitRef
-	(*InstallUnitRequest)(nil),    // 20: smise.agent.v1.InstallUnitRequest
-	(*UnitActionRequest)(nil),     // 21: smise.agent.v1.UnitActionRequest
-	(*NginxSiteRef)(nil),          // 22: smise.agent.v1.NginxSiteRef
-	(*WriteNginxSiteRequest)(nil), // 23: smise.agent.v1.WriteNginxSiteRequest
-	(*CertRequest)(nil),           // 24: smise.agent.v1.CertRequest
-	(*LogStreamRequest)(nil),      // 25: smise.agent.v1.LogStreamRequest
-	(*LogLine)(nil),               // 26: smise.agent.v1.LogLine
-	(*ResourceStreamRequest)(nil), // 27: smise.agent.v1.ResourceStreamRequest
-	(*ResourceSample)(nil),        // 28: smise.agent.v1.ResourceSample
-	(*WatchPathsRequest)(nil),     // 29: smise.agent.v1.WatchPathsRequest
-	(*FsEvent)(nil),               // 30: smise.agent.v1.FsEvent
+var file_deploypal_agent_v1_agent_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
+var file_deploypal_agent_v1_agent_proto_goTypes = []any{
+	(*Empty)(nil),                 // 0: deploypal.agent.v1.Empty
+	(*OpResult)(nil),              // 1: deploypal.agent.v1.OpResult
+	(*SystemInfo)(nil),            // 2: deploypal.agent.v1.SystemInfo
+	(*ProcessInfo)(nil),           // 3: deploypal.agent.v1.ProcessInfo
+	(*ProcessList)(nil),           // 4: deploypal.agent.v1.ProcessList
+	(*PortInfo)(nil),              // 5: deploypal.agent.v1.PortInfo
+	(*PortList)(nil),              // 6: deploypal.agent.v1.PortList
+	(*NginxSite)(nil),             // 7: deploypal.agent.v1.NginxSite
+	(*NginxSiteList)(nil),         // 8: deploypal.agent.v1.NginxSiteList
+	(*ListUnitsRequest)(nil),      // 9: deploypal.agent.v1.ListUnitsRequest
+	(*UnitInfo)(nil),              // 10: deploypal.agent.v1.UnitInfo
+	(*UnitList)(nil),              // 11: deploypal.agent.v1.UnitList
+	(*ReadFileRequest)(nil),       // 12: deploypal.agent.v1.ReadFileRequest
+	(*FileContent)(nil),           // 13: deploypal.agent.v1.FileContent
+	(*ListDirRequest)(nil),        // 14: deploypal.agent.v1.ListDirRequest
+	(*DirEntry)(nil),              // 15: deploypal.agent.v1.DirEntry
+	(*DirListing)(nil),            // 16: deploypal.agent.v1.DirListing
+	(*FindFreePortRequest)(nil),   // 17: deploypal.agent.v1.FindFreePortRequest
+	(*FindFreePortResponse)(nil),  // 18: deploypal.agent.v1.FindFreePortResponse
+	(*UnitRef)(nil),               // 19: deploypal.agent.v1.UnitRef
+	(*InstallUnitRequest)(nil),    // 20: deploypal.agent.v1.InstallUnitRequest
+	(*UnitActionRequest)(nil),     // 21: deploypal.agent.v1.UnitActionRequest
+	(*NginxSiteRef)(nil),          // 22: deploypal.agent.v1.NginxSiteRef
+	(*WriteNginxSiteRequest)(nil), // 23: deploypal.agent.v1.WriteNginxSiteRequest
+	(*CertRequest)(nil),           // 24: deploypal.agent.v1.CertRequest
+	(*LogStreamRequest)(nil),      // 25: deploypal.agent.v1.LogStreamRequest
+	(*LogLine)(nil),               // 26: deploypal.agent.v1.LogLine
+	(*ResourceStreamRequest)(nil), // 27: deploypal.agent.v1.ResourceStreamRequest
+	(*ResourceSample)(nil),        // 28: deploypal.agent.v1.ResourceSample
+	(*WatchPathsRequest)(nil),     // 29: deploypal.agent.v1.WatchPathsRequest
+	(*FsEvent)(nil),               // 30: deploypal.agent.v1.FsEvent
 }
-var file_smise_agent_v1_agent_proto_depIdxs = []int32{
-	3,  // 0: smise.agent.v1.ProcessList.processes:type_name -> smise.agent.v1.ProcessInfo
-	5,  // 1: smise.agent.v1.PortList.ports:type_name -> smise.agent.v1.PortInfo
-	7,  // 2: smise.agent.v1.NginxSiteList.sites:type_name -> smise.agent.v1.NginxSite
-	10, // 3: smise.agent.v1.UnitList.units:type_name -> smise.agent.v1.UnitInfo
-	15, // 4: smise.agent.v1.DirListing.entries:type_name -> smise.agent.v1.DirEntry
-	0,  // 5: smise.agent.v1.Agent.GetSystemInfo:input_type -> smise.agent.v1.Empty
-	0,  // 6: smise.agent.v1.Agent.ListProcesses:input_type -> smise.agent.v1.Empty
-	0,  // 7: smise.agent.v1.Agent.ListListeningPorts:input_type -> smise.agent.v1.Empty
-	0,  // 8: smise.agent.v1.Agent.ListNginxSites:input_type -> smise.agent.v1.Empty
-	9,  // 9: smise.agent.v1.Agent.ListUnits:input_type -> smise.agent.v1.ListUnitsRequest
-	12, // 10: smise.agent.v1.Agent.ReadFile:input_type -> smise.agent.v1.ReadFileRequest
-	14, // 11: smise.agent.v1.Agent.ListDir:input_type -> smise.agent.v1.ListDirRequest
-	17, // 12: smise.agent.v1.Agent.FindFreePort:input_type -> smise.agent.v1.FindFreePortRequest
-	20, // 13: smise.agent.v1.Agent.InstallUnit:input_type -> smise.agent.v1.InstallUnitRequest
-	19, // 14: smise.agent.v1.Agent.RemoveUnit:input_type -> smise.agent.v1.UnitRef
-	21, // 15: smise.agent.v1.Agent.UnitAction:input_type -> smise.agent.v1.UnitActionRequest
-	23, // 16: smise.agent.v1.Agent.WriteNginxSite:input_type -> smise.agent.v1.WriteNginxSiteRequest
-	22, // 17: smise.agent.v1.Agent.EnableNginxSite:input_type -> smise.agent.v1.NginxSiteRef
-	22, // 18: smise.agent.v1.Agent.DisableNginxSite:input_type -> smise.agent.v1.NginxSiteRef
-	0,  // 19: smise.agent.v1.Agent.TestNginxConfig:input_type -> smise.agent.v1.Empty
-	0,  // 20: smise.agent.v1.Agent.ReloadNginx:input_type -> smise.agent.v1.Empty
-	24, // 21: smise.agent.v1.Agent.ObtainCertificate:input_type -> smise.agent.v1.CertRequest
-	25, // 22: smise.agent.v1.Agent.StreamLogs:input_type -> smise.agent.v1.LogStreamRequest
-	27, // 23: smise.agent.v1.Agent.StreamResources:input_type -> smise.agent.v1.ResourceStreamRequest
-	29, // 24: smise.agent.v1.Agent.WatchPaths:input_type -> smise.agent.v1.WatchPathsRequest
-	2,  // 25: smise.agent.v1.Agent.GetSystemInfo:output_type -> smise.agent.v1.SystemInfo
-	4,  // 26: smise.agent.v1.Agent.ListProcesses:output_type -> smise.agent.v1.ProcessList
-	6,  // 27: smise.agent.v1.Agent.ListListeningPorts:output_type -> smise.agent.v1.PortList
-	8,  // 28: smise.agent.v1.Agent.ListNginxSites:output_type -> smise.agent.v1.NginxSiteList
-	11, // 29: smise.agent.v1.Agent.ListUnits:output_type -> smise.agent.v1.UnitList
-	13, // 30: smise.agent.v1.Agent.ReadFile:output_type -> smise.agent.v1.FileContent
-	16, // 31: smise.agent.v1.Agent.ListDir:output_type -> smise.agent.v1.DirListing
-	18, // 32: smise.agent.v1.Agent.FindFreePort:output_type -> smise.agent.v1.FindFreePortResponse
-	1,  // 33: smise.agent.v1.Agent.InstallUnit:output_type -> smise.agent.v1.OpResult
-	1,  // 34: smise.agent.v1.Agent.RemoveUnit:output_type -> smise.agent.v1.OpResult
-	1,  // 35: smise.agent.v1.Agent.UnitAction:output_type -> smise.agent.v1.OpResult
-	1,  // 36: smise.agent.v1.Agent.WriteNginxSite:output_type -> smise.agent.v1.OpResult
-	1,  // 37: smise.agent.v1.Agent.EnableNginxSite:output_type -> smise.agent.v1.OpResult
-	1,  // 38: smise.agent.v1.Agent.DisableNginxSite:output_type -> smise.agent.v1.OpResult
-	1,  // 39: smise.agent.v1.Agent.TestNginxConfig:output_type -> smise.agent.v1.OpResult
-	1,  // 40: smise.agent.v1.Agent.ReloadNginx:output_type -> smise.agent.v1.OpResult
-	1,  // 41: smise.agent.v1.Agent.ObtainCertificate:output_type -> smise.agent.v1.OpResult
-	26, // 42: smise.agent.v1.Agent.StreamLogs:output_type -> smise.agent.v1.LogLine
-	28, // 43: smise.agent.v1.Agent.StreamResources:output_type -> smise.agent.v1.ResourceSample
-	30, // 44: smise.agent.v1.Agent.WatchPaths:output_type -> smise.agent.v1.FsEvent
+var file_deploypal_agent_v1_agent_proto_depIdxs = []int32{
+	3,  // 0: deploypal.agent.v1.ProcessList.processes:type_name -> deploypal.agent.v1.ProcessInfo
+	5,  // 1: deploypal.agent.v1.PortList.ports:type_name -> deploypal.agent.v1.PortInfo
+	7,  // 2: deploypal.agent.v1.NginxSiteList.sites:type_name -> deploypal.agent.v1.NginxSite
+	10, // 3: deploypal.agent.v1.UnitList.units:type_name -> deploypal.agent.v1.UnitInfo
+	15, // 4: deploypal.agent.v1.DirListing.entries:type_name -> deploypal.agent.v1.DirEntry
+	0,  // 5: deploypal.agent.v1.Agent.GetSystemInfo:input_type -> deploypal.agent.v1.Empty
+	0,  // 6: deploypal.agent.v1.Agent.ListProcesses:input_type -> deploypal.agent.v1.Empty
+	0,  // 7: deploypal.agent.v1.Agent.ListListeningPorts:input_type -> deploypal.agent.v1.Empty
+	0,  // 8: deploypal.agent.v1.Agent.ListNginxSites:input_type -> deploypal.agent.v1.Empty
+	9,  // 9: deploypal.agent.v1.Agent.ListUnits:input_type -> deploypal.agent.v1.ListUnitsRequest
+	12, // 10: deploypal.agent.v1.Agent.ReadFile:input_type -> deploypal.agent.v1.ReadFileRequest
+	14, // 11: deploypal.agent.v1.Agent.ListDir:input_type -> deploypal.agent.v1.ListDirRequest
+	17, // 12: deploypal.agent.v1.Agent.FindFreePort:input_type -> deploypal.agent.v1.FindFreePortRequest
+	20, // 13: deploypal.agent.v1.Agent.InstallUnit:input_type -> deploypal.agent.v1.InstallUnitRequest
+	19, // 14: deploypal.agent.v1.Agent.RemoveUnit:input_type -> deploypal.agent.v1.UnitRef
+	21, // 15: deploypal.agent.v1.Agent.UnitAction:input_type -> deploypal.agent.v1.UnitActionRequest
+	23, // 16: deploypal.agent.v1.Agent.WriteNginxSite:input_type -> deploypal.agent.v1.WriteNginxSiteRequest
+	22, // 17: deploypal.agent.v1.Agent.EnableNginxSite:input_type -> deploypal.agent.v1.NginxSiteRef
+	22, // 18: deploypal.agent.v1.Agent.DisableNginxSite:input_type -> deploypal.agent.v1.NginxSiteRef
+	0,  // 19: deploypal.agent.v1.Agent.TestNginxConfig:input_type -> deploypal.agent.v1.Empty
+	0,  // 20: deploypal.agent.v1.Agent.ReloadNginx:input_type -> deploypal.agent.v1.Empty
+	24, // 21: deploypal.agent.v1.Agent.ObtainCertificate:input_type -> deploypal.agent.v1.CertRequest
+	25, // 22: deploypal.agent.v1.Agent.StreamLogs:input_type -> deploypal.agent.v1.LogStreamRequest
+	27, // 23: deploypal.agent.v1.Agent.StreamResources:input_type -> deploypal.agent.v1.ResourceStreamRequest
+	29, // 24: deploypal.agent.v1.Agent.WatchPaths:input_type -> deploypal.agent.v1.WatchPathsRequest
+	2,  // 25: deploypal.agent.v1.Agent.GetSystemInfo:output_type -> deploypal.agent.v1.SystemInfo
+	4,  // 26: deploypal.agent.v1.Agent.ListProcesses:output_type -> deploypal.agent.v1.ProcessList
+	6,  // 27: deploypal.agent.v1.Agent.ListListeningPorts:output_type -> deploypal.agent.v1.PortList
+	8,  // 28: deploypal.agent.v1.Agent.ListNginxSites:output_type -> deploypal.agent.v1.NginxSiteList
+	11, // 29: deploypal.agent.v1.Agent.ListUnits:output_type -> deploypal.agent.v1.UnitList
+	13, // 30: deploypal.agent.v1.Agent.ReadFile:output_type -> deploypal.agent.v1.FileContent
+	16, // 31: deploypal.agent.v1.Agent.ListDir:output_type -> deploypal.agent.v1.DirListing
+	18, // 32: deploypal.agent.v1.Agent.FindFreePort:output_type -> deploypal.agent.v1.FindFreePortResponse
+	1,  // 33: deploypal.agent.v1.Agent.InstallUnit:output_type -> deploypal.agent.v1.OpResult
+	1,  // 34: deploypal.agent.v1.Agent.RemoveUnit:output_type -> deploypal.agent.v1.OpResult
+	1,  // 35: deploypal.agent.v1.Agent.UnitAction:output_type -> deploypal.agent.v1.OpResult
+	1,  // 36: deploypal.agent.v1.Agent.WriteNginxSite:output_type -> deploypal.agent.v1.OpResult
+	1,  // 37: deploypal.agent.v1.Agent.EnableNginxSite:output_type -> deploypal.agent.v1.OpResult
+	1,  // 38: deploypal.agent.v1.Agent.DisableNginxSite:output_type -> deploypal.agent.v1.OpResult
+	1,  // 39: deploypal.agent.v1.Agent.TestNginxConfig:output_type -> deploypal.agent.v1.OpResult
+	1,  // 40: deploypal.agent.v1.Agent.ReloadNginx:output_type -> deploypal.agent.v1.OpResult
+	1,  // 41: deploypal.agent.v1.Agent.ObtainCertificate:output_type -> deploypal.agent.v1.OpResult
+	26, // 42: deploypal.agent.v1.Agent.StreamLogs:output_type -> deploypal.agent.v1.LogLine
+	28, // 43: deploypal.agent.v1.Agent.StreamResources:output_type -> deploypal.agent.v1.ResourceSample
+	30, // 44: deploypal.agent.v1.Agent.WatchPaths:output_type -> deploypal.agent.v1.FsEvent
 	25, // [25:45] is the sub-list for method output_type
 	5,  // [5:25] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
@@ -2114,26 +2114,26 @@ var file_smise_agent_v1_agent_proto_depIdxs = []int32{
 	0,  // [0:5] is the sub-list for field type_name
 }
 
-func init() { file_smise_agent_v1_agent_proto_init() }
-func file_smise_agent_v1_agent_proto_init() {
-	if File_smise_agent_v1_agent_proto != nil {
+func init() { file_deploypal_agent_v1_agent_proto_init() }
+func file_deploypal_agent_v1_agent_proto_init() {
+	if File_deploypal_agent_v1_agent_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_smise_agent_v1_agent_proto_rawDesc), len(file_smise_agent_v1_agent_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_deploypal_agent_v1_agent_proto_rawDesc), len(file_deploypal_agent_v1_agent_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   31,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_smise_agent_v1_agent_proto_goTypes,
-		DependencyIndexes: file_smise_agent_v1_agent_proto_depIdxs,
-		MessageInfos:      file_smise_agent_v1_agent_proto_msgTypes,
+		GoTypes:           file_deploypal_agent_v1_agent_proto_goTypes,
+		DependencyIndexes: file_deploypal_agent_v1_agent_proto_depIdxs,
+		MessageInfos:      file_deploypal_agent_v1_agent_proto_msgTypes,
 	}.Build()
-	File_smise_agent_v1_agent_proto = out.File
-	file_smise_agent_v1_agent_proto_goTypes = nil
-	file_smise_agent_v1_agent_proto_depIdxs = nil
+	File_deploypal_agent_v1_agent_proto = out.File
+	file_deploypal_agent_v1_agent_proto_goTypes = nil
+	file_deploypal_agent_v1_agent_proto_depIdxs = nil
 }

@@ -1,3 +1,5 @@
+import { useI18n } from "../i18n";
+
 const STYLES: Record<string, string> = {
   running: "bg-emerald-950 text-emerald-400",
   succeeded: "bg-emerald-950 text-emerald-400",
@@ -13,6 +15,7 @@ const STYLES: Record<string, string> = {
 };
 
 export function StatusBadge({ status }: { status: string | null }) {
+  const { t } = useI18n();
   const s = status ?? "unknown";
   return (
     <span
@@ -20,16 +23,17 @@ export function StatusBadge({ status }: { status: string | null }) {
         STYLES[s] ?? STYLES.unknown
       }`}
     >
-      {s}
+      {t(`status.${s}`)}
     </span>
   );
 }
 
 export function OriginChip({ origin }: { origin: string }) {
+  const { t } = useI18n();
   if (origin === "provisioned") return null;
   return (
     <span className="inline-block rounded border border-violet-800 px-1.5 py-0.5 text-[10px] text-violet-400">
-      {origin}
+      {t(`origin.${origin}`)}
     </span>
   );
 }

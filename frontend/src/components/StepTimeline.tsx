@@ -1,4 +1,5 @@
 // Vertical pipeline timeline for one deployment's step machine.
+import { useI18n } from "../i18n";
 import type { DeploymentStep } from "../types";
 
 function duration(step: DeploymentStep): string {
@@ -14,8 +15,9 @@ const ICON: Record<DeploymentStep["status"], { glyph: string; cls: string }> = {
 };
 
 export function StepTimeline({ steps }: { steps: DeploymentStep[] }) {
+  const { t } = useI18n();
   if (steps.length === 0) {
-    return <p className="text-sm text-zinc-500">queued — no steps recorded yet</p>;
+    return <p className="text-sm text-zinc-500">{t("deployment.queued")}</p>;
   }
   return (
     <ol className="space-y-1">
@@ -28,11 +30,12 @@ export function StepTimeline({ steps }: { steps: DeploymentStep[] }) {
                 <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] ${icon.cls}`}>
                   {icon.glyph}
                 </span>
-                <span className="text-sm text-zinc-200">{step.name}</span>
-                <span className="ml-auto text-xs tabular-nums text-zinc-500">{duration(step)}</span>
+                {/* step names are pipeline identifiers (clone/build/…), kept untranslated */}
+                <span className="text-sm text-zinc-200" dir="ltr">{step.name}</span>
+                <span className="ms-auto text-xs tabular-nums text-zinc-500" dir="ltr">{duration(step)}</span>
               </summary>
               {step.log && (
-                <pre className="ml-8 mt-1 max-h-64 overflow-auto rounded bg-zinc-950 p-3 text-[11px] leading-relaxed text-zinc-400">
+                <pre dir="ltr" className="ms-8 mt-1 max-h-64 overflow-auto rounded bg-zinc-950 p-3 text-start text-[11px] leading-relaxed text-zinc-400">
                   {step.log}
                 </pre>
               )}

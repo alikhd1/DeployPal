@@ -2,6 +2,7 @@
 // Lightweight on purpose (no graph library) — the layout is inherently
 // columnar, so fixed columns + bezier edges read better than force layouts.
 import { useNavigate } from "react-router-dom";
+import { useI18n } from "../i18n";
 import type { TopologyGraphData, TopologyNode } from "../types";
 
 const COL_X: Record<TopologyNode["type"], number> = { domain: 20, project: 360, dependency: 700 };
@@ -17,11 +18,12 @@ const FILL: Record<string, string> = {
 
 export function TopologyGraph({ graph }: { graph: TopologyGraphData }) {
   const navigate = useNavigate();
+  const { t } = useI18n();
 
   if (graph.nodes.length === 0) {
     return (
       <div className="flex h-40 items-center justify-center rounded-lg border border-dashed border-zinc-800 text-sm text-zinc-500">
-        Nothing discovered yet — deploy an app or run a discovery sweep.
+        {t("topo.empty")}
       </div>
     );
   }
@@ -37,6 +39,9 @@ export function TopologyGraph({ graph }: { graph: TopologyGraphData }) {
   const height = 40 + Math.max(...Object.values(counts), 0) * (NODE_H + GAP);
 
   return (
+    // The graph reads left-to-right (edge → app → backing service) in both
+    // locales; domain names and unit names are Latin-script anyway.
+    <div dir="ltr">
     <svg viewBox={`0 0 920 ${height}`} className="w-full" style={{ maxHeight: 420 }}>
       {graph.edges.map((edge, i) => {
         const a = pos.get(edge.source);
@@ -83,5 +88,6 @@ export function TopologyGraph({ graph }: { graph: TopologyGraphData }) {
         );
       })}
     </svg>
+    </div>
   );
 }

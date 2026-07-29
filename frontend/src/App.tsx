@@ -2,17 +2,18 @@ import { NavLink, Route, Routes } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getSystem } from "./api";
 import { useEventBus } from "./hooks/useEvents";
+import { useI18n, type Locale, type MsgKey } from "./i18n";
 import { DashboardPage } from "./pages/DashboardPage";
 import { RegistryPage } from "./pages/RegistryPage";
 import { ProjectPage } from "./pages/ProjectPage";
 import { DeployWizard } from "./pages/DeployWizard";
 import { DependencyPage } from "./pages/DependencyPage";
 
-const NAV = [
-  { to: "/", label: "Dashboard", exact: true },
-  { to: "/projects", label: "Projects" },
-  { to: "/deploy", label: "New deployment" },
-  { to: "/dependencies", label: "Dependencies" },
+const NAV: { to: string; key: MsgKey; exact?: boolean }[] = [
+  { to: "/", key: "nav.dashboard", exact: true },
+  { to: "/projects", key: "nav.projects" },
+  { to: "/deploy", key: "nav.deploy" },
+  { to: "/dependencies", key: "nav.dependencies" },
 ];
 
 function fmtBytes(n: number): string {
@@ -23,41 +24,63 @@ function fmtBytes(n: number): string {
 
 function HostStrip() {
   const { status } = useEventBus();
+  const { t } = useI18n();
   const system = useQuery({ queryKey: ["system"], queryFn: getSystem, retry: false, refetchInterval: 30_000 });
 
   return (
-    <div className="flex items-center gap-4 border-b border-zinc-800 bg-zinc-925 px-6 py-2 text-xs text-zinc-400">
+    <div className="flex items-center gap-4 border-b border-zinc-800 px-6 py-2 text-xs text-zinc-400">
       {system.data ? (
         <>
-          <span className="font-medium text-zinc-200">{system.data.hostname}</span>
-          <span>{system.data.distro}</span>
-          <span>load {system.data.load1.toFixed(2)}</span>
-          <span>{system.data.cpu_count} cpu</span>
-          <span>{fmtBytes(system.data.mem_total)} ram</span>
-          <span>{fmtBytes(system.data.disk_free)} free</span>
+          <span className="font-medium text-zinc-200" dir="ltr">{system.data.hostname}</span>
+          <span dir="ltr">{system.data.distro}</span>
+          <span>{t("host.load", { v: system.data.load1.toFixed(2) })}</span>
+          <span>{t("host.cpu", { n: system.data.cpu_count })}</span>
+          <span>{t("host.ram", { v: fmtBytes(system.data.mem_total) })}</span>
+          <span>{t("host.free", { v: fmtBytes(system.data.disk_free) })}</span>
         </>
       ) : (
         <span className="rounded bg-amber-950 px-2 py-0.5 text-amber-400">
-          agent offline — discovery and provisioning unavailable
+          {t("shell.agentOffline")}
         </span>
       )}
-      <span className="ml-auto flex items-center gap-1.5">
+      <span className="ms-auto flex items-center gap-1.5">
         <span
           className={`h-2 w-2 rounded-full ${
             status === "live" ? "bg-emerald-500" : status === "offline" ? "bg-red-500" : "bg-zinc-600"
           }`}
         />
-        events {status}
+        {t(status === "live" ? "events.live" : status === "offline" ? "events.offline" : "events.connecting")}
       </span>
     </div>
   );
 }
 
+function LanguageSwitch() {
+  const { locale, setLocale } = useI18n();
+  const opt = (value: Locale, label: string) => (
+    <button
+      onClick={() => setLocale(value)}
+      className={`rounded px-2 py-0.5 ${
+        locale === value ? "bg-zinc-700 text-zinc-100" : "text-zinc-500 hover:text-zinc-300"
+      }`}
+    >
+      {label}
+    </button>
+  );
+  return (
+    <div className="flex gap-1 text-xs">
+      {opt("en", "EN")}
+      {opt("fa", "فارسی")}
+    </div>
+  );
+}
+
 export default function App() {
+  const { t } = useI18n();
   return (
     <div className="flex h-screen">
-      <aside className="flex w-52 shrink-0 flex-col border-r border-zinc-800 bg-zinc-900/50">
-        <div className="px-5 py-4 text-lg font-semibold tracking-tight text-zinc-100">
+      <aside className="flex w-52 shrink-0 flex-col border-e border-zinc-800 bg-zinc-900/50">
+        <div className="px-5 py-4 text-lg font-semibold tracking-tight text-zinc-100" dir="ltr">
           Deploy<span className="text-emerald-400">Pal</span>
         </div>
         <nav className="flex flex-col gap-1 px-3">
@@ -74,12 +97,13 @@ export default function App() {
                 }`
               }
             >
-              {item.label}
+              {t(item.key)}
             </NavLink>
           ))}
         </nav>
-        <div className="mt-auto px-5 py-3 text-[10px] text-zinc-600">
-          smise-navi · self-hosted control plane
+        <div className="mt-auto space-y-2 px-5 py-3">
+          <LanguageSwitch />
+          <div className="text-[10px] text-zinc-600">{t("shell.tagline")}</div>
         </div>
       </aside>
 

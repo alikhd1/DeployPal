@@ -4,6 +4,12 @@ body {
   @apply bg-zinc-950 text-zinc-200 antialiased;
 }
 
+/* Persian: prefer Vazirmatn when installed, fall back to system fonts that
+   ship Arabic-script glyphs (Segoe UI on Windows, system-ui elsewhere). */
+html[lang="fa"] body {
+  font-family: "Vazirmatn", "Segoe UI", system-ui, sans-serif;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

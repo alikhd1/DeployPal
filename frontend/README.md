@@ -62,6 +62,17 @@ proxies `/api` (incl. WebSockets) to an orchestrator on `127.0.0.1:8443`.
   subscribe to topics (`topology.updated` → invalidate) instead of polling.
 * Log streaming uses a dedicated WS per open LogViewer (see `useLogStream`).
 
+## i18n & RTL
+
+Two locales — English and Persian (فارسی) — via a dependency-free context in
+`src/i18n/` (~60 lines + two flat dictionaries; the `fa` dict is typed against
+`en`'s keys, so a missing translation is a compile error). The switcher in the
+sidebar persists to localStorage and sets `<html lang dir>`; layout mirroring
+is done with Tailwind logical utilities (`ms-*`, `border-e`, `text-start`),
+so RTL needs no separate stylesheet. Technical content — logs, commands,
+domains, unit names, the topology graph — is pinned `dir="ltr"` inside the
+RTL page, and timestamps format through `fa-IR` (Persian digits) when active.
+
 ## Key implementation files
 
 * `src/hooks/useEvents.tsx` — the shared `/api/events` WebSocket: one

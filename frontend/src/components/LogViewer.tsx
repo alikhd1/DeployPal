@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useLogStream, LogFrame } from "../hooks/useLogStream";
+import { useI18n } from "../i18n";
 
 const LEVEL_STYLE: Record<LogFrame["level"], string> = {
   error: "text-red-400",
@@ -12,6 +13,7 @@ const LEVEL_STYLE: Record<LogFrame["level"], string> = {
 };
 
 export function LogViewer({ projectId }: { projectId: number }) {
+  const { t } = useI18n();
   const { lines, status, clear } = useLogStream(projectId);
   const [levels, setLevels] = useState<Set<string>>(new Set(["error", "warn", "info", "debug"]));
   const [follow, setFollow] = useState(true);
@@ -39,7 +41,9 @@ export function LogViewer({ projectId }: { projectId: number }) {
   };
 
   return (
-    <div className="flex h-full flex-col rounded-lg border border-zinc-800 bg-zinc-950">
+    // Log output is inherently LTR (timestamps, paths, stack traces) — the
+    // whole viewer stays LTR even when the surrounding UI is RTL.
+    <div dir="ltr" className="flex h-full flex-col rounded-lg border border-zinc-800 bg-zinc-950 text-start">
       <div className="flex items-center gap-2 border-b border-zinc-800 px-3 py-2">
         {(["error", "warn", "info", "debug"] as const).map((lvl) => (
           <button
@@ -58,9 +62,9 @@ export function LogViewer({ projectId }: { projectId: number }) {
             {lvl}
           </button>
         ))}
-        <span className="ml-auto text-xs text-zinc-500">{status}</span>
+        <span className="ml-auto text-xs text-zinc-500">{t(`lv.${status}`)}</span>
         <button onClick={clear} className="text-xs text-zinc-500 hover:text-zinc-300">
-          clear
+          {t("lv.clear")}
         </button>
       </div>
 
@@ -94,7 +98,7 @@ export function LogViewer({ projectId }: { projectId: number }) {
           onClick={() => setFollow(true)}
           className="absolute bottom-4 right-6 rounded-full bg-zinc-700 px-3 py-1 text-xs shadow"
         >
-          ↓ following paused — jump to tail
+          {t("lv.jump")}
         </button>
       )}
     </div>

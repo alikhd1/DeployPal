@@ -1,13 +1,17 @@
 @import "tailwindcss";
+/* Vazirmatn FD: Persian typeface with Farsi digit glyphs (۰–۹ for 0–9).
+   Vite rewrites the relative woff2 URLs into hashed assets; the browser only
+   fetches the weights actually used. */
+@import "vazirmatn/misc/Farsi-Digits/Vazirmatn-FD-font-face.css";
 
 body {
   @apply bg-zinc-950 text-zinc-200 antialiased;
 }
 
-/* Persian: prefer Vazirmatn when installed, fall back to system fonts that
-   ship Arabic-script glyphs (Segoe UI on Windows, system-ui elsewhere). */
+/* Persian UI uses the bundled Vazirmatn FD (Farsi digits). Monospace areas
+   (logs, commands) keep their own font stack and therefore Latin digits. */
 html[lang="fa"] body {
-  font-family: "Vazirmatn", "Segoe UI", system-ui, sans-serif;
+  font-family: "Vazirmatn FD", "Segoe UI", system-ui, sans-serif;
 }
 
 ::-webkit-scrollbar {

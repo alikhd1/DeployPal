@@ -29,6 +29,23 @@ frontend/                   ← React dashboard blueprint (component tree + key 
 scripts/gen-protos.{sh,ps1} ← regenerate both languages' stubs from the .proto
 ```
 
+## Install (Ubuntu 22.04 / 24.04)
+
+As root on the target server:
+
+```bash
+git clone https://github.com/alikhd1/DeployPal.git && cd DeployPal
+./scripts/setup-ubuntu.sh --email you@example.com
+```
+
+The script installs dependencies (nginx, certbot, Go, Node), builds the agent
+and dashboard, creates the `deploypal` service user, installs the two hardened
+systemd units (`deploypal-agent` as the only root process, `deploypal` as the
+unprivileged API), and health-checks the result. Re-running it upgrades in
+place. The dashboard binds to `127.0.0.1:8443` — reach it via
+`ssh -L 8443:127.0.0.1:8443 root@server` or publish it behind its own nginx
+vhost like any app it manages.
+
 ## Design principles
 
 1. **Agent = mechanism, orchestrator = policy.** The agent exposes only narrow,

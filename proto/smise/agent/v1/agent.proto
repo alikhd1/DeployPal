@@ -1,0 +1,187 @@
+// Contract between the Python orchestrator (client) and smise-agent (server).
+// Transport: gRPC over unix:///run/smise-navi/agent.sock
+//
+// Design rule: every RPC is a *narrow, typed* operation. There is no generic
+// command execution. Mutating RPCs validate inputs against allow-lists
+// (unit-name pattern, path prefixes, domain syntax) before acting.
+
+syntax = "proto3";
+
+package smise.agent.v1;
+
+option go_package = "github.com/smise/agent/gen/agentv1;agentv1";
+
+service Agent {
+  // ---- discovery (read-only) ----
+  rpc GetSystemInfo(Empty) returns (SystemInfo);
+  rpc ListProcesses(Empty) returns (ProcessList);
+  rpc ListListeningPorts(Empty) returns (PortList);
+  rpc ListNginxSites(Empty) returns (NginxSiteList);
+  rpc ListUnits(ListUnitsRequest) returns (UnitList);
+  rpc ReadFile(ReadFileRequest) returns (FileContent);       // allow-listed roots only
+  rpc ListDir(ListDirRequest) returns (DirListing);          // allow-listed roots only
+
+  // ---- port allocation ----
+  rpc FindFreePort(FindFreePortRequest) returns (FindFreePortResponse);
+
+  // ---- provisioning (mutating, validated) ----
+  rpc InstallUnit(InstallUnitRequest) returns (OpResult);     // write + daemon-reload + enable
+  rpc RemoveUnit(UnitRef) returns (OpResult);
+  rpc UnitAction(UnitActionRequest) returns (OpResult);       // start|stop|restart, waits for job
+  rpc WriteNginxSite(WriteNginxSiteRequest) returns (OpResult);
+  rpc EnableNginxSite(NginxSiteRef) returns (OpResult);       // symlink into sites-enabled
+  rpc DisableNginxSite(NginxSiteRef) returns (OpResult);
+  rpc TestNginxConfig(Empty) returns (OpResult);              // nginx -t
+  rpc ReloadNginx(Empty) returns (OpResult);
+  rpc ObtainCertificate(CertRequest) returns (OpResult);      // certbot, fixed arg template
+
+  // ---- streaming ----
+  rpc StreamLogs(LogStreamRequest) returns (stream LogLine);
+  rpc StreamResources(ResourceStreamRequest) returns (stream ResourceSample);
+  rpc WatchPaths(WatchPathsRequest) returns (stream FsEvent); // inotify on nginx dirs etc.
+}
+
+message Empty {}
+
+message OpResult {
+  bool   ok      = 1;
+  string message = 2;   // stderr/summary on failure, e.g. output of `nginx -t`
+}
+
+// ---------- discovery ----------
+
+message SystemInfo {
+  string hostname       = 1;
+  string kernel         = 2;
+  string distro         = 3;
+  uint64 mem_total      = 4;
+  uint32 cpu_count      = 5;
+  double load1          = 6;
+  uint64 disk_total     = 7;   // for /
+  uint64 disk_free      = 8;
+  string agent_version  = 9;
+}
+
+message ProcessInfo {
+  int32  pid      = 1;
+  int32  ppid     = 2;
+  uint32 uid      = 3;
+  string comm     = 4;   // /proc/pid/comm
+  string cmdline  = 5;
+  string cwd      = 6;   // "" if unreadable
+  string exe      = 7;
+  string unit     = 8;   // owning systemd unit from /proc/pid/cgroup, "" if none
+  uint64 rss      = 9;
+  double cpu_pct  = 10;  // since previous scan
+}
+message ProcessList { repeated ProcessInfo processes = 1; }
+
+message PortInfo {
+  uint32 port    = 1;
+  string proto   = 2;    // tcp | tcp6 | udp
+  string address = 3;    // bind address
+  int32  pid     = 4;    // -1 if the owner couldn't be resolved
+  string process = 5;    // comm of owner
+  string unit    = 6;
+}
+message PortList { repeated PortInfo ports = 1; }
+
+message NginxSite {
+  string path     = 1;   // sites-available path
+  bool   enabled  = 2;   // symlinked in sites-enabled
+  bool   managed  = 3;   // carries the "# managed-by: smise-navi" header
+  string content  = 4;   // raw config — orchestrator parses
+  int64  mtime    = 5;
+}
+message NginxSiteList { repeated NginxSite sites = 1; }
+
+message ListUnitsRequest { string pattern = 1; }   // glob, e.g. "*.service"
+message UnitInfo {
+  string name          = 1;
+  string description   = 2;
+  string load_state    = 3;
+  string active_state  = 4;   // active|inactive|failed|activating
+  string sub_state     = 5;
+  int32  main_pid      = 6;
+  string fragment_path = 7;
+  bool   enabled       = 8;
+}
+message UnitList { repeated UnitInfo units = 1; }
+
+message ReadFileRequest { string path = 1; uint32 max_bytes = 2; }
+message FileContent { bytes content = 1; bool truncated = 2; }
+message ListDirRequest { string path = 1; }
+message DirEntry { string name = 1; bool is_dir = 2; int64 size = 3; }
+message DirListing { repeated DirEntry entries = 1; }
+
+// ---------- port allocation ----------
+
+message FindFreePortRequest {
+  uint32 range_start      = 1;   // default 3000
+  uint32 range_end        = 2;   // default 3999
+  repeated uint32 exclude = 3;   // DB-reserved ports the orchestrator passes in
+}
+message FindFreePortResponse { uint32 port = 1; }
+
+// ---------- provisioning ----------
+
+message UnitRef { string name = 1; }               // must match smise-app-[a-z0-9-]+.service
+
+message InstallUnitRequest {
+  string name         = 1;
+  string content      = 2;                          // rendered unit file
+  bool   enable       = 3;
+  bool   start_now    = 4;
+}
+
+message UnitActionRequest {
+  string name   = 1;                                // managed apps OR allow-listed deps
+  string action = 2;                                // start | stop | restart
+}
+
+message NginxSiteRef { string filename = 1; }       // basename only, no path separators
+message WriteNginxSiteRequest {
+  string filename = 1;
+  string content  = 2;                              // must carry the managed-by header
+}
+
+message CertRequest {
+  repeated string domains = 1;                      // RFC-1123 validated
+  string contact_email    = 2;
+}
+
+// ---------- streaming ----------
+
+message LogStreamRequest {
+  string unit        = 1;    // journald _SYSTEMD_UNIT filter
+  uint32 tail_lines  = 2;    // backfill before following (0 = none)
+  bool   follow      = 3;
+  string cursor      = 4;    // resume after reconnect ("" = from tail)
+}
+
+message LogLine {
+  int64  ts_micros = 1;      // __REALTIME_TIMESTAMP
+  int32  priority  = 2;      // syslog 0-7, -1 if absent
+  string message   = 3;
+  string cursor    = 4;      // journald cursor for resumption
+}
+
+message ResourceStreamRequest {
+  repeated string units    = 1;   // cgroups to sample
+  uint32 interval_seconds  = 2;   // default 5
+}
+
+message ResourceSample {
+  string unit       = 1;
+  int64  ts         = 2;
+  double cpu_pct    = 3;     // cgroup cpu.stat delta / interval
+  uint64 mem_bytes  = 4;     // memory.current
+  uint64 disk_bytes = 5;     // du of the unit's WorkingDirectory (sampled less often)
+}
+
+message WatchPathsRequest { repeated string paths = 1; }
+message FsEvent {
+  string path = 1;
+  string op   = 2;           // create | write | remove | rename
+  int64  ts   = 3;
+}

@@ -1,0 +1,23 @@
+[project]
+name = "smise-navi"
+version = "0.1.0"
+description = "DeployPal orchestrator: registry, provisioning pipeline, and JSON/WS API"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.30",
+    "grpcio>=1.62",
+    "protobuf>=4.25",
+    "aiosqlite>=0.20",
+    "jinja2>=3.1",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+    "grpcio-tools>=1.62",   # proto stub regeneration (scripts/gen-protos.*)
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+]
+
+# Run from this directory:  uvicorn app.main:app --host 127.0.0.1 --port 8443

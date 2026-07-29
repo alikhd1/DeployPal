@@ -1,0 +1,26 @@
+# managed-by: smise-navi — do not edit; changes are overwritten on redeploy
+[Unit]
+Description=smise app: {{ alias }}
+After=network.target
+
+[Service]
+Type=simple
+User=smise
+WorkingDirectory={{ root }}
+{% if env_file %}EnvironmentFile={{ env_file }}
+{% endif -%}
+Environment=PORT={{ port }}
+Environment=NODE_ENV=production
+ExecStart={{ start_command }}
+Restart=on-failure
+RestartSec=3
+
+# Hardening — apps get their own tree and nothing else writable
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths={{ root }}
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

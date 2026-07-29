@@ -1,0 +1,4 @@
+# This repo deploys to Linux — keep LF everywhere so scripts, unit files,
+# and generated code work when cloned on the target host.
+* text=auto eol=lf
+*.ps1 text eol=crlf

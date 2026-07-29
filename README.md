@@ -1,0 +1,46 @@
+# DeployPal (`smise-navi`)
+
+A self-hosted, single-node infrastructure controller: it **discovers** what is already
+running on a Linux server (Nginx vhosts, ports, processes, databases), **provisions**
+new applications end-to-end (git clone → build → systemd → Nginx → TLS), and
+**operates** them (start/stop/restart, live logs, resource monitoring) from a React
+dashboard.
+
+## Components
+
+| Component | Tech | Privilege | Role |
+|---|---|---|---|
+| `smise-navi` orchestrator | Python 3.12 / FastAPI | unprivileged user `smise` | Business logic, registry (SQLite), provisioning pipeline, JSON/WS API |
+| `smise-agent` | **Go** | root (hardened systemd unit) | Narrow, typed system API: /proc, ports, journald, Nginx files, systemd, certbot |
+| Frontend | React 18 + TypeScript + Vite | — | Dashboard SPA, served as static files by the orchestrator (or Nginx) |
+| State | SQLite (WAL) | owned by `smise` | `/var/lib/smise-navi/state.db` |
+| IPC | gRPC over Unix Domain Socket | `0660 root:smise` | `/run/smise-navi/agent.sock` |
+
+## Repository layout
+
+```
+docs/ARCHITECTURE.md        ← full architecture & data flows (start here)
+db/schema.sql               ← SQLite schema
+proto/smise/agent/v1/       ← gRPC contract between orchestrator and agent
+agent/                      ← Go agent (cmd/ + internal/ + gen/ stubs; builds with
+                              GOOS=linux CGO_ENABLED=0 → single static binary)
+orchestrator/               ← FastAPI orchestrator (app/ + templates/ + gen/ stubs)
+frontend/                   ← React dashboard blueprint (component tree + key components)
+scripts/gen-protos.{sh,ps1} ← regenerate both languages' stubs from the .proto
+```
+
+## Design principles
+
+1. **Agent = mechanism, orchestrator = policy.** The agent exposes only narrow,
+   typed operations (`InstallUnit`, `WriteNginxSite`, `StreamLogs`, …). It never
+   executes arbitrary commands. All parsing, decision-making, and state live in
+   Python.
+2. **Exactly one privileged process.** Only the agent runs as root. The
+   orchestrator, builds, and app processes run unprivileged. The UDS is the sole
+   privilege boundary and is protected by file permissions **and** an
+   `SO_PEERCRED` UID check.
+3. **Everything is a recorded pipeline.** Provisioning and deployments run as
+   resumable step machines persisted in `deployment_history` — every step, its
+   output, and its rollback action are auditable.
+4. **Discovery is read-only and idempotent.** Sweeps upsert into the registry and
+   never mutate the system.

@@ -1,0 +1,14 @@
+# build artifacts
+agent/build/
+frontend/dist/
+__pycache__/
+*.pyc
+
+# local state
+*.db
+.venv/
+node_modules/
+.claude/settings.local.json
+
+# note: generated stubs (orchestrator/gen/, agent/gen/) are committed on
+# purpose — the contract is versioned with the code; regenerate via scripts/

@@ -43,6 +43,9 @@ const (
 	Agent_TestNginxConfig_FullMethodName    = "/deploypal.agent.v1.Agent/TestNginxConfig"
 	Agent_ReloadNginx_FullMethodName        = "/deploypal.agent.v1.Agent/ReloadNginx"
 	Agent_ObtainCertificate_FullMethodName  = "/deploypal.agent.v1.Agent/ObtainCertificate"
+	Agent_ListServiceRecipes_FullMethodName = "/deploypal.agent.v1.Agent/ListServiceRecipes"
+	Agent_InstallService_FullMethodName     = "/deploypal.agent.v1.Agent/InstallService"
+	Agent_RemoveService_FullMethodName      = "/deploypal.agent.v1.Agent/RemoveService"
 	Agent_StreamLogs_FullMethodName         = "/deploypal.agent.v1.Agent/StreamLogs"
 	Agent_StreamResources_FullMethodName    = "/deploypal.agent.v1.Agent/StreamResources"
 	Agent_WatchPaths_FullMethodName         = "/deploypal.agent.v1.Agent/WatchPaths"
@@ -72,6 +75,14 @@ type AgentClient interface {
 	TestNginxConfig(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*OpResult, error)
 	ReloadNginx(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*OpResult, error)
 	ObtainCertificate(ctx context.Context, in *CertRequest, opts ...grpc.CallOption) (*OpResult, error)
+	// ---- service catalog (recipe-driven package installs) ----
+	// The agent owns the catalog: recipes are embedded in the binary (upgraded
+	// with the agent) plus a root-owned overlay dir /etc/deploypal/recipes/,
+	// re-read on every call. The orchestrator never caches recipes — it can only
+	// request installs by recipe id with typed params; argv is built agent-side.
+	ListServiceRecipes(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*RecipeList, error)
+	InstallService(ctx context.Context, in *InstallServiceRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[InstallProgress], error)
+	RemoveService(ctx context.Context, in *RemoveServiceRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[InstallProgress], error)
 	// ---- streaming ----
 	StreamLogs(ctx context.Context, in *LogStreamRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LogLine], error)
 	StreamResources(ctx context.Context, in *ResourceStreamRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ResourceSample], error)
@@ -256,9 +267,57 @@ func (c *agentClient) ObtainCertificate(ctx context.Context, in *CertRequest, op
 	return out, nil
 }
 
+func (c *agentClient) ListServiceRecipes(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*RecipeList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RecipeList)
+	err := c.cc.Invoke(ctx, Agent_ListServiceRecipes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentClient) InstallService(ctx context.Context, in *InstallServiceRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[InstallProgress], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &Agent_ServiceDesc.Streams[0], Agent_InstallService_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[InstallServiceRequest, InstallProgress]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Agent_InstallServiceClient = grpc.ServerStreamingClient[InstallProgress]
+
+func (c *agentClient) RemoveService(ctx context.Context, in *RemoveServiceRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[InstallProgress], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &Agent_ServiceDesc.Streams[1], Agent_RemoveService_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[RemoveServiceRequest, InstallProgress]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Agent_RemoveServiceClient = grpc.ServerStreamingClient[InstallProgress]
+
 func (c *agentClient) StreamLogs(ctx context.Context, in *LogStreamRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LogLine], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &Agent_ServiceDesc.Streams[0], Agent_StreamLogs_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Agent_ServiceDesc.Streams[2], Agent_StreamLogs_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -277,7 +336,7 @@ type Agent_StreamLogsClient = grpc.ServerStreamingClient[LogLine]
 
 func (c *agentClient) StreamResources(ctx context.Context, in *ResourceStreamRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ResourceSample], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &Agent_ServiceDesc.Streams[1], Agent_StreamResources_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Agent_ServiceDesc.Streams[3], Agent_StreamResources_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -296,7 +355,7 @@ type Agent_StreamResourcesClient = grpc.ServerStreamingClient[ResourceSample]
 
 func (c *agentClient) WatchPaths(ctx context.Context, in *WatchPathsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[FsEvent], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &Agent_ServiceDesc.Streams[2], Agent_WatchPaths_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Agent_ServiceDesc.Streams[4], Agent_WatchPaths_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -337,6 +396,14 @@ type AgentServer interface {
 	TestNginxConfig(context.Context, *Empty) (*OpResult, error)
 	ReloadNginx(context.Context, *Empty) (*OpResult, error)
 	ObtainCertificate(context.Context, *CertRequest) (*OpResult, error)
+	// ---- service catalog (recipe-driven package installs) ----
+	// The agent owns the catalog: recipes are embedded in the binary (upgraded
+	// with the agent) plus a root-owned overlay dir /etc/deploypal/recipes/,
+	// re-read on every call. The orchestrator never caches recipes — it can only
+	// request installs by recipe id with typed params; argv is built agent-side.
+	ListServiceRecipes(context.Context, *Empty) (*RecipeList, error)
+	InstallService(*InstallServiceRequest, grpc.ServerStreamingServer[InstallProgress]) error
+	RemoveService(*RemoveServiceRequest, grpc.ServerStreamingServer[InstallProgress]) error
 	// ---- streaming ----
 	StreamLogs(*LogStreamRequest, grpc.ServerStreamingServer[LogLine]) error
 	StreamResources(*ResourceStreamRequest, grpc.ServerStreamingServer[ResourceSample]) error
@@ -401,6 +468,15 @@ func (UnimplementedAgentServer) ReloadNginx(context.Context, *Empty) (*OpResult,
 }
 func (UnimplementedAgentServer) ObtainCertificate(context.Context, *CertRequest) (*OpResult, error) {
 	return nil, status.Error(codes.Unimplemented, "method ObtainCertificate not implemented")
+}
+func (UnimplementedAgentServer) ListServiceRecipes(context.Context, *Empty) (*RecipeList, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListServiceRecipes not implemented")
+}
+func (UnimplementedAgentServer) InstallService(*InstallServiceRequest, grpc.ServerStreamingServer[InstallProgress]) error {
+	return status.Error(codes.Unimplemented, "method InstallService not implemented")
+}
+func (UnimplementedAgentServer) RemoveService(*RemoveServiceRequest, grpc.ServerStreamingServer[InstallProgress]) error {
+	return status.Error(codes.Unimplemented, "method RemoveService not implemented")
 }
 func (UnimplementedAgentServer) StreamLogs(*LogStreamRequest, grpc.ServerStreamingServer[LogLine]) error {
 	return status.Error(codes.Unimplemented, "method StreamLogs not implemented")
@@ -738,6 +814,46 @@ func _Agent_ObtainCertificate_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Agent_ListServiceRecipes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServer).ListServiceRecipes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Agent_ListServiceRecipes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServer).ListServiceRecipes(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Agent_InstallService_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(InstallServiceRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(AgentServer).InstallService(m, &grpc.GenericServerStream[InstallServiceRequest, InstallProgress]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Agent_InstallServiceServer = grpc.ServerStreamingServer[InstallProgress]
+
+func _Agent_RemoveService_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(RemoveServiceRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(AgentServer).RemoveService(m, &grpc.GenericServerStream[RemoveServiceRequest, InstallProgress]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Agent_RemoveServiceServer = grpc.ServerStreamingServer[InstallProgress]
+
 func _Agent_StreamLogs_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(LogStreamRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -846,8 +962,22 @@ var Agent_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "ObtainCertificate",
 			Handler:    _Agent_ObtainCertificate_Handler,
 		},
+		{
+			MethodName: "ListServiceRecipes",
+			Handler:    _Agent_ListServiceRecipes_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "InstallService",
+			Handler:       _Agent_InstallService_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "RemoveService",
+			Handler:       _Agent_RemoveService_Handler,
+			ServerStreams: true,
+		},
 		{
 			StreamName:    "StreamLogs",
 			Handler:       _Agent_StreamLogs_Handler,

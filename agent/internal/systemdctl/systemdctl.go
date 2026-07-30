@@ -10,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sync"
 	"time"
 
 	sd "github.com/coreos/go-systemd/v22/dbus"
@@ -25,7 +26,30 @@ var (
 		"redis-server.service": true, "mongod.service": true, "rabbitmq-server.service": true,
 		"nginx.service": true,
 	}
+
+	// Units carried by service-catalog recipes (builtin + overlay), refreshed
+	// whenever the catalog is loaded. Installing a service from the UI makes
+	// it controllable without touching the static list above.
+	catalogMu    sync.RWMutex
+	catalogUnits = map[string]bool{}
 )
+
+// SetCatalogUnits replaces the catalog-derived slice of the action allow-list.
+func SetCatalogUnits(units []string) {
+	next := make(map[string]bool, len(units))
+	for _, u := range units {
+		next[u] = true
+	}
+	catalogMu.Lock()
+	catalogUnits = next
+	catalogMu.Unlock()
+}
+
+func catalogAllowed(name string) bool {
+	catalogMu.RLock()
+	defer catalogMu.RUnlock()
+	return catalogUnits[name]
+}
 
 type Conn struct{ dbus *sd.Conn }
 
@@ -79,7 +103,7 @@ func (c *Conn) RemoveUnit(ctx context.Context, name string) error {
 // Action runs start/stop/restart and waits for the systemd job to finish, so
 // the caller gets a real result, not fire-and-forget.
 func (c *Conn) Action(ctx context.Context, name, action string) error {
-	if !managedUnit.MatchString(name) && !actionAllowList[name] {
+	if !managedUnit.MatchString(name) && !actionAllowList[name] && !catalogAllowed(name) {
 		return fmt.Errorf("unit %q not controllable", name)
 	}
 	done := make(chan string, 1)

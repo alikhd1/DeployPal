@@ -1,0 +1,38 @@
+# PostgreSQL from the Ubuntu archive (distribution version).
+# Config is a conf.d drop-in — postgresql.conf's include_dir is processed after
+# the main file, so these settings win without touching distro files.
+id: postgresql
+kind: postgresql
+name: PostgreSQL
+description: Relational database server (Ubuntu distribution version)
+unit: postgresql.service
+default_port: 5432
+packages: [postgresql, postgresql-contrib]
+verify_port: true
+config:
+  path: /etc/postgresql/*/main/conf.d/90-deploypal.conf
+  template: |
+    port = {{.port}}
+    listen_addresses = '{{if eq .listen "all"}}*{{else}}localhost{{end}}'
+    max_connections = {{.max_connections}}
+    shared_buffers = {{.shared_buffers_mb}}MB
+params:
+  - name: port
+    type: port
+    default: "5432"
+  - name: listen
+    type: enum
+    values: [localhost, all]
+    default: localhost
+  - name: max_connections
+    type: int
+    default: "100"
+    min: 10
+    max: 10000
+    advanced: true
+  - name: shared_buffers_mb
+    type: int
+    derive: { source: mem_mb, factor: 0.25, min: 128, max: 16384 }
+    min: 64
+    unit_suffix: MB
+    advanced: true

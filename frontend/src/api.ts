@@ -2,7 +2,7 @@
 // orchestrator; in production the orchestrator serves both.
 import type {
   ActivityEvent, Dependency, Deployment, NewProjectPayload, Project,
-  ResourceSample, SystemInfo, TopologyGraphData,
+  ResourceSample, ServiceCatalog, ServiceInstall, SystemInfo, TopologyGraphData,
 } from "./types";
 
 export class ApiError extends Error {
@@ -60,6 +60,32 @@ export const getResources = (id: number, minutes = 60) =>
 export const getTopology = () => api<TopologyGraphData>("/topology");
 export const getDependencies = () => api<Dependency[]>("/topology/dependencies");
 export const sweepNow = () => api<{ status: string }>("/topology/sweep", { method: "POST" });
+
+// service catalog — always served live from the agent, never cached server-side
+export const getServiceCatalog = () => api<ServiceCatalog>("/services");
+
+export const installService = (recipeId: string, params: Record<string, string>) =>
+  api<{ install_id: number }>(`/services/${recipeId}/install`, {
+    method: "POST",
+    body: JSON.stringify({ params }),
+  });
+
+export const removeService = (recipeId: string, purge: boolean, force = false) =>
+  api<{ install_id: number }>(`/services/${recipeId}/remove`, {
+    method: "POST",
+    body: JSON.stringify({ purge, force }),
+  });
+
+export const getServiceInstall = async (id: number): Promise<ServiceInstall> => {
+  const row = await api<Omit<ServiceInstall, "steps"> & { steps: string }>(
+    `/services/installs/${id}`,
+  );
+  return { ...row, steps: JSON.parse(row.steps || "[]") };
+};
+
+/** One-time reveal; the orchestrator discards the secrets after this call. */
+export const getInstallSecrets = (id: number) =>
+  api<{ secrets: Record<string, string> }>(`/services/installs/${id}/secrets`);
 
 export const getSystem = () => api<SystemInfo>("/system");
 export const getRecentEvents = (limit = 30) =>

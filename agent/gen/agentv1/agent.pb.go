@@ -1488,6 +1488,504 @@ func (x *CertRequest) GetContactEmail() string {
 	return ""
 }
 
+type RecipeParam struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`       // enum | int | port | string | secret
+	Default       string                 `protobuf:"bytes,3,opt,name=default,proto3" json:"default,omitempty"` // resolved default: derived values already computed from host facts
+	Values        []string               `protobuf:"bytes,4,rep,name=values,proto3" json:"values,omitempty"`   // for enum
+	Min           int64                  `protobuf:"varint,5,opt,name=min,proto3" json:"min,omitempty"`        // for int/port
+	Max           int64                  `protobuf:"varint,6,opt,name=max,proto3" json:"max,omitempty"`
+	Required      bool                   `protobuf:"varint,7,opt,name=required,proto3" json:"required,omitempty"`
+	Advanced      bool                   `protobuf:"varint,8,opt,name=advanced,proto3" json:"advanced,omitempty"`                         // UI: collapse under "Advanced"
+	DerivedHint   string                 `protobuf:"bytes,9,opt,name=derived_hint,json=derivedHint,proto3" json:"derived_hint,omitempty"` // e.g. "25% of 15.6 GiB RAM" when the default was computed
+	UnitSuffix    string                 `protobuf:"bytes,10,opt,name=unit_suffix,json=unitSuffix,proto3" json:"unit_suffix,omitempty"`   // display unit, e.g. "MB"
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RecipeParam) Reset() {
+	*x = RecipeParam{}
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RecipeParam) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RecipeParam) ProtoMessage() {}
+
+func (x *RecipeParam) ProtoReflect() protoreflect.Message {
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RecipeParam.ProtoReflect.Descriptor instead.
+func (*RecipeParam) Descriptor() ([]byte, []int) {
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *RecipeParam) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *RecipeParam) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *RecipeParam) GetDefault() string {
+	if x != nil {
+		return x.Default
+	}
+	return ""
+}
+
+func (x *RecipeParam) GetValues() []string {
+	if x != nil {
+		return x.Values
+	}
+	return nil
+}
+
+func (x *RecipeParam) GetMin() int64 {
+	if x != nil {
+		return x.Min
+	}
+	return 0
+}
+
+func (x *RecipeParam) GetMax() int64 {
+	if x != nil {
+		return x.Max
+	}
+	return 0
+}
+
+func (x *RecipeParam) GetRequired() bool {
+	if x != nil {
+		return x.Required
+	}
+	return false
+}
+
+func (x *RecipeParam) GetAdvanced() bool {
+	if x != nil {
+		return x.Advanced
+	}
+	return false
+}
+
+func (x *RecipeParam) GetDerivedHint() string {
+	if x != nil {
+		return x.DerivedHint
+	}
+	return ""
+}
+
+func (x *RecipeParam) GetUnitSuffix() string {
+	if x != nil {
+		return x.UnitSuffix
+	}
+	return ""
+}
+
+type Recipe struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`     // catalog key, [a-z0-9-]
+	Kind             string                 `protobuf:"bytes,2,opt,name=kind,proto3" json:"kind,omitempty"` // dependencies.kind value, or "tool"
+	Name             string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"` // display name
+	Description      string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Unit             string                 `protobuf:"bytes,5,opt,name=unit,proto3" json:"unit,omitempty"`                                   // systemd unit ("" for plain packages)
+	DefaultPort      uint32                 `protobuf:"varint,6,opt,name=default_port,json=defaultPort,proto3" json:"default_port,omitempty"` // 0 for tools
+	Packages         []string               `protobuf:"bytes,7,rep,name=packages,proto3" json:"packages,omitempty"`
+	Params           []*RecipeParam         `protobuf:"bytes,8,rep,name=params,proto3" json:"params,omitempty"`
+	Source           string                 `protobuf:"bytes,9,opt,name=source,proto3" json:"source,omitempty"`         // builtin | overlay
+	Installed        bool                   `protobuf:"varint,10,opt,name=installed,proto3" json:"installed,omitempty"` // dpkg state of the first package
+	InstalledVersion string                 `protobuf:"bytes,11,opt,name=installed_version,json=installedVersion,proto3" json:"installed_version,omitempty"`
+	ConfigPath       string                 `protobuf:"bytes,12,opt,name=config_path,json=configPath,proto3" json:"config_path,omitempty"` // managed config file the recipe writes ("" if none)
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *Recipe) Reset() {
+	*x = Recipe{}
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Recipe) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Recipe) ProtoMessage() {}
+
+func (x *Recipe) ProtoReflect() protoreflect.Message {
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Recipe.ProtoReflect.Descriptor instead.
+func (*Recipe) Descriptor() ([]byte, []int) {
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *Recipe) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Recipe) GetKind() string {
+	if x != nil {
+		return x.Kind
+	}
+	return ""
+}
+
+func (x *Recipe) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Recipe) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Recipe) GetUnit() string {
+	if x != nil {
+		return x.Unit
+	}
+	return ""
+}
+
+func (x *Recipe) GetDefaultPort() uint32 {
+	if x != nil {
+		return x.DefaultPort
+	}
+	return 0
+}
+
+func (x *Recipe) GetPackages() []string {
+	if x != nil {
+		return x.Packages
+	}
+	return nil
+}
+
+func (x *Recipe) GetParams() []*RecipeParam {
+	if x != nil {
+		return x.Params
+	}
+	return nil
+}
+
+func (x *Recipe) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+func (x *Recipe) GetInstalled() bool {
+	if x != nil {
+		return x.Installed
+	}
+	return false
+}
+
+func (x *Recipe) GetInstalledVersion() string {
+	if x != nil {
+		return x.InstalledVersion
+	}
+	return ""
+}
+
+func (x *Recipe) GetConfigPath() string {
+	if x != nil {
+		return x.ConfigPath
+	}
+	return ""
+}
+
+type RecipeList struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Recipes        []*Recipe              `protobuf:"bytes,1,rep,name=recipes,proto3" json:"recipes,omitempty"`
+	CatalogVersion string                 `protobuf:"bytes,2,opt,name=catalog_version,json=catalogVersion,proto3" json:"catalog_version,omitempty"` // agent version + catalog hash; changes when DeployPal is upgraded
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *RecipeList) Reset() {
+	*x = RecipeList{}
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RecipeList) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RecipeList) ProtoMessage() {}
+
+func (x *RecipeList) ProtoReflect() protoreflect.Message {
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RecipeList.ProtoReflect.Descriptor instead.
+func (*RecipeList) Descriptor() ([]byte, []int) {
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *RecipeList) GetRecipes() []*Recipe {
+	if x != nil {
+		return x.Recipes
+	}
+	return nil
+}
+
+func (x *RecipeList) GetCatalogVersion() string {
+	if x != nil {
+		return x.CatalogVersion
+	}
+	return ""
+}
+
+type InstallServiceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RecipeId      string                 `protobuf:"bytes,1,opt,name=recipe_id,json=recipeId,proto3" json:"recipe_id,omitempty"`
+	Params        map[string]string      `protobuf:"bytes,2,rep,name=params,proto3" json:"params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // agent validates against the recipe schema
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InstallServiceRequest) Reset() {
+	*x = InstallServiceRequest{}
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InstallServiceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InstallServiceRequest) ProtoMessage() {}
+
+func (x *InstallServiceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InstallServiceRequest.ProtoReflect.Descriptor instead.
+func (*InstallServiceRequest) Descriptor() ([]byte, []int) {
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *InstallServiceRequest) GetRecipeId() string {
+	if x != nil {
+		return x.RecipeId
+	}
+	return ""
+}
+
+func (x *InstallServiceRequest) GetParams() map[string]string {
+	if x != nil {
+		return x.Params
+	}
+	return nil
+}
+
+type RemoveServiceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RecipeId      string                 `protobuf:"bytes,1,opt,name=recipe_id,json=recipeId,proto3" json:"recipe_id,omitempty"`
+	Purge         bool                   `protobuf:"varint,2,opt,name=purge,proto3" json:"purge,omitempty"` // apt purge instead of remove
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RemoveServiceRequest) Reset() {
+	*x = RemoveServiceRequest{}
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RemoveServiceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveServiceRequest) ProtoMessage() {}
+
+func (x *RemoveServiceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveServiceRequest.ProtoReflect.Descriptor instead.
+func (*RemoveServiceRequest) Descriptor() ([]byte, []int) {
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *RemoveServiceRequest) GetRecipeId() string {
+	if x != nil {
+		return x.RecipeId
+	}
+	return ""
+}
+
+func (x *RemoveServiceRequest) GetPurge() bool {
+	if x != nil {
+		return x.Purge
+	}
+	return false
+}
+
+// Streamed progress: many chunks per step (log output), then one final
+// message with done=true carrying the overall result.
+type InstallProgress struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Step          string                 `protobuf:"bytes,1,opt,name=step,proto3" json:"step,omitempty"`                                                                                 // preflight | install | configure | restart | verify | remove
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`                                                                             // running | ok | failed
+	Log           string                 `protobuf:"bytes,3,opt,name=log,proto3" json:"log,omitempty"`                                                                                   // incremental output chunk (may be "")
+	Done          bool                   `protobuf:"varint,4,opt,name=done,proto3" json:"done,omitempty"`                                                                                // last message of the stream
+	Ok            bool                   `protobuf:"varint,5,opt,name=ok,proto3" json:"ok,omitempty"`                                                                                    // overall result, valid when done
+	Facts         map[string]string      `protobuf:"bytes,6,rep,name=facts,proto3" json:"facts,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`     // when done+ok: version, port, unit, config_path
+	Secrets       map[string]string      `protobuf:"bytes,7,rep,name=secrets,proto3" json:"secrets,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // when done+ok: generated secrets — returned once, never stored by the agent DB-side
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InstallProgress) Reset() {
+	*x = InstallProgress{}
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InstallProgress) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InstallProgress) ProtoMessage() {}
+
+func (x *InstallProgress) ProtoReflect() protoreflect.Message {
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InstallProgress.ProtoReflect.Descriptor instead.
+func (*InstallProgress) Descriptor() ([]byte, []int) {
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *InstallProgress) GetStep() string {
+	if x != nil {
+		return x.Step
+	}
+	return ""
+}
+
+func (x *InstallProgress) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *InstallProgress) GetLog() string {
+	if x != nil {
+		return x.Log
+	}
+	return ""
+}
+
+func (x *InstallProgress) GetDone() bool {
+	if x != nil {
+		return x.Done
+	}
+	return false
+}
+
+func (x *InstallProgress) GetOk() bool {
+	if x != nil {
+		return x.Ok
+	}
+	return false
+}
+
+func (x *InstallProgress) GetFacts() map[string]string {
+	if x != nil {
+		return x.Facts
+	}
+	return nil
+}
+
+func (x *InstallProgress) GetSecrets() map[string]string {
+	if x != nil {
+		return x.Secrets
+	}
+	return nil
+}
+
 type LogStreamRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Unit          string                 `protobuf:"bytes,1,opt,name=unit,proto3" json:"unit,omitempty"`                             // journald _SYSTEMD_UNIT filter
@@ -1500,7 +1998,7 @@ type LogStreamRequest struct {
 
 func (x *LogStreamRequest) Reset() {
 	*x = LogStreamRequest{}
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[25]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1512,7 +2010,7 @@ func (x *LogStreamRequest) String() string {
 func (*LogStreamRequest) ProtoMessage() {}
 
 func (x *LogStreamRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[25]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1525,7 +2023,7 @@ func (x *LogStreamRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogStreamRequest.ProtoReflect.Descriptor instead.
 func (*LogStreamRequest) Descriptor() ([]byte, []int) {
-	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{25}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *LogStreamRequest) GetUnit() string {
@@ -1568,7 +2066,7 @@ type LogLine struct {
 
 func (x *LogLine) Reset() {
 	*x = LogLine{}
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[26]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1580,7 +2078,7 @@ func (x *LogLine) String() string {
 func (*LogLine) ProtoMessage() {}
 
 func (x *LogLine) ProtoReflect() protoreflect.Message {
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[26]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1593,7 +2091,7 @@ func (x *LogLine) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogLine.ProtoReflect.Descriptor instead.
 func (*LogLine) Descriptor() ([]byte, []int) {
-	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{26}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *LogLine) GetTsMicros() int64 {
@@ -1634,7 +2132,7 @@ type ResourceStreamRequest struct {
 
 func (x *ResourceStreamRequest) Reset() {
 	*x = ResourceStreamRequest{}
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[27]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1646,7 +2144,7 @@ func (x *ResourceStreamRequest) String() string {
 func (*ResourceStreamRequest) ProtoMessage() {}
 
 func (x *ResourceStreamRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[27]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1659,7 +2157,7 @@ func (x *ResourceStreamRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResourceStreamRequest.ProtoReflect.Descriptor instead.
 func (*ResourceStreamRequest) Descriptor() ([]byte, []int) {
-	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{27}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *ResourceStreamRequest) GetUnits() []string {
@@ -1689,7 +2187,7 @@ type ResourceSample struct {
 
 func (x *ResourceSample) Reset() {
 	*x = ResourceSample{}
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[28]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1701,7 +2199,7 @@ func (x *ResourceSample) String() string {
 func (*ResourceSample) ProtoMessage() {}
 
 func (x *ResourceSample) ProtoReflect() protoreflect.Message {
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[28]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1714,7 +2212,7 @@ func (x *ResourceSample) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResourceSample.ProtoReflect.Descriptor instead.
 func (*ResourceSample) Descriptor() ([]byte, []int) {
-	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{28}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *ResourceSample) GetUnit() string {
@@ -1761,7 +2259,7 @@ type WatchPathsRequest struct {
 
 func (x *WatchPathsRequest) Reset() {
 	*x = WatchPathsRequest{}
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[29]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1773,7 +2271,7 @@ func (x *WatchPathsRequest) String() string {
 func (*WatchPathsRequest) ProtoMessage() {}
 
 func (x *WatchPathsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[29]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1786,7 +2284,7 @@ func (x *WatchPathsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchPathsRequest.ProtoReflect.Descriptor instead.
 func (*WatchPathsRequest) Descriptor() ([]byte, []int) {
-	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{29}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *WatchPathsRequest) GetPaths() []string {
@@ -1807,7 +2305,7 @@ type FsEvent struct {
 
 func (x *FsEvent) Reset() {
 	*x = FsEvent{}
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[30]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1819,7 +2317,7 @@ func (x *FsEvent) String() string {
 func (*FsEvent) ProtoMessage() {}
 
 func (x *FsEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[30]
+	mi := &file_deploypal_agent_v1_agent_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1832,7 +2330,7 @@ func (x *FsEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FsEvent.ProtoReflect.Descriptor instead.
 func (*FsEvent) Descriptor() ([]byte, []int) {
-	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{30}
+	return file_deploypal_agent_v1_agent_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *FsEvent) GetPath() string {
@@ -1961,7 +2459,63 @@ const file_deploypal_agent_v1_agent_proto_rawDesc = "" +
 	"\acontent\x18\x02 \x01(\tR\acontent\"L\n" +
 	"\vCertRequest\x12\x18\n" +
 	"\adomains\x18\x01 \x03(\tR\adomains\x12#\n" +
-	"\rcontact_email\x18\x02 \x01(\tR\fcontactEmail\"u\n" +
+	"\rcontact_email\x18\x02 \x01(\tR\fcontactEmail\"\x87\x02\n" +
+	"\vRecipeParam\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\x12\x18\n" +
+	"\adefault\x18\x03 \x01(\tR\adefault\x12\x16\n" +
+	"\x06values\x18\x04 \x03(\tR\x06values\x12\x10\n" +
+	"\x03min\x18\x05 \x01(\x03R\x03min\x12\x10\n" +
+	"\x03max\x18\x06 \x01(\x03R\x03max\x12\x1a\n" +
+	"\brequired\x18\a \x01(\bR\brequired\x12\x1a\n" +
+	"\badvanced\x18\b \x01(\bR\badvanced\x12!\n" +
+	"\fderived_hint\x18\t \x01(\tR\vderivedHint\x12\x1f\n" +
+	"\vunit_suffix\x18\n" +
+	" \x01(\tR\n" +
+	"unitSuffix\"\xf2\x02\n" +
+	"\x06Recipe\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04kind\x18\x02 \x01(\tR\x04kind\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x12\n" +
+	"\x04unit\x18\x05 \x01(\tR\x04unit\x12!\n" +
+	"\fdefault_port\x18\x06 \x01(\rR\vdefaultPort\x12\x1a\n" +
+	"\bpackages\x18\a \x03(\tR\bpackages\x127\n" +
+	"\x06params\x18\b \x03(\v2\x1f.deploypal.agent.v1.RecipeParamR\x06params\x12\x16\n" +
+	"\x06source\x18\t \x01(\tR\x06source\x12\x1c\n" +
+	"\tinstalled\x18\n" +
+	" \x01(\bR\tinstalled\x12+\n" +
+	"\x11installed_version\x18\v \x01(\tR\x10installedVersion\x12\x1f\n" +
+	"\vconfig_path\x18\f \x01(\tR\n" +
+	"configPath\"k\n" +
+	"\n" +
+	"RecipeList\x124\n" +
+	"\arecipes\x18\x01 \x03(\v2\x1a.deploypal.agent.v1.RecipeR\arecipes\x12'\n" +
+	"\x0fcatalog_version\x18\x02 \x01(\tR\x0ecatalogVersion\"\xbe\x01\n" +
+	"\x15InstallServiceRequest\x12\x1b\n" +
+	"\trecipe_id\x18\x01 \x01(\tR\brecipeId\x12M\n" +
+	"\x06params\x18\x02 \x03(\v25.deploypal.agent.v1.InstallServiceRequest.ParamsEntryR\x06params\x1a9\n" +
+	"\vParamsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"I\n" +
+	"\x14RemoveServiceRequest\x12\x1b\n" +
+	"\trecipe_id\x18\x01 \x01(\tR\brecipeId\x12\x14\n" +
+	"\x05purge\x18\x02 \x01(\bR\x05purge\"\xfb\x02\n" +
+	"\x0fInstallProgress\x12\x12\n" +
+	"\x04step\x18\x01 \x01(\tR\x04step\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12\x10\n" +
+	"\x03log\x18\x03 \x01(\tR\x03log\x12\x12\n" +
+	"\x04done\x18\x04 \x01(\bR\x04done\x12\x0e\n" +
+	"\x02ok\x18\x05 \x01(\bR\x02ok\x12D\n" +
+	"\x05facts\x18\x06 \x03(\v2..deploypal.agent.v1.InstallProgress.FactsEntryR\x05facts\x12J\n" +
+	"\asecrets\x18\a \x03(\v20.deploypal.agent.v1.InstallProgress.SecretsEntryR\asecrets\x1a8\n" +
+	"\n" +
+	"FactsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a:\n" +
+	"\fSecretsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"u\n" +
 	"\x10LogStreamRequest\x12\x12\n" +
 	"\x04unit\x18\x01 \x01(\tR\x04unit\x12\x1d\n" +
 	"\n" +
@@ -1988,7 +2542,7 @@ const file_deploypal_agent_v1_agent_proto_rawDesc = "" +
 	"\aFsEvent\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x0e\n" +
 	"\x02op\x18\x02 \x01(\tR\x02op\x12\x0e\n" +
-	"\x02ts\x18\x03 \x01(\x03R\x02ts2\xfa\f\n" +
+	"\x02ts\x18\x03 \x01(\x03R\x02ts2\x91\x0f\n" +
 	"\x05Agent\x12J\n" +
 	"\rGetSystemInfo\x12\x19.deploypal.agent.v1.Empty\x1a\x1e.deploypal.agent.v1.SystemInfo\x12K\n" +
 	"\rListProcesses\x12\x19.deploypal.agent.v1.Empty\x1a\x1f.deploypal.agent.v1.ProcessList\x12M\n" +
@@ -2008,7 +2562,10 @@ const file_deploypal_agent_v1_agent_proto_rawDesc = "" +
 	"\x10DisableNginxSite\x12 .deploypal.agent.v1.NginxSiteRef\x1a\x1c.deploypal.agent.v1.OpResult\x12J\n" +
 	"\x0fTestNginxConfig\x12\x19.deploypal.agent.v1.Empty\x1a\x1c.deploypal.agent.v1.OpResult\x12F\n" +
 	"\vReloadNginx\x12\x19.deploypal.agent.v1.Empty\x1a\x1c.deploypal.agent.v1.OpResult\x12R\n" +
-	"\x11ObtainCertificate\x12\x1f.deploypal.agent.v1.CertRequest\x1a\x1c.deploypal.agent.v1.OpResult\x12Q\n" +
+	"\x11ObtainCertificate\x12\x1f.deploypal.agent.v1.CertRequest\x1a\x1c.deploypal.agent.v1.OpResult\x12O\n" +
+	"\x12ListServiceRecipes\x12\x19.deploypal.agent.v1.Empty\x1a\x1e.deploypal.agent.v1.RecipeList\x12b\n" +
+	"\x0eInstallService\x12).deploypal.agent.v1.InstallServiceRequest\x1a#.deploypal.agent.v1.InstallProgress0\x01\x12`\n" +
+	"\rRemoveService\x12(.deploypal.agent.v1.RemoveServiceRequest\x1a#.deploypal.agent.v1.InstallProgress0\x01\x12Q\n" +
 	"\n" +
 	"StreamLogs\x12$.deploypal.agent.v1.LogStreamRequest\x1a\x1b.deploypal.agent.v1.LogLine0\x01\x12b\n" +
 	"\x0fStreamResources\x12).deploypal.agent.v1.ResourceStreamRequest\x1a\".deploypal.agent.v1.ResourceSample0\x01\x12R\n" +
@@ -2027,7 +2584,7 @@ func file_deploypal_agent_v1_agent_proto_rawDescGZIP() []byte {
 	return file_deploypal_agent_v1_agent_proto_rawDescData
 }
 
-var file_deploypal_agent_v1_agent_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
+var file_deploypal_agent_v1_agent_proto_msgTypes = make([]protoimpl.MessageInfo, 40)
 var file_deploypal_agent_v1_agent_proto_goTypes = []any{
 	(*Empty)(nil),                 // 0: deploypal.agent.v1.Empty
 	(*OpResult)(nil),              // 1: deploypal.agent.v1.OpResult
@@ -2054,12 +2611,21 @@ var file_deploypal_agent_v1_agent_proto_goTypes = []any{
 	(*NginxSiteRef)(nil),          // 22: deploypal.agent.v1.NginxSiteRef
 	(*WriteNginxSiteRequest)(nil), // 23: deploypal.agent.v1.WriteNginxSiteRequest
 	(*CertRequest)(nil),           // 24: deploypal.agent.v1.CertRequest
-	(*LogStreamRequest)(nil),      // 25: deploypal.agent.v1.LogStreamRequest
-	(*LogLine)(nil),               // 26: deploypal.agent.v1.LogLine
-	(*ResourceStreamRequest)(nil), // 27: deploypal.agent.v1.ResourceStreamRequest
-	(*ResourceSample)(nil),        // 28: deploypal.agent.v1.ResourceSample
-	(*WatchPathsRequest)(nil),     // 29: deploypal.agent.v1.WatchPathsRequest
-	(*FsEvent)(nil),               // 30: deploypal.agent.v1.FsEvent
+	(*RecipeParam)(nil),           // 25: deploypal.agent.v1.RecipeParam
+	(*Recipe)(nil),                // 26: deploypal.agent.v1.Recipe
+	(*RecipeList)(nil),            // 27: deploypal.agent.v1.RecipeList
+	(*InstallServiceRequest)(nil), // 28: deploypal.agent.v1.InstallServiceRequest
+	(*RemoveServiceRequest)(nil),  // 29: deploypal.agent.v1.RemoveServiceRequest
+	(*InstallProgress)(nil),       // 30: deploypal.agent.v1.InstallProgress
+	(*LogStreamRequest)(nil),      // 31: deploypal.agent.v1.LogStreamRequest
+	(*LogLine)(nil),               // 32: deploypal.agent.v1.LogLine
+	(*ResourceStreamRequest)(nil), // 33: deploypal.agent.v1.ResourceStreamRequest
+	(*ResourceSample)(nil),        // 34: deploypal.agent.v1.ResourceSample
+	(*WatchPathsRequest)(nil),     // 35: deploypal.agent.v1.WatchPathsRequest
+	(*FsEvent)(nil),               // 36: deploypal.agent.v1.FsEvent
+	nil,                           // 37: deploypal.agent.v1.InstallServiceRequest.ParamsEntry
+	nil,                           // 38: deploypal.agent.v1.InstallProgress.FactsEntry
+	nil,                           // 39: deploypal.agent.v1.InstallProgress.SecretsEntry
 }
 var file_deploypal_agent_v1_agent_proto_depIdxs = []int32{
 	3,  // 0: deploypal.agent.v1.ProcessList.processes:type_name -> deploypal.agent.v1.ProcessInfo
@@ -2067,51 +2633,62 @@ var file_deploypal_agent_v1_agent_proto_depIdxs = []int32{
 	7,  // 2: deploypal.agent.v1.NginxSiteList.sites:type_name -> deploypal.agent.v1.NginxSite
 	10, // 3: deploypal.agent.v1.UnitList.units:type_name -> deploypal.agent.v1.UnitInfo
 	15, // 4: deploypal.agent.v1.DirListing.entries:type_name -> deploypal.agent.v1.DirEntry
-	0,  // 5: deploypal.agent.v1.Agent.GetSystemInfo:input_type -> deploypal.agent.v1.Empty
-	0,  // 6: deploypal.agent.v1.Agent.ListProcesses:input_type -> deploypal.agent.v1.Empty
-	0,  // 7: deploypal.agent.v1.Agent.ListListeningPorts:input_type -> deploypal.agent.v1.Empty
-	0,  // 8: deploypal.agent.v1.Agent.ListNginxSites:input_type -> deploypal.agent.v1.Empty
-	9,  // 9: deploypal.agent.v1.Agent.ListUnits:input_type -> deploypal.agent.v1.ListUnitsRequest
-	12, // 10: deploypal.agent.v1.Agent.ReadFile:input_type -> deploypal.agent.v1.ReadFileRequest
-	14, // 11: deploypal.agent.v1.Agent.ListDir:input_type -> deploypal.agent.v1.ListDirRequest
-	17, // 12: deploypal.agent.v1.Agent.FindFreePort:input_type -> deploypal.agent.v1.FindFreePortRequest
-	20, // 13: deploypal.agent.v1.Agent.InstallUnit:input_type -> deploypal.agent.v1.InstallUnitRequest
-	19, // 14: deploypal.agent.v1.Agent.RemoveUnit:input_type -> deploypal.agent.v1.UnitRef
-	21, // 15: deploypal.agent.v1.Agent.UnitAction:input_type -> deploypal.agent.v1.UnitActionRequest
-	23, // 16: deploypal.agent.v1.Agent.WriteNginxSite:input_type -> deploypal.agent.v1.WriteNginxSiteRequest
-	22, // 17: deploypal.agent.v1.Agent.EnableNginxSite:input_type -> deploypal.agent.v1.NginxSiteRef
-	22, // 18: deploypal.agent.v1.Agent.DisableNginxSite:input_type -> deploypal.agent.v1.NginxSiteRef
-	0,  // 19: deploypal.agent.v1.Agent.TestNginxConfig:input_type -> deploypal.agent.v1.Empty
-	0,  // 20: deploypal.agent.v1.Agent.ReloadNginx:input_type -> deploypal.agent.v1.Empty
-	24, // 21: deploypal.agent.v1.Agent.ObtainCertificate:input_type -> deploypal.agent.v1.CertRequest
-	25, // 22: deploypal.agent.v1.Agent.StreamLogs:input_type -> deploypal.agent.v1.LogStreamRequest
-	27, // 23: deploypal.agent.v1.Agent.StreamResources:input_type -> deploypal.agent.v1.ResourceStreamRequest
-	29, // 24: deploypal.agent.v1.Agent.WatchPaths:input_type -> deploypal.agent.v1.WatchPathsRequest
-	2,  // 25: deploypal.agent.v1.Agent.GetSystemInfo:output_type -> deploypal.agent.v1.SystemInfo
-	4,  // 26: deploypal.agent.v1.Agent.ListProcesses:output_type -> deploypal.agent.v1.ProcessList
-	6,  // 27: deploypal.agent.v1.Agent.ListListeningPorts:output_type -> deploypal.agent.v1.PortList
-	8,  // 28: deploypal.agent.v1.Agent.ListNginxSites:output_type -> deploypal.agent.v1.NginxSiteList
-	11, // 29: deploypal.agent.v1.Agent.ListUnits:output_type -> deploypal.agent.v1.UnitList
-	13, // 30: deploypal.agent.v1.Agent.ReadFile:output_type -> deploypal.agent.v1.FileContent
-	16, // 31: deploypal.agent.v1.Agent.ListDir:output_type -> deploypal.agent.v1.DirListing
-	18, // 32: deploypal.agent.v1.Agent.FindFreePort:output_type -> deploypal.agent.v1.FindFreePortResponse
-	1,  // 33: deploypal.agent.v1.Agent.InstallUnit:output_type -> deploypal.agent.v1.OpResult
-	1,  // 34: deploypal.agent.v1.Agent.RemoveUnit:output_type -> deploypal.agent.v1.OpResult
-	1,  // 35: deploypal.agent.v1.Agent.UnitAction:output_type -> deploypal.agent.v1.OpResult
-	1,  // 36: deploypal.agent.v1.Agent.WriteNginxSite:output_type -> deploypal.agent.v1.OpResult
-	1,  // 37: deploypal.agent.v1.Agent.EnableNginxSite:output_type -> deploypal.agent.v1.OpResult
-	1,  // 38: deploypal.agent.v1.Agent.DisableNginxSite:output_type -> deploypal.agent.v1.OpResult
-	1,  // 39: deploypal.agent.v1.Agent.TestNginxConfig:output_type -> deploypal.agent.v1.OpResult
-	1,  // 40: deploypal.agent.v1.Agent.ReloadNginx:output_type -> deploypal.agent.v1.OpResult
-	1,  // 41: deploypal.agent.v1.Agent.ObtainCertificate:output_type -> deploypal.agent.v1.OpResult
-	26, // 42: deploypal.agent.v1.Agent.StreamLogs:output_type -> deploypal.agent.v1.LogLine
-	28, // 43: deploypal.agent.v1.Agent.StreamResources:output_type -> deploypal.agent.v1.ResourceSample
-	30, // 44: deploypal.agent.v1.Agent.WatchPaths:output_type -> deploypal.agent.v1.FsEvent
-	25, // [25:45] is the sub-list for method output_type
-	5,  // [5:25] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	25, // 5: deploypal.agent.v1.Recipe.params:type_name -> deploypal.agent.v1.RecipeParam
+	26, // 6: deploypal.agent.v1.RecipeList.recipes:type_name -> deploypal.agent.v1.Recipe
+	37, // 7: deploypal.agent.v1.InstallServiceRequest.params:type_name -> deploypal.agent.v1.InstallServiceRequest.ParamsEntry
+	38, // 8: deploypal.agent.v1.InstallProgress.facts:type_name -> deploypal.agent.v1.InstallProgress.FactsEntry
+	39, // 9: deploypal.agent.v1.InstallProgress.secrets:type_name -> deploypal.agent.v1.InstallProgress.SecretsEntry
+	0,  // 10: deploypal.agent.v1.Agent.GetSystemInfo:input_type -> deploypal.agent.v1.Empty
+	0,  // 11: deploypal.agent.v1.Agent.ListProcesses:input_type -> deploypal.agent.v1.Empty
+	0,  // 12: deploypal.agent.v1.Agent.ListListeningPorts:input_type -> deploypal.agent.v1.Empty
+	0,  // 13: deploypal.agent.v1.Agent.ListNginxSites:input_type -> deploypal.agent.v1.Empty
+	9,  // 14: deploypal.agent.v1.Agent.ListUnits:input_type -> deploypal.agent.v1.ListUnitsRequest
+	12, // 15: deploypal.agent.v1.Agent.ReadFile:input_type -> deploypal.agent.v1.ReadFileRequest
+	14, // 16: deploypal.agent.v1.Agent.ListDir:input_type -> deploypal.agent.v1.ListDirRequest
+	17, // 17: deploypal.agent.v1.Agent.FindFreePort:input_type -> deploypal.agent.v1.FindFreePortRequest
+	20, // 18: deploypal.agent.v1.Agent.InstallUnit:input_type -> deploypal.agent.v1.InstallUnitRequest
+	19, // 19: deploypal.agent.v1.Agent.RemoveUnit:input_type -> deploypal.agent.v1.UnitRef
+	21, // 20: deploypal.agent.v1.Agent.UnitAction:input_type -> deploypal.agent.v1.UnitActionRequest
+	23, // 21: deploypal.agent.v1.Agent.WriteNginxSite:input_type -> deploypal.agent.v1.WriteNginxSiteRequest
+	22, // 22: deploypal.agent.v1.Agent.EnableNginxSite:input_type -> deploypal.agent.v1.NginxSiteRef
+	22, // 23: deploypal.agent.v1.Agent.DisableNginxSite:input_type -> deploypal.agent.v1.NginxSiteRef
+	0,  // 24: deploypal.agent.v1.Agent.TestNginxConfig:input_type -> deploypal.agent.v1.Empty
+	0,  // 25: deploypal.agent.v1.Agent.ReloadNginx:input_type -> deploypal.agent.v1.Empty
+	24, // 26: deploypal.agent.v1.Agent.ObtainCertificate:input_type -> deploypal.agent.v1.CertRequest
+	0,  // 27: deploypal.agent.v1.Agent.ListServiceRecipes:input_type -> deploypal.agent.v1.Empty
+	28, // 28: deploypal.agent.v1.Agent.InstallService:input_type -> deploypal.agent.v1.InstallServiceRequest
+	29, // 29: deploypal.agent.v1.Agent.RemoveService:input_type -> deploypal.agent.v1.RemoveServiceRequest
+	31, // 30: deploypal.agent.v1.Agent.StreamLogs:input_type -> deploypal.agent.v1.LogStreamRequest
+	33, // 31: deploypal.agent.v1.Agent.StreamResources:input_type -> deploypal.agent.v1.ResourceStreamRequest
+	35, // 32: deploypal.agent.v1.Agent.WatchPaths:input_type -> deploypal.agent.v1.WatchPathsRequest
+	2,  // 33: deploypal.agent.v1.Agent.GetSystemInfo:output_type -> deploypal.agent.v1.SystemInfo
+	4,  // 34: deploypal.agent.v1.Agent.ListProcesses:output_type -> deploypal.agent.v1.ProcessList
+	6,  // 35: deploypal.agent.v1.Agent.ListListeningPorts:output_type -> deploypal.agent.v1.PortList
+	8,  // 36: deploypal.agent.v1.Agent.ListNginxSites:output_type -> deploypal.agent.v1.NginxSiteList
+	11, // 37: deploypal.agent.v1.Agent.ListUnits:output_type -> deploypal.agent.v1.UnitList
+	13, // 38: deploypal.agent.v1.Agent.ReadFile:output_type -> deploypal.agent.v1.FileContent
+	16, // 39: deploypal.agent.v1.Agent.ListDir:output_type -> deploypal.agent.v1.DirListing
+	18, // 40: deploypal.agent.v1.Agent.FindFreePort:output_type -> deploypal.agent.v1.FindFreePortResponse
+	1,  // 41: deploypal.agent.v1.Agent.InstallUnit:output_type -> deploypal.agent.v1.OpResult
+	1,  // 42: deploypal.agent.v1.Agent.RemoveUnit:output_type -> deploypal.agent.v1.OpResult
+	1,  // 43: deploypal.agent.v1.Agent.UnitAction:output_type -> deploypal.agent.v1.OpResult
+	1,  // 44: deploypal.agent.v1.Agent.WriteNginxSite:output_type -> deploypal.agent.v1.OpResult
+	1,  // 45: deploypal.agent.v1.Agent.EnableNginxSite:output_type -> deploypal.agent.v1.OpResult
+	1,  // 46: deploypal.agent.v1.Agent.DisableNginxSite:output_type -> deploypal.agent.v1.OpResult
+	1,  // 47: deploypal.agent.v1.Agent.TestNginxConfig:output_type -> deploypal.agent.v1.OpResult
+	1,  // 48: deploypal.agent.v1.Agent.ReloadNginx:output_type -> deploypal.agent.v1.OpResult
+	1,  // 49: deploypal.agent.v1.Agent.ObtainCertificate:output_type -> deploypal.agent.v1.OpResult
+	27, // 50: deploypal.agent.v1.Agent.ListServiceRecipes:output_type -> deploypal.agent.v1.RecipeList
+	30, // 51: deploypal.agent.v1.Agent.InstallService:output_type -> deploypal.agent.v1.InstallProgress
+	30, // 52: deploypal.agent.v1.Agent.RemoveService:output_type -> deploypal.agent.v1.InstallProgress
+	32, // 53: deploypal.agent.v1.Agent.StreamLogs:output_type -> deploypal.agent.v1.LogLine
+	34, // 54: deploypal.agent.v1.Agent.StreamResources:output_type -> deploypal.agent.v1.ResourceSample
+	36, // 55: deploypal.agent.v1.Agent.WatchPaths:output_type -> deploypal.agent.v1.FsEvent
+	33, // [33:56] is the sub-list for method output_type
+	10, // [10:33] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_deploypal_agent_v1_agent_proto_init() }
@@ -2125,7 +2702,7 @@ func file_deploypal_agent_v1_agent_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_deploypal_agent_v1_agent_proto_rawDesc), len(file_deploypal_agent_v1_agent_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   31,
+			NumMessages:   40,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

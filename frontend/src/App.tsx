@@ -8,12 +8,14 @@ import { RegistryPage } from "./pages/RegistryPage";
 import { ProjectPage } from "./pages/ProjectPage";
 import { DeployWizard } from "./pages/DeployWizard";
 import { DependencyPage } from "./pages/DependencyPage";
+import { ServicesPage } from "./pages/ServicesPage";
 
 const NAV: { to: string; key: MsgKey; exact?: boolean }[] = [
   { to: "/", key: "nav.dashboard", exact: true },
   { to: "/projects", key: "nav.projects" },
   { to: "/deploy", key: "nav.deploy" },
   { to: "/dependencies", key: "nav.dependencies" },
+  { to: "/services", key: "nav.services" },
 ];
 
 function fmtBytes(n: number): string {
@@ -116,6 +118,7 @@ export default function App() {
             <Route path="/projects/:id" element={<ProjectPage />} />
             <Route path="/deploy" element={<DeployWizard />} />
             <Route path="/dependencies" element={<DependencyPage />} />
+            <Route path="/services" element={<ServicesPage />} />
           </Routes>
         </main>
       </div>

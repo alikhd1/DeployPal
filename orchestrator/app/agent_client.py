@@ -96,6 +96,22 @@ class AgentClient:
         self._check(await self._stub.ObtainCertificate(
             pb.CertRequest(domains=domains, contact_email=email)), "certbot")
 
+    # ---- service catalog ----
+    async def list_service_recipes(self) -> pb.RecipeList:
+        """The agent owns the catalog (embedded + overlay) — never cache this;
+        it changes when DeployPal is upgraded or an overlay recipe is added."""
+        return await self._stub.ListServiceRecipes(pb.Empty())
+
+    def install_service(self, recipe_id: str,
+                        params: dict[str, str]) -> AsyncIterator[pb.InstallProgress]:
+        return self._stub.InstallService(pb.InstallServiceRequest(
+            recipe_id=recipe_id, params=params))
+
+    def remove_service(self, recipe_id: str,
+                       purge: bool = False) -> AsyncIterator[pb.InstallProgress]:
+        return self._stub.RemoveService(pb.RemoveServiceRequest(
+            recipe_id=recipe_id, purge=purge))
+
     # ---- streaming ----
     def stream_logs(self, unit: str, *, tail: int = 200,
                     cursor: str = "") -> AsyncIterator[pb.LogLine]:

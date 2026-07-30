@@ -53,6 +53,12 @@ export function EventsProvider({ children }: { children: ReactNode }) {
         } else if (event.topic.startsWith("deployment.")) {
           queryClient.invalidateQueries({ queryKey: ["deployments"] });
           queryClient.invalidateQueries({ queryKey: ["projects"] });
+        } else if (event.topic.startsWith("service.install.")) {
+          queryClient.invalidateQueries({ queryKey: ["services"] });
+          if (event.topic === "service.install.finished") {
+            queryClient.invalidateQueries({ queryKey: ["dependencies"] });
+            queryClient.invalidateQueries({ queryKey: ["topology"] });
+          }
         }
         listeners.current.forEach((fn) => fn(event));
       };

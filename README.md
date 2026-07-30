@@ -2,9 +2,11 @@
 
 A self-hosted, single-node infrastructure controller: it **discovers** what is already
 running on a Linux server (Nginx vhosts, ports, processes, databases), **provisions**
-new applications end-to-end (git clone → build → systemd → Nginx → TLS), and
-**operates** them (start/stop/restart, live logs, resource monitoring) from a React
-dashboard.
+new applications end-to-end (git clone → build → systemd → Nginx → TLS), **installs**
+infrastructure services and admin tools (PostgreSQL, Redis, MySQL/MariaDB, RabbitMQ,
+htop, fail2ban, …) from a curated recipe catalog with host-tuned defaults, and
+**operates** everything (start/stop/restart, live logs, resource monitoring) from a
+React dashboard.
 
 ## Components
 
@@ -61,3 +63,8 @@ vhost like any app it manages.
    output, and its rollback action are auditable.
 4. **Discovery is read-only and idempotent.** Sweeps upsert into the registry and
    never mutate the system.
+5. **Package installs are recipe-bound.** The UI can only install what the
+   agent's catalog allows: recipes embedded in the agent binary (so the catalog
+   upgrades with DeployPal itself) plus root-owned overlays in
+   `/etc/deploypal/recipes/`. The orchestrator sends a recipe id and typed
+   params — never package names or command lines.

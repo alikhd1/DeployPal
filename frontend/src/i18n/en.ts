@@ -4,6 +4,7 @@ export const en = {
   "nav.projects": "Projects",
   "nav.deploy": "New deployment",
   "nav.dependencies": "Dependencies",
+  "nav.services": "Services",
   "shell.tagline": "deploypal · self-hosted control plane",
   "shell.agentOffline": "agent offline — discovery and provisioning unavailable",
   "events.live": "events live",
@@ -134,6 +135,38 @@ export const en = {
   "wizard.next": "Next",
   "wizard.deploy": "Deploy",
   "wizard.deploying": "Deploying…",
+
+  // services catalog
+  "svc.title": "Services",
+  "svc.subtitle":
+    "Install databases, caches, and admin tools from the curated recipe catalog. Defaults are computed from this host's resources; everything installs from the Ubuntu archive.",
+  "svc.services": "Infrastructure services",
+  "svc.tools": "Tools",
+  "svc.install": "Install",
+  "svc.installing": "Starting…",
+  "svc.installed": "installed",
+  "svc.configure": "Configure",
+  "svc.reconfigure": "Apply configuration",
+  "svc.remove": "Remove",
+  "svc.removeForce": "Remove anyway",
+  "svc.removeTitle": "Remove {name}?",
+  "svc.removeWarn":
+    "The package is uninstalled and the DeployPal-managed configuration is deleted. Data directories are kept (no purge).",
+  "svc.cancel": "Cancel",
+  "svc.close": "Close",
+  "svc.busy": "working…",
+  "svc.advanced": "Advanced settings",
+  "svc.derivedTitle": "Computed from this host's resources — override if needed",
+  "svc.secretPlaceholder": "leave empty to auto-generate",
+  "svc.installNote": "Runs apt-get on the server; one package operation at a time.",
+  "svc.succeeded": "Service installed and verified.",
+  "svc.removed": "Service removed.",
+  "svc.lastFailed": "last attempt failed",
+  "svc.secretsOnce":
+    "Generated credentials — shown only once. A root-only copy lives in /etc/deploypal/secrets/ on the server.",
+  "event.svcStep": "service {recipe}: {step} → {status}",
+  "event.svcDone": "service {recipe}: {action} succeeded",
+  "event.svcFailed": "service {recipe}: {action} failed",
 
   // log viewer
   "lv.clear": "clear",

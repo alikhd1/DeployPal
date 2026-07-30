@@ -6,6 +6,7 @@ export const fa: Record<keyof typeof en, string> = {
   "nav.projects": "پروژه‌ها",
   "nav.deploy": "استقرار جدید",
   "nav.dependencies": "وابستگی‌ها",
+  "nav.services": "سرویس‌ها",
   "shell.tagline": "deploypal · سکوی کنترل خودمیزبان",
   "shell.agentOffline": "عامل (agent) آفلاین است — شناسایی و استقرار در دسترس نیست",
   "events.live": "رویدادها: متصل",
@@ -136,6 +137,38 @@ export const fa: Record<keyof typeof en, string> = {
   "wizard.next": "بعدی",
   "wizard.deploy": "استقرار",
   "wizard.deploying": "در حال استقرار…",
+
+  // services catalog
+  "svc.title": "سرویس‌ها",
+  "svc.subtitle":
+    "پایگاه‌های داده، کش‌ها و ابزارهای مدیریتی را از کاتالوگ دستورهای گزینش‌شده نصب کنید. مقادیر پیش‌فرض بر اساس منابع همین سرور محاسبه می‌شوند؛ همه‌چیز از مخزن اوبونتو نصب می‌شود.",
+  "svc.services": "سرویس‌های زیرساختی",
+  "svc.tools": "ابزارها",
+  "svc.install": "نصب",
+  "svc.installing": "در حال شروع…",
+  "svc.installed": "نصب‌شده",
+  "svc.configure": "پیکربندی",
+  "svc.reconfigure": "اعمال پیکربندی",
+  "svc.remove": "حذف",
+  "svc.removeForce": "به‌هرحال حذف کن",
+  "svc.removeTitle": "حذف {name}؟",
+  "svc.removeWarn":
+    "بسته حذف می‌شود و پیکربندیِ مدیریت‌شده توسط DeployPal پاک می‌شود. پوشه‌های داده نگه داشته می‌شوند (بدون purge).",
+  "svc.cancel": "انصراف",
+  "svc.close": "بستن",
+  "svc.busy": "در حال انجام…",
+  "svc.advanced": "تنظیمات پیشرفته",
+  "svc.derivedTitle": "بر اساس منابع این سرور محاسبه شده — در صورت نیاز تغییر دهید",
+  "svc.secretPlaceholder": "برای تولید خودکار خالی بگذارید",
+  "svc.installNote": "apt-get روی سرور اجرا می‌شود؛ هر بار فقط یک عملیات بسته.",
+  "svc.succeeded": "سرویس نصب و صحت‌سنجی شد.",
+  "svc.removed": "سرویس حذف شد.",
+  "svc.lastFailed": "آخرین تلاش ناموفق بود",
+  "svc.secretsOnce":
+    "اعتبارنامه‌های تولیدشده — فقط همین یک بار نمایش داده می‌شوند. نسخه‌ای فقط برای root در ‎/etc/deploypal/secrets/‎ روی سرور نگه‌داری می‌شود.",
+  "event.svcStep": "سرویس {recipe}: گام {step} ← {status}",
+  "event.svcDone": "سرویس {recipe}: {action} موفق بود",
+  "event.svcFailed": "سرویس {recipe}: {action} ناموفق بود",
 
   // log viewer
   "lv.clear": "پاک‌سازی",

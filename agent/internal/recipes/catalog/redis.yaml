@@ -1,0 +1,40 @@
+# Redis from the Ubuntu archive. redis.conf has no conf.d mechanism, so the
+# recipe writes its own file and appends a marker-guarded include line to
+# redis.conf — later settings win in redis, so the include (at EOF) overrides.
+id: redis
+kind: redis
+name: Redis
+description: In-memory key-value store and cache
+unit: redis-server.service
+default_port: 6379
+packages: [redis-server]
+verify_port: true
+config:
+  path: /etc/redis/redis-deploypal.conf
+  mode: "0640"
+  owner: "redis:redis"
+  include_into: /etc/redis/redis.conf
+  include_line: "include /etc/redis/redis-deploypal.conf"
+  template: |
+    port {{.port}}
+    bind {{if eq .listen "all"}}0.0.0.0 ::{{else}}127.0.0.1 ::1{{end}}
+    maxmemory {{.maxmemory_mb}}mb
+    maxmemory-policy {{.maxmemory_policy}}
+params:
+  - name: port
+    type: port
+    default: "6379"
+  - name: listen
+    type: enum
+    values: [localhost, all]
+    default: localhost
+  - name: maxmemory_mb
+    type: int
+    derive: { source: mem_mb, factor: 0.25, min: 64, max: 65536 }
+    min: 16
+    unit_suffix: MB
+  - name: maxmemory_policy
+    type: enum
+    values: [noeviction, allkeys-lru, volatile-lru, allkeys-lfu, volatile-lfu, allkeys-random, volatile-random, volatile-ttl]
+    default: noeviction
+    advanced: true

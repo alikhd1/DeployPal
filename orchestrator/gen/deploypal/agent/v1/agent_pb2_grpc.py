@@ -119,6 +119,21 @@ class AgentStub:
                 request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.CertRequest.SerializeToString,
                 response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
                 _registered_method=True)
+        self.ListServiceRecipes = channel.unary_unary(
+                '/deploypal.agent.v1.Agent/ListServiceRecipes',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.RecipeList.FromString,
+                _registered_method=True)
+        self.InstallService = channel.unary_stream(
+                '/deploypal.agent.v1.Agent/InstallService',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallServiceRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallProgress.FromString,
+                _registered_method=True)
+        self.RemoveService = channel.unary_stream(
+                '/deploypal.agent.v1.Agent/RemoveService',
+                request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.RemoveServiceRequest.SerializeToString,
+                response_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallProgress.FromString,
+                _registered_method=True)
         self.StreamLogs = channel.unary_stream(
                 '/deploypal.agent.v1.Agent/StreamLogs',
                 request_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.LogStreamRequest.SerializeToString,
@@ -251,6 +266,29 @@ class AgentServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ListServiceRecipes(self, request, context):
+        """---- service catalog (recipe-driven package installs) ----
+        The agent owns the catalog: recipes are embedded in the binary (upgraded
+        with the agent) plus a root-owned overlay dir /etc/deploypal/recipes/,
+        re-read on every call. The orchestrator never caches recipes — it can only
+        request installs by recipe id with typed params; argv is built agent-side.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def InstallService(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RemoveService(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def StreamLogs(self, request, context):
         """---- streaming ----
         """
@@ -358,6 +396,21 @@ def add_AgentServicer_to_server(servicer, server):
                     servicer.ObtainCertificate,
                     request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.CertRequest.FromString,
                     response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.SerializeToString,
+            ),
+            'ListServiceRecipes': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListServiceRecipes,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.RecipeList.SerializeToString,
+            ),
+            'InstallService': grpc.unary_stream_rpc_method_handler(
+                    servicer.InstallService,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallServiceRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallProgress.SerializeToString,
+            ),
+            'RemoveService': grpc.unary_stream_rpc_method_handler(
+                    servicer.RemoveService,
+                    request_deserializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.RemoveServiceRequest.FromString,
+                    response_serializer=deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallProgress.SerializeToString,
             ),
             'StreamLogs': grpc.unary_stream_rpc_method_handler(
                     servicer.StreamLogs,
@@ -834,6 +887,87 @@ class Agent:
             '/deploypal.agent.v1.Agent/ObtainCertificate',
             deploypal_dot_agent_dot_v1_dot_agent__pb2.CertRequest.SerializeToString,
             deploypal_dot_agent_dot_v1_dot_agent__pb2.OpResult.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ListServiceRecipes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/deploypal.agent.v1.Agent/ListServiceRecipes',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.Empty.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.RecipeList.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def InstallService(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/deploypal.agent.v1.Agent/InstallService',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallServiceRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallProgress.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RemoveService(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/deploypal.agent.v1.Agent/RemoveService',
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.RemoveServiceRequest.SerializeToString,
+            deploypal_dot_agent_dot_v1_dot_agent__pb2.InstallProgress.FromString,
             options,
             channel_credentials,
             insecure,

@@ -47,6 +47,13 @@ type Server struct {
 }
 
 func New() *Server {
+	// Prime the catalog-derived systemd allow-list so recipe-installed
+	// services are controllable immediately after an agent restart.
+	if _, err := loadCatalog(); err != nil {
+		// A broken overlay recipe must not keep the whole agent down; the
+		// error resurfaces with context on the first catalog RPC.
+		fmt.Fprintf(os.Stderr, "recipe catalog: %v\n", err)
+	}
 	return &Server{scanner: sysinfo.NewScanner()}
 }
 

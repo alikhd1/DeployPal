@@ -200,7 +200,49 @@ journald ──sdjournal follow──▶ agent StreamLogs (gRPC server-stream, c
   streams `ResourceSample`s; Python keeps a ring buffer in `resource_samples`
   (pruned to 24 h) that feeds the sparkline charts.
 
-## 7. Deployment of DeployPal itself
+## 7. Data flow D — Service catalog (recipe-driven package installs)
+
+The Services page installs infrastructure services (PostgreSQL, Redis,
+MySQL/MariaDB, RabbitMQ) and common admin tools from a **recipe catalog the
+agent owns**. This preserves the no-`RunCommand` rule: the orchestrator can
+only name a `recipe_id` and pass typed params — every package name, apt
+argument, config path, and template comes from a recipe root shipped or
+approved.
+
+* **Catalog sources.** Builtin recipes are `go:embed`ded in the agent binary —
+  *upgrading DeployPal upgrades the catalog automatically*, there is no
+  separate distribution step. `/etc/deploypal/recipes/*.yaml` (root-owned) is
+  an overlay merged in — and re-read — on every `ListServiceRecipes` call, so
+  an admin can add or override a recipe without restarting anything. The
+  orchestrator never caches the catalog; `GET /api/services` always reflects
+  the agent's current state, and `catalog_version` (a content hash) changes on
+  every upgrade or overlay edit.
+* **Typed params, computed defaults.** Each recipe declares a param schema
+  (enum/int/port/string/secret with ranges). Defaults like Postgres
+  `shared_buffers` or Redis `maxmemory` are *derived from host facts* (RAM) at
+  list time, shown in the UI with their derivation, and overridable. Bind
+  addresses default to localhost.
+* **Additive config only.** Recipes write a `# managed-by: deploypal` drop-in
+  (`conf.d`) or an included file plus a marker-guarded `include` line — never
+  the distro's main config. Removing the service restores stock behavior.
+* **Sandbox escape by design.** The agent unit runs `ProtectSystem=strict`,
+  so mutating recipe operations (apt, config writes) execute in transient
+  units via `systemd-run --wait --pipe`: PID 1 spawns them outside the
+  agent's read-only mount namespace while argv stays fully recipe-controlled.
+  One apt transaction at a time (dpkg holds a global lock); progress streams
+  over the `InstallService` server-stream into the same step-timeline UI as
+  deployments, recorded in `dependency_installs`.
+* **Registry integration.** A successful install upserts `dependencies`
+  (`origin='installed'`, `recipe_id`, managed config path) so the service
+  appears in topology immediately, and the systemd action allow-list is
+  derived from catalog units — an installed service is start/stop/restart-able
+  from the dashboard with zero extra configuration. Removal is an explicit
+  user action (with a consumer check), never an automatic rollback.
+* **Secrets.** Generated credentials are written to
+  `/etc/deploypal/secrets/<recipe>.env` (0600 root) and surfaced to the UI
+  exactly once; they are never persisted in SQLite or the event feed.
+
+## 8. Deployment of DeployPal itself
 
 Two systemd units, installed by a bootstrap script:
 

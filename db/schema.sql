@@ -78,6 +78,12 @@ CREATE TABLE dependencies (
     container_id  TEXT,                                         -- if runtime=docker
     status        TEXT    NOT NULL DEFAULT 'unknown'
                   CHECK (status IN ('active','inactive','unknown')),
+    -- how the service got here: found by a discovery sweep, or installed by
+    -- us through a service-catalog recipe.
+    origin        TEXT    NOT NULL DEFAULT 'discovered'
+                  CHECK (origin IN ('discovered','installed')),
+    recipe_id     TEXT,                                         -- catalog recipe when origin=installed
+    managed_config_path TEXT,                                   -- drop-in the recipe wrote
     last_seen_at  TEXT,
     created_at    TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
     UNIQUE (host, port)
@@ -124,6 +130,30 @@ CREATE TABLE deployment_history (
 );
 
 CREATE INDEX idx_deploys_project ON deployment_history(project_id, started_at DESC);
+
+------------------------------------------------------------------------------
+-- dependency_installs: one row per service-catalog install/remove run, with
+-- the same step-machine record shape as deployment_history. The catalog
+-- itself is never persisted here — the agent owns it and is queried live.
+------------------------------------------------------------------------------
+CREATE TABLE dependency_installs (
+    id              INTEGER PRIMARY KEY,
+    recipe_id       TEXT    NOT NULL,
+    action          TEXT    NOT NULL DEFAULT 'install'
+                    CHECK (action IN ('install','remove')),
+    dependency_id   INTEGER REFERENCES dependencies(id) ON DELETE SET NULL,
+    params          TEXT    NOT NULL DEFAULT '{}',   -- JSON; secret values never stored
+    catalog_version TEXT,                            -- agent catalog at run time
+    status          TEXT    NOT NULL DEFAULT 'queued'
+                    CHECK (status IN ('queued','running','succeeded','failed')),
+    current_step    TEXT,
+    steps           TEXT    NOT NULL DEFAULT '[]',   -- JSON array, same shape as deployment_history.steps
+    error           TEXT,
+    started_at      TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    finished_at     TEXT
+);
+
+CREATE INDEX idx_dep_installs_recipe ON dependency_installs(recipe_id, started_at DESC);
 
 ------------------------------------------------------------------------------
 -- resource_samples: rolling window of per-project cgroup metrics (pruned 24h).

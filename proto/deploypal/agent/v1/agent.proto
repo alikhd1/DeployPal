@@ -35,6 +35,15 @@ service Agent {
   rpc ReloadNginx(Empty) returns (OpResult);
   rpc ObtainCertificate(CertRequest) returns (OpResult);      // certbot, fixed arg template
 
+  // ---- service catalog (recipe-driven package installs) ----
+  // The agent owns the catalog: recipes are embedded in the binary (upgraded
+  // with the agent) plus a root-owned overlay dir /etc/deploypal/recipes/,
+  // re-read on every call. The orchestrator never caches recipes — it can only
+  // request installs by recipe id with typed params; argv is built agent-side.
+  rpc ListServiceRecipes(Empty) returns (RecipeList);
+  rpc InstallService(InstallServiceRequest) returns (stream InstallProgress);
+  rpc RemoveService(RemoveServiceRequest) returns (stream InstallProgress);
+
   // ---- streaming ----
   rpc StreamLogs(LogStreamRequest) returns (stream LogLine);
   rpc StreamResources(ResourceStreamRequest) returns (stream ResourceSample);
@@ -148,6 +157,63 @@ message WriteNginxSiteRequest {
 message CertRequest {
   repeated string domains = 1;                      // RFC-1123 validated
   string contact_email    = 2;
+}
+
+// ---------- service catalog ----------
+
+message RecipeParam {
+  string name         = 1;
+  string type         = 2;   // enum | int | port | string | secret
+  string default      = 3;   // resolved default: derived values already computed from host facts
+  repeated string values = 4; // for enum
+  int64  min          = 5;   // for int/port
+  int64  max          = 6;
+  bool   required     = 7;
+  bool   advanced     = 8;   // UI: collapse under "Advanced"
+  string derived_hint = 9;   // e.g. "25% of 15.6 GiB RAM" when the default was computed
+  string unit_suffix  = 10;  // display unit, e.g. "MB"
+}
+
+message Recipe {
+  string id            = 1;   // catalog key, [a-z0-9-]
+  string kind          = 2;   // dependencies.kind value, or "tool"
+  string name          = 3;   // display name
+  string description   = 4;
+  string unit          = 5;   // systemd unit ("" for plain packages)
+  uint32 default_port  = 6;   // 0 for tools
+  repeated string packages = 7;
+  repeated RecipeParam params = 8;
+  string source        = 9;   // builtin | overlay
+  bool   installed     = 10;  // dpkg state of the first package
+  string installed_version = 11;
+  string config_path   = 12;  // managed config file the recipe writes ("" if none)
+}
+
+message RecipeList {
+  repeated Recipe recipes = 1;
+  string catalog_version  = 2; // agent version + catalog hash; changes when DeployPal is upgraded
+}
+
+message InstallServiceRequest {
+  string recipe_id = 1;
+  map<string, string> params = 2;   // agent validates against the recipe schema
+}
+
+message RemoveServiceRequest {
+  string recipe_id = 1;
+  bool   purge     = 2;             // apt purge instead of remove
+}
+
+// Streamed progress: many chunks per step (log output), then one final
+// message with done=true carrying the overall result.
+message InstallProgress {
+  string step   = 1;   // preflight | install | configure | restart | verify | remove
+  string status = 2;   // running | ok | failed
+  string log    = 3;   // incremental output chunk (may be "")
+  bool   done   = 4;   // last message of the stream
+  bool   ok     = 5;   // overall result, valid when done
+  map<string, string> facts   = 6; // when done+ok: version, port, unit, config_path
+  map<string, string> secrets = 7; // when done+ok: generated secrets — returned once, never stored by the agent DB-side
 }
 
 // ---------- streaming ----------

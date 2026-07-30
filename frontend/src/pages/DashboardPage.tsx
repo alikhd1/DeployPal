@@ -27,6 +27,15 @@ function describe(t: TFunc, topic: string, payload: Record<string, unknown>): st
       return t("event.topology");
     case "discovery.error":
       return t("event.discoveryError", { error: String(payload.error) });
+    case "service.install.step":
+      return t("event.svcStep", {
+        recipe: String(payload.recipe_id), step: String(payload.step),
+        status: String(payload.status),
+      });
+    case "service.install.finished":
+      return t(payload.ok ? "event.svcDone" : "event.svcFailed", {
+        recipe: String(payload.recipe_id), action: String(payload.action),
+      });
     default:
       return topic;
   }

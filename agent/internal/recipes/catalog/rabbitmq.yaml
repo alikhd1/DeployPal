@@ -1,0 +1,10 @@
+# RabbitMQ from the Ubuntu archive. Ships sane defaults (guest/guest bound to
+# localhost only); no managed config in v1.
+id: rabbitmq
+kind: rabbitmq
+name: RabbitMQ
+description: AMQP message broker
+unit: rabbitmq-server.service
+default_port: 5672
+packages: [rabbitmq-server]
+verify_port: true

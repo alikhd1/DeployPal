@@ -246,6 +246,121 @@ class CertRequest(_message.Message):
     contact_email: str
     def __init__(self, domains: _Optional[_Iterable[str]] = ..., contact_email: _Optional[str] = ...) -> None: ...
 
+class RecipeParam(_message.Message):
+    __slots__ = ("name", "type", "default", "values", "min", "max", "required", "advanced", "derived_hint", "unit_suffix")
+    NAME_FIELD_NUMBER: _ClassVar[int]
+    TYPE_FIELD_NUMBER: _ClassVar[int]
+    DEFAULT_FIELD_NUMBER: _ClassVar[int]
+    VALUES_FIELD_NUMBER: _ClassVar[int]
+    MIN_FIELD_NUMBER: _ClassVar[int]
+    MAX_FIELD_NUMBER: _ClassVar[int]
+    REQUIRED_FIELD_NUMBER: _ClassVar[int]
+    ADVANCED_FIELD_NUMBER: _ClassVar[int]
+    DERIVED_HINT_FIELD_NUMBER: _ClassVar[int]
+    UNIT_SUFFIX_FIELD_NUMBER: _ClassVar[int]
+    name: str
+    type: str
+    default: str
+    values: _containers.RepeatedScalarFieldContainer[str]
+    min: int
+    max: int
+    required: bool
+    advanced: bool
+    derived_hint: str
+    unit_suffix: str
+    def __init__(self, name: _Optional[str] = ..., type: _Optional[str] = ..., default: _Optional[str] = ..., values: _Optional[_Iterable[str]] = ..., min: _Optional[int] = ..., max: _Optional[int] = ..., required: _Optional[bool] = ..., advanced: _Optional[bool] = ..., derived_hint: _Optional[str] = ..., unit_suffix: _Optional[str] = ...) -> None: ...
+
+class Recipe(_message.Message):
+    __slots__ = ("id", "kind", "name", "description", "unit", "default_port", "packages", "params", "source", "installed", "installed_version", "config_path")
+    ID_FIELD_NUMBER: _ClassVar[int]
+    KIND_FIELD_NUMBER: _ClassVar[int]
+    NAME_FIELD_NUMBER: _ClassVar[int]
+    DESCRIPTION_FIELD_NUMBER: _ClassVar[int]
+    UNIT_FIELD_NUMBER: _ClassVar[int]
+    DEFAULT_PORT_FIELD_NUMBER: _ClassVar[int]
+    PACKAGES_FIELD_NUMBER: _ClassVar[int]
+    PARAMS_FIELD_NUMBER: _ClassVar[int]
+    SOURCE_FIELD_NUMBER: _ClassVar[int]
+    INSTALLED_FIELD_NUMBER: _ClassVar[int]
+    INSTALLED_VERSION_FIELD_NUMBER: _ClassVar[int]
+    CONFIG_PATH_FIELD_NUMBER: _ClassVar[int]
+    id: str
+    kind: str
+    name: str
+    description: str
+    unit: str
+    default_port: int
+    packages: _containers.RepeatedScalarFieldContainer[str]
+    params: _containers.RepeatedCompositeFieldContainer[RecipeParam]
+    source: str
+    installed: bool
+    installed_version: str
+    config_path: str
+    def __init__(self, id: _Optional[str] = ..., kind: _Optional[str] = ..., name: _Optional[str] = ..., description: _Optional[str] = ..., unit: _Optional[str] = ..., default_port: _Optional[int] = ..., packages: _Optional[_Iterable[str]] = ..., params: _Optional[_Iterable[_Union[RecipeParam, _Mapping]]] = ..., source: _Optional[str] = ..., installed: _Optional[bool] = ..., installed_version: _Optional[str] = ..., config_path: _Optional[str] = ...) -> None: ...
+
+class RecipeList(_message.Message):
+    __slots__ = ("recipes", "catalog_version")
+    RECIPES_FIELD_NUMBER: _ClassVar[int]
+    CATALOG_VERSION_FIELD_NUMBER: _ClassVar[int]
+    recipes: _containers.RepeatedCompositeFieldContainer[Recipe]
+    catalog_version: str
+    def __init__(self, recipes: _Optional[_Iterable[_Union[Recipe, _Mapping]]] = ..., catalog_version: _Optional[str] = ...) -> None: ...
+
+class InstallServiceRequest(_message.Message):
+    __slots__ = ("recipe_id", "params")
+    class ParamsEntry(_message.Message):
+        __slots__ = ("key", "value")
+        KEY_FIELD_NUMBER: _ClassVar[int]
+        VALUE_FIELD_NUMBER: _ClassVar[int]
+        key: str
+        value: str
+        def __init__(self, key: _Optional[str] = ..., value: _Optional[str] = ...) -> None: ...
+    RECIPE_ID_FIELD_NUMBER: _ClassVar[int]
+    PARAMS_FIELD_NUMBER: _ClassVar[int]
+    recipe_id: str
+    params: _containers.ScalarMap[str, str]
+    def __init__(self, recipe_id: _Optional[str] = ..., params: _Optional[_Mapping[str, str]] = ...) -> None: ...
+
+class RemoveServiceRequest(_message.Message):
+    __slots__ = ("recipe_id", "purge")
+    RECIPE_ID_FIELD_NUMBER: _ClassVar[int]
+    PURGE_FIELD_NUMBER: _ClassVar[int]
+    recipe_id: str
+    purge: bool
+    def __init__(self, recipe_id: _Optional[str] = ..., purge: _Optional[bool] = ...) -> None: ...
+
+class InstallProgress(_message.Message):
+    __slots__ = ("step", "status", "log", "done", "ok", "facts", "secrets")
+    class FactsEntry(_message.Message):
+        __slots__ = ("key", "value")
+        KEY_FIELD_NUMBER: _ClassVar[int]
+        VALUE_FIELD_NUMBER: _ClassVar[int]
+        key: str
+        value: str
+        def __init__(self, key: _Optional[str] = ..., value: _Optional[str] = ...) -> None: ...
+    class SecretsEntry(_message.Message):
+        __slots__ = ("key", "value")
+        KEY_FIELD_NUMBER: _ClassVar[int]
+        VALUE_FIELD_NUMBER: _ClassVar[int]
+        key: str
+        value: str
+        def __init__(self, key: _Optional[str] = ..., value: _Optional[str] = ...) -> None: ...
+    STEP_FIELD_NUMBER: _ClassVar[int]
+    STATUS_FIELD_NUMBER: _ClassVar[int]
+    LOG_FIELD_NUMBER: _ClassVar[int]
+    DONE_FIELD_NUMBER: _ClassVar[int]
+    OK_FIELD_NUMBER: _ClassVar[int]
+    FACTS_FIELD_NUMBER: _ClassVar[int]
+    SECRETS_FIELD_NUMBER: _ClassVar[int]
+    step: str
+    status: str
+    log: str
+    done: bool
+    ok: bool
+    facts: _containers.ScalarMap[str, str]
+    secrets: _containers.ScalarMap[str, str]
+    def __init__(self, step: _Optional[str] = ..., status: _Optional[str] = ..., log: _Optional[str] = ..., done: _Optional[bool] = ..., ok: _Optional[bool] = ..., facts: _Optional[_Mapping[str, str]] = ..., secrets: _Optional[_Mapping[str, str]] = ...) -> None: ...
+
 class LogStreamRequest(_message.Message):
     __slots__ = ("unit", "tail_lines", "follow", "cursor")
     UNIT_FIELD_NUMBER: _ClassVar[int]

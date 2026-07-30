@@ -113,6 +113,67 @@ export interface ResourceSample {
   disk_bytes: number | null;
 }
 
+// ---- service catalog (agent-owned recipes) ----
+
+export interface RecipeParam {
+  name: string;
+  type: "enum" | "int" | "port" | "string" | "secret";
+  default: string;
+  values: string[];
+  min: number;
+  max: number;
+  required: boolean;
+  advanced: boolean;
+  derived_hint: string; // e.g. "25% of 15.6 GiB RAM" when computed from host facts
+  unit_suffix: string;
+}
+
+export interface ServiceInstallSummary {
+  id: number;
+  action: "install" | "remove";
+  status: "queued" | "running" | "succeeded" | "failed";
+  error: string | null;
+  started_at: string;
+  finished_at: string | null;
+}
+
+export interface ServiceRecipe {
+  id: string;
+  kind: string; // dependencies.kind value, or "tool"
+  name: string;
+  description: string;
+  unit: string;
+  default_port: number;
+  packages: string[];
+  source: "builtin" | "overlay";
+  installed: boolean;
+  installed_version: string;
+  config_path: string;
+  params: RecipeParam[];
+  last_install: ServiceInstallSummary | null;
+  dependency: { id: number; recipe_id: string; port: number; status: string } | null;
+}
+
+export interface ServiceCatalog {
+  catalog_version: string;
+  recipes: ServiceRecipe[];
+}
+
+export interface ServiceInstall {
+  id: number;
+  recipe_id: string;
+  action: "install" | "remove";
+  dependency_id: number | null;
+  params: string; // JSON
+  catalog_version: string | null;
+  status: "queued" | "running" | "succeeded" | "failed";
+  current_step: string | null;
+  steps: DeploymentStep[]; // parsed from the JSON column in api.ts
+  error: string | null;
+  started_at: string;
+  finished_at: string | null;
+}
+
 export interface NewProjectPayload {
   alias: string;
   git_url: string;

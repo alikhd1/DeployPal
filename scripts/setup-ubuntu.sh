@@ -82,6 +82,12 @@ if ! id "$SERVICE_USER" >/dev/null 2>&1; then
 fi
 install -d -o "$SERVICE_USER" -g "$SERVICE_USER" /srv/apps
 
+# Service-catalog dirs: recipes/ is the root-owned overlay an admin can drop
+# extra recipe YAMLs into (picked up live, no restart); secrets/ holds
+# credentials generated during installs (root-only).
+install -d -m 0755 /etc/deploypal /etc/deploypal/recipes
+install -d -m 0700 /etc/deploypal/secrets
+
 # ---------------------------------------------------------------- sources
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [[ -z "$REPO" && -f "$script_dir/../orchestrator/app/main.py" ]]; then

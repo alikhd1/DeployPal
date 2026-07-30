@@ -1,0 +1,93 @@
+# Common admin tools — plain apt packages, no config, no params.
+# Everything here comes from the Ubuntu archive.
+recipes:
+  - id: htop
+    kind: tool
+    name: htop
+    description: Interactive process viewer
+    packages: [htop]
+
+  - id: fail2ban
+    kind: tool
+    name: Fail2ban
+    description: Ban IPs after repeated auth failures (SSH brute-force protection)
+    unit: fail2ban.service
+    packages: [fail2ban]
+
+  - id: ufw
+    kind: tool
+    name: UFW
+    description: Uncomplicated Firewall (installed only — enable rules yourself)
+    packages: [ufw]
+
+  - id: git
+    kind: tool
+    name: Git
+    description: Distributed version control
+    packages: [git]
+
+  - id: ffmpeg
+    kind: tool
+    name: FFmpeg
+    description: Audio/video transcoding toolkit
+    packages: [ffmpeg]
+
+  - id: imagemagick
+    kind: tool
+    name: ImageMagick
+    description: Image conversion and processing CLI
+    packages: [imagemagick]
+
+  - id: sqlite3
+    kind: tool
+    name: SQLite CLI
+    description: Command-line shell for SQLite databases
+    packages: [sqlite3]
+
+  - id: jq
+    kind: tool
+    name: jq
+    description: Command-line JSON processor
+    packages: [jq]
+
+  - id: tmux
+    kind: tool
+    name: tmux
+    description: Terminal multiplexer
+    packages: [tmux]
+
+  - id: ncdu
+    kind: tool
+    name: ncdu
+    description: Disk usage analyzer with an ncurses interface
+    packages: [ncdu]
+
+  - id: rsync
+    kind: tool
+    name: rsync
+    description: Fast incremental file transfer
+    packages: [rsync]
+
+  - id: tree
+    kind: tool
+    name: tree
+    description: Directory listing as a tree
+    packages: [tree]
+
+  - id: zip-tools
+    kind: tool
+    name: zip / unzip
+    description: ZIP archive utilities
+    packages: [zip, unzip]
+
+  - id: net-tools
+    kind: tool
+    name: net-tools
+    description: Classic network utilities (netstat, ifconfig, route)
+    packages: [net-tools]
+
+  - id: build-essential
+    kind: tool
+    name: build-essential
+    description: GCC, make, and C/C++ build toolchain
+    packages: [build-essential]

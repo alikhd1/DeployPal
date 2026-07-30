@@ -34,7 +34,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app import config, db, events
 from app.agent_client import AgentClient
-from app.api import discovery, logs, projects, system
+from app.api import discovery, logs, projects, services, system
 from app.services.discovery import discovery_sweep
 from app.services.resources import record_resources
 
@@ -72,6 +72,7 @@ app.include_router(projects.router, prefix="/api/projects", tags=["projects"])
 app.include_router(discovery.router, prefix="/api/topology", tags=["topology"])
 app.include_router(logs.router, prefix="/api", tags=["streams"])
 app.include_router(system.router, prefix="/api/system", tags=["system"])
+app.include_router(services.router, prefix="/api/services", tags=["services"])
 
 
 @app.get("/healthz")

@@ -23,4 +23,40 @@ async def connect(db_path: str, schema_path: str) -> aiosqlite.Connection:
     if not existing:
         await conn.executescript(Path(schema_path).read_text(encoding="utf-8"))
         await conn.commit()
+    await _migrate(conn)
     return conn
+
+
+async def _migrate(conn: aiosqlite.Connection) -> None:
+    """Idempotent additive migrations for databases created before the
+    service catalog existed. Fresh databases get everything from schema.sql,
+    so each step first checks whether it already applies."""
+    dep_cols = {r["name"] for r in await conn.execute_fetchall(
+        "PRAGMA table_info(dependencies)")}
+    if "origin" not in dep_cols:
+        await conn.execute(
+            "ALTER TABLE dependencies ADD COLUMN origin TEXT NOT NULL DEFAULT 'discovered' "
+            "CHECK (origin IN ('discovered','installed'))")
+        await conn.execute("ALTER TABLE dependencies ADD COLUMN recipe_id TEXT")
+        await conn.execute("ALTER TABLE dependencies ADD COLUMN managed_config_path TEXT")
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS dependency_installs (
+            id              INTEGER PRIMARY KEY,
+            recipe_id       TEXT    NOT NULL,
+            action          TEXT    NOT NULL DEFAULT 'install'
+                            CHECK (action IN ('install','remove')),
+            dependency_id   INTEGER REFERENCES dependencies(id) ON DELETE SET NULL,
+            params          TEXT    NOT NULL DEFAULT '{}',
+            catalog_version TEXT,
+            status          TEXT    NOT NULL DEFAULT 'queued'
+                            CHECK (status IN ('queued','running','succeeded','failed')),
+            current_step    TEXT,
+            steps           TEXT    NOT NULL DEFAULT '[]',
+            error           TEXT,
+            started_at      TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+            finished_at     TEXT
+        )""")
+    await conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_dep_installs_recipe "
+        "ON dependency_installs(recipe_id, started_at DESC)")
+    await conn.commit()

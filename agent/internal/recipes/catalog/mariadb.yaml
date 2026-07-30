@@ -1,0 +1,38 @@
+# MariaDB from the Ubuntu archive. Reads !includedir /etc/mysql/mariadb.conf.d.
+id: mariadb
+kind: mariadb
+name: MariaDB
+description: Relational database server (MySQL-compatible community fork)
+unit: mariadb.service
+default_port: 3306
+packages: [mariadb-server]
+conflicts: [mysql]
+verify_port: true
+config:
+  path: /etc/mysql/mariadb.conf.d/99-deploypal.cnf
+  template: |
+    [mysqld]
+    port = {{.port}}
+    bind-address = {{if eq .listen "all"}}0.0.0.0{{else}}127.0.0.1{{end}}
+    max_connections = {{.max_connections}}
+    innodb_buffer_pool_size = {{.innodb_buffer_pool_mb}}M
+params:
+  - name: port
+    type: port
+    default: "3306"
+  - name: listen
+    type: enum
+    values: [localhost, all]
+    default: localhost
+  - name: max_connections
+    type: int
+    default: "151"
+    min: 10
+    max: 10000
+    advanced: true
+  - name: innodb_buffer_pool_mb
+    type: int
+    derive: { source: mem_mb, factor: 0.5, min: 128, max: 131072 }
+    min: 64
+    unit_suffix: MB
+    advanced: true

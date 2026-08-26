@@ -1,0 +1,120 @@
+{
+  "tool": "ubuntu-hardener",
+  "version": "1.0.0",
+  "phase": "pre-hardening audit (SAMPLE - fictitious host)",
+  "generated_at": "2026-08-25T12:00:00+00:00",
+  "dry_run": false,
+  "host": {
+    "hostname": "web-01",
+    "os": "Ubuntu 22.04.4 LTS",
+    "kernel": "5.15.0-105-generic",
+    "ips": "203.0.113.10 10.0.0.5",
+    "environment": "virtual machine (kvm), cloud: cloud-init, server"
+  },
+  "score": {
+    "total": 58,
+    "max": 100,
+    "assessed_points": 100,
+    "note": "Indicative only; not a guarantee of security.",
+    "categories": [
+      {"name": "ssh", "earned": 9.4, "max": 15, "pass": 7, "fail": 4, "unknown": 0},
+      {"name": "firewall", "earned": 8.0, "max": 20, "pass": 2, "fail": 3, "unknown": 1},
+      {"name": "auth", "earned": 9.6, "max": 15, "pass": 6, "fail": 3, "unknown": 0},
+      {"name": "services", "earned": 12.3, "max": 15, "pass": 4, "fail": 1, "unknown": 0},
+      {"name": "files", "earned": 7.3, "max": 10, "pass": 6, "fail": 2, "unknown": 0},
+      {"name": "kernel", "earned": 5.6, "max": 10, "pass": 9, "fail": 7, "unknown": 0},
+      {"name": "updates", "earned": 3.3, "max": 10, "pass": 2, "fail": 2, "unknown": 0},
+      {"name": "logging", "earned": 3.0, "max": 5, "pass": 2, "fail": 1, "unknown": 0}
+    ]
+  },
+  "checks": [
+    {
+      "id": "SSH-003",
+      "category": "ssh",
+      "severity": "high",
+      "weight": 3,
+      "status": "FAIL",
+      "title": "SSH password authentication disabled",
+      "evidence": "PasswordAuthentication=yes",
+      "remediation": "Use SSH keys only: set PasswordAuthentication no AFTER verifying key-based login works.",
+      "safe_to_automate": false
+    },
+    {
+      "id": "SSH-004",
+      "category": "ssh",
+      "severity": "critical",
+      "weight": 2,
+      "status": "PASS",
+      "title": "Empty-password SSH login forbidden",
+      "evidence": "PermitEmptyPasswords=no",
+      "remediation": "Set PermitEmptyPasswords no.",
+      "safe_to_automate": true
+    },
+    {
+      "id": "FW-002",
+      "category": "firewall",
+      "severity": "critical",
+      "weight": 6,
+      "status": "FAIL",
+      "title": "A host firewall is active",
+      "evidence": "no active packet filter detected (ufw inactive, no nft/iptables input rules) - cloud security groups may exist (cloud-init) but host firewall is still recommended",
+      "remediation": "Enable ufw with default deny incoming after allowing SSH (offered below with lockout protection).",
+      "safe_to_automate": false
+    },
+    {
+      "id": "FW-004",
+      "category": "firewall",
+      "severity": "high",
+      "weight": 4,
+      "status": "FAIL",
+      "title": "No risky services exposed to the network",
+      "evidence": "services listening on ALL interfaces: redis-server(tcp/6379)",
+      "remediation": "Bind databases/caches to localhost, remove legacy daemons (telnet/ftp/r*), or restrict with firewall rules.",
+      "safe_to_automate": false
+    },
+    {
+      "id": "AUTH-005",
+      "category": "auth",
+      "severity": "high",
+      "weight": 2,
+      "status": "FAIL",
+      "title": "No passwordless full-sudo rules",
+      "evidence": "deploy ALL=(ALL) NOPASSWD:ALL (common on cloud images - review whether still needed)",
+      "remediation": "Edit with 'visudo -f <file>' and require a password, or scope NOPASSWD to specific commands. Not automated: breaking sudo can lock you out of admin rights.",
+      "safe_to_automate": false
+    },
+    {
+      "id": "KRN-013",
+      "category": "kernel",
+      "severity": "medium",
+      "weight": 1,
+      "status": "FAIL",
+      "title": "SYN-flood cookies",
+      "evidence": "net.ipv4.tcp_syncookies: current=0 desired=1",
+      "remediation": "Set net.ipv4.tcp_syncookies=1 in /etc/sysctl.d/99-ubuntu-hardener.conf and apply with 'sysctl --system'.",
+      "safe_to_automate": true
+    },
+    {
+      "id": "UPD-002",
+      "category": "updates",
+      "severity": "high",
+      "weight": 3,
+      "status": "FAIL",
+      "title": "Automatic security updates",
+      "evidence": "installed=yes enabled=0",
+      "remediation": "Install unattended-upgrades and enable it via /etc/apt/apt.conf.d/20auto-upgrades.",
+      "safe_to_automate": false
+    },
+    {
+      "id": "LOG-001",
+      "category": "logging",
+      "severity": "medium",
+      "weight": 2,
+      "status": "FAIL",
+      "title": "Persistent systemd journal",
+      "evidence": "journald storage: auto(default); /var/log/journal missing - logs are lost at reboot",
+      "remediation": "Create /var/log/journal and set Storage=persistent via a journald drop-in.",
+      "safe_to_automate": true
+    }
+  ]
+}
